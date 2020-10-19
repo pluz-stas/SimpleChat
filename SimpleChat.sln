@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat.Dal", "SimpleChat.Dal\SimpleChat.Dal.csproj", "{04CC1248-EE8F-486A-A4BD-324703589128}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleChat.Dal", "SimpleChat.Dal\SimpleChat.Dal.csproj", "{04CC1248-EE8F-486A-A4BD-324703589128}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat.Bll", "SimpleChat.Bll\SimpleChat.Bll.csproj", "{E03BFDCE-D017-4EA6-AD3D-EDA258A057A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleChat.Bll", "SimpleChat.Bll\SimpleChat.Bll.csproj", "{E03BFDCE-D017-4EA6-AD3D-EDA258A057A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat.Server", "SimpleChat\Server\SimpleChat.Server.csproj", "{D4A5D6A6-2E0D-406C-9141-DE9F82766D41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat.Client", "SimpleChat\Client\SimpleChat.Client.csproj", "{9A97D652-BE97-4A26-BB5E-C8CFD67E58B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat.Shared", "SimpleChat\Shared\SimpleChat.Shared.csproj", "{4F9F7C01-4598-464D-B007-06B09F7BBD52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{E03BFDCE-D017-4EA6-AD3D-EDA258A057A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E03BFDCE-D017-4EA6-AD3D-EDA258A057A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E03BFDCE-D017-4EA6-AD3D-EDA258A057A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4A5D6A6-2E0D-406C-9141-DE9F82766D41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4A5D6A6-2E0D-406C-9141-DE9F82766D41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4A5D6A6-2E0D-406C-9141-DE9F82766D41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4A5D6A6-2E0D-406C-9141-DE9F82766D41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A97D652-BE97-4A26-BB5E-C8CFD67E58B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A97D652-BE97-4A26-BB5E-C8CFD67E58B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A97D652-BE97-4A26-BB5E-C8CFD67E58B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A97D652-BE97-4A26-BB5E-C8CFD67E58B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F9F7C01-4598-464D-B007-06B09F7BBD52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F9F7C01-4598-464D-B007-06B09F7BBD52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F9F7C01-4598-464D-B007-06B09F7BBD52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F9F7C01-4598-464D-B007-06B09F7BBD52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
