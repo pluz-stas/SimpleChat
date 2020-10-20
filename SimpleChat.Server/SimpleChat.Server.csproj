@@ -9,9 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\SimpleChat.Client.csproj" />
-    <ProjectReference Include="..\Shared\SimpleChat.Shared.csproj" />
+    <ProjectReference Include="..\SimpleChat.Client\SimpleChat.Client.csproj" />
+    <ProjectReference Include="..\SimpleChat.Shared\SimpleChat.Shared.csproj" />
   </ItemGroup>
-
 
 </Project>
