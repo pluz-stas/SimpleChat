@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SimpleChat.Dal.Entities
 {
-    class UserChat
+    public class UserChat
     {
         public int UserId { get; set; }
         public User User { get; set; }
