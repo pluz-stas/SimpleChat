@@ -12,18 +12,34 @@ namespace SimpleChat.Dal
         public DbSet<Message> Messages { get; set; }
         public DbSet<Chat> Chats { get; set; }
         
-        public SimpleChatDbContext()
+        public SimpleChatDbContext(DbContextOptions<SimpleChatDbContext> options) : base(options)
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SimpleChatDb;Trusted_Connection=True;");
-        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+            
+            modelBuilder.Entity<Chat>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.Property(e => e.Content)
+                    .IsRequired();
+            });
+
             modelBuilder.Entity<UserChat>()
                 .HasKey(t => new { t.UserId, t.ChatId });
 

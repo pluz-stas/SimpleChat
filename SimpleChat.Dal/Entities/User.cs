@@ -9,8 +9,7 @@ namespace SimpleChat.Dal.Entities
     {
         public int Id { get; set; }
         public byte[] Photo { get; set; }
-        [MaxLength(50)]
         public string Name { get; set; }
-        public List<UserChat> UserChats { get; set; }
+        public IEnumerable<UserChat> UserChats { get; set; }
     }
 }
