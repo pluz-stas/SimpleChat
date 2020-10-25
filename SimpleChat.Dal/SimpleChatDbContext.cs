@@ -53,6 +53,5 @@ namespace SimpleChat.Dal
                 .WithMany(c => c.UserChats)
                 .HasForeignKey(sc => sc.ChatId);
         }
-
     }
 }
