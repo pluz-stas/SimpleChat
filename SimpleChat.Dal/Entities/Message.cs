@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SimpleChat.Dal.Interfaces;
+using System;
 
 namespace SimpleChat.Dal.Entities
 {
-    public class Message
+    public class Message : IDbEntity
     {
         public int Id { get; set; }
         public byte[] Photo { get; set; }
