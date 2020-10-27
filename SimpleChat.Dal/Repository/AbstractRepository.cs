@@ -40,7 +40,7 @@ namespace SimpleChat.Dal.Repository
 
         public virtual async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate) => await Task.Run(() => dbContext.Set<TEntity>().AsNoTracking().Where(predicate));
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(int skip, int top) => await Task.Run(() => dbContext.Set<TEntity>().Skip(skip).Take(top));
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(int skip, int top) => await Task.Run(() => dbContext.Set<TEntity>().Skip(skip).Take(top).AsNoTracking().ToListAsync());
 
         public virtual async Task<TEntity> GetByIdAsync(int id)
         {
