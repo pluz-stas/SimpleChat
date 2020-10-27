@@ -1,7 +1,7 @@
-﻿using System;
+﻿using SimpleChat.Dal.Entities;
 namespace SimpleChat.Dal.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
     }
 }

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace SimpleChat.Dal.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class, IDbEntity
     {
-        IAsyncEnumerable<T> GetAllAsync();
-
+        IEnumerable<T> GetAll(int skip);
+        
         Task<IEnumerable<T>> FilterAsync(Expression<Func<T, bool>> predicate);
 
         Task<int> CreateAsync(T model);

@@ -1,6 +1,8 @@
-﻿namespace SimpleChat.Dal.Interfaces
+﻿using SimpleChat.Dal.Entities;
+
+namespace SimpleChat.Dal.Interfaces
 {
-    public interface IMessageRepository
+    public interface IMessageRepository : IRepository<Message>
     {
     }
 }

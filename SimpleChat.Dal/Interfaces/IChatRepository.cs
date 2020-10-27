@@ -1,6 +1,8 @@
-﻿namespace SimpleChat.Dal.Interfaces
+﻿using SimpleChat.Dal.Entities;
+
+namespace SimpleChat.Dal.Interfaces
 {
-    public interface IChatRepository
+    public interface IChatRepository : IRepository<Chat>
     {
     }
 }
