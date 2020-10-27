@@ -11,6 +11,8 @@ using SimpleChat.Server.Hub;
 using SimpleChat.Shared.Hub;
 using SimpleChat.Bll.Interfaces;
 using SimpleChat.Bll.Services;
+using SimpleChat.Dal.Interfaces;
+using SimpleChat.Dal.Repository;
 
 namespace SimpleChat.Server
 {
@@ -31,6 +33,11 @@ namespace SimpleChat.Server
 
             services.AddScoped<IChatService, ChatService>();
             
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserChatRepository, UserChatRepository>();
+            services.AddScoped<IChatRepository, ChatRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddSignalR();
