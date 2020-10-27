@@ -7,7 +7,7 @@ namespace SimpleChat.Dal.Interfaces
 {
     public interface IRepository<T> where T : class, IDbEntity
     {
-        IEnumerable<T> GetAll(int skip);
+        Task<IEnumerable<T>> GetAllAsync(int skip, int top);
         
         Task<IEnumerable<T>> FilterAsync(Expression<Func<T, bool>> predicate);
 
