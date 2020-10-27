@@ -31,12 +31,12 @@ namespace SimpleChat.Server
 
             services.AddDbContext<SimpleChatDbContext>(o => o.UseSqlServer(connectionString));
 
-            services.AddScoped<IChatService, ChatService>();
-            
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserChatRepository, UserChatRepository>();
             services.AddScoped<IChatRepository, ChatRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+
+            services.AddScoped<IChatService, ChatService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
