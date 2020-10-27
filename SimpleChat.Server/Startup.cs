@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -10,7 +9,8 @@ using SimpleChat.Dal;
 using System.Linq;
 using SimpleChat.Server.Hub;
 using SimpleChat.Shared.Hub;
-
+using SimpleChat.Bll.Interfaces;
+using SimpleChat.Bll.Services;
 
 namespace SimpleChat.Server
 {
@@ -28,6 +28,8 @@ namespace SimpleChat.Server
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<SimpleChatDbContext>(o => o.UseSqlServer(connectionString));
+
+            services.AddScoped<IChatService, ChatService>();
             
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -37,6 +39,8 @@ namespace SimpleChat.Server
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
                     new[] { "application/octet-stream" });
             });
+
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -58,6 +62,13 @@ namespace SimpleChat.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SimpleChat API V1");
+            });
 
             app.UseRouting();
 
