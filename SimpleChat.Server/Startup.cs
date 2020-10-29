@@ -13,18 +13,35 @@ using SimpleChat.Bll.Interfaces;
 using SimpleChat.Bll.Services;
 using SimpleChat.Dal.Interfaces;
 using SimpleChat.Dal.Repository;
+using System.Reflection;
+using System;
+using System.IO;
 
 namespace SimpleChat.Server
 {
+    /// <summary>
+    /// Configures application.
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="configuration">Application configuration.</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Gets application configuration.
+        /// </summary>
         public IConfiguration Configuration { get; }
 
+        /// <summary>
+        /// Configures application services.
+        /// </summary>
+        /// <param name="services">Application services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -47,9 +64,19 @@ namespace SimpleChat.Server
                     new[] { "application/octet-stream" });
             });
 
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
+        /// <summary>
+        /// Configures http pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseResponseCompression();
