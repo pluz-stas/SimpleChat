@@ -17,16 +17,16 @@ namespace SimpleChat.Bll.Services
             _repository = repository;
         }
 
-        public virtual async Task<int> CreateAsync(TModel model) => await _repository.CreateAsync(model.MapToModel<TModel, QEntity>());
+        public virtual async Task<int> CreateAsync(TModel model) => await _repository.CreateAsync(model.MapToModel<QEntity>());
 
         public virtual async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
 
-        public virtual async Task<IEnumerable<TModel>> GetAllAsync(int skip, int top) => (await _repository.GetAllAsync(skip, top)).Select(x => x.MapToModel<QEntity, TModel>());
+        public virtual async Task<IEnumerable<TModel>> GetAllAsync(int skip, int top) => (await _repository.GetAllAsync(skip, top)).Select(x => x.MapToModel<TModel>());
 
-        public virtual async Task<TModel> GetByIdAsync(int id) => (await _repository.GetByIdAsync(id)).MapToModel<QEntity, TModel>();
+        public virtual async Task<TModel> GetByIdAsync(int id) => (await _repository.GetByIdAsync(id)).MapToModel<TModel>();
 
         public virtual async Task<int> GetCountAsync() => await _repository.GetCountAsync();
 
-        public virtual async Task UpdateAsync(TModel model) => await _repository.UpdateAsync(model.MapToModel<TModel, QEntity>());
+        public virtual async Task UpdateAsync(TModel model) => await _repository.UpdateAsync(model.MapToModel<QEntity>());
     }
 }
