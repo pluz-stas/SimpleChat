@@ -51,7 +51,7 @@ namespace SimpleChat.Dal.Repository
             return model;
         }
 
-        public virtual async Task<int> GetCount() => await dbContext.Set<TEntity>().CountAsync();
+        public virtual async Task<int> GetCountAsync() => await dbContext.Set<TEntity>().CountAsync();
 
         public virtual async Task UpdateAsync(TEntity model)
         {
