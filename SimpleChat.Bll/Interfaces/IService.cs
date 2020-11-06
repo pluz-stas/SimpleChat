@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SimpleChat.Bll.Interfaces
 {
-    public interface IService<TModel>
+    public interface IService<TModel> where TModel : class, new()
     {
         Task<IEnumerable<TModel>> GetAllAsync(int skip, int top);
 
