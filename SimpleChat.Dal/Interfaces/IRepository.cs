@@ -19,6 +19,6 @@ namespace SimpleChat.Dal.Interfaces
 
         Task DeleteAsync(int id);
 
-        Task<int> GetCount();
+        Task<int> GetCountAsync();
     }
 }
