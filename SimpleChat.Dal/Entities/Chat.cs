@@ -8,8 +8,9 @@ namespace SimpleChat.Dal.Entities
         public int Id { get; set; }
         public byte[] Photo { get; set; }
         public string Name { get; set; }
+        public bool IsPublic { get; set; } = true;
 
         public IEnumerable<UserChat> UserChats { get; set; }
-        public IEnumerable<Message> Messages { get; set; }
+        public IEnumerable<Message> Messages { get; set; } = new List<Message>();
     }
 }

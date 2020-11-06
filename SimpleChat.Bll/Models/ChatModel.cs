@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SimpleChat.Bll.Models
+﻿namespace SimpleChat.Bll.Models
 {
     public class ChatModel
     {
