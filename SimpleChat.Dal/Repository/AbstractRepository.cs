@@ -38,7 +38,7 @@ namespace SimpleChat.Dal.Repository
             await dbContext.SaveChangesAsync();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate) => await Task.Run(() => dbContext.Set<TEntity>().AsNoTracking().Where(predicate));
+        public virtual async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate) => await dbContext.Set<TEntity>().AsNoTracking().Where(predicate).ToListAsync();
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(int skip, int top) => await dbContext.Set<TEntity>().Skip(skip).Take(top).AsNoTracking().ToListAsync();
 
