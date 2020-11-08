@@ -2,12 +2,14 @@
 using SimpleChat.Dal.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SimpleChat.Bll.Extensions;
 using System.Linq;
+using System;
 
 namespace SimpleChat.Bll.Services
 {
-    public abstract class AbstractService<QEntity, TModel> : IService<TModel> where QEntity : class, IDbEntity, new() where TModel : class, new()
+    public abstract class AbstractService<TModel, QEntity> : IService<TModel, QEntity>
+        where TModel : class, new()
+        where QEntity : class, IDbEntity, new() 
     {
         protected private readonly IRepository<QEntity> _repository;
 
@@ -16,16 +18,22 @@ namespace SimpleChat.Bll.Services
             _repository = repository;
         }
 
-        public virtual async Task<int> CreateAsync(TModel model) => await _repository.CreateAsync(model.MapToModel<QEntity>());
+        public virtual async Task<IEnumerable<TModel>> GetAllAsync(int skip, int top, Func<QEntity, TModel> entityToModelMapper) =>
+            (await _repository.GetAllAsync(skip, top)).Select(x => entityToModelMapper?.Invoke(x));
 
-        public virtual async Task DeleteAsync(int id) => await _repository.DeleteAsync(id);
+        public virtual async Task<TModel> GetByIdAsync(int id, Func<QEntity, TModel> entityToModelMapper) =>
+            entityToModelMapper?.Invoke(await _repository.GetByIdAsync(id));
 
-        public virtual async Task<IEnumerable<TModel>> GetAllAsync(int skip, int top) => (await _repository.GetAllAsync(skip, top)).Select(x => x.MapToModel<TModel>());
+        public virtual async Task<int> CreateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper) =>
+            await _repository.CreateAsync(modelToEntityMapper?.Invoke(model));
 
-        public virtual async Task<TModel> GetByIdAsync(int id) => (await _repository.GetByIdAsync(id)).MapToModel<TModel>();
+        public virtual async Task UpdateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper) =>
+            await _repository.UpdateAsync(modelToEntityMapper?.Invoke(model));
 
-        public virtual async Task<int> GetCountAsync() => await _repository.GetCountAsync();
+        public virtual async Task DeleteAsync(int id) =>
+            await _repository.DeleteAsync(id);
 
-        public virtual async Task UpdateAsync(TModel model) => await _repository.UpdateAsync(model.MapToModel<QEntity>());
+        public virtual async Task<int> GetCountAsync() =>
+            await _repository.GetCountAsync();
     }
 }

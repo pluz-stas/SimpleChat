@@ -1,5 +1,4 @@
 ﻿using SimpleChat.Bll.Models;
-using SimpleChat.Dal.Entities;
 using SimpleChat.Shared.Contracts;
 using System;
 
