@@ -17,16 +17,26 @@ namespace SimpleChat.Dal.Repository
         {
         }
 
-        public override async Task<IEnumerable<Chat>> GetAllAsync(int skip, int top) =>
-            await dbContext.Chats.AsNoTracking()
-            .Include(x => x.Messages.OrderByDescending(m => m.CreatedDate).FirstOrDefault())
-            .Where(x => x.IsPublic).Skip(skip).Take(top).ToListAsync();
+        public override async Task<IEnumerable<Chat>> GetAllAsync(int skip, int top)
+        {
+            IQueryable<Chat> chats = dbContext.Chats.AsNoTracking()
+                .Include(x => x.Messages)
+                .Where(x => x.IsPublic).Skip(skip).Take(top);
+
+            await chats.ForEachAsync(x => x.Messages = x.Messages.OrderByDescending(m => m.CreatedDate).Take(1));
+
+            return await chats.ToListAsync();
+        }
 
         public override async Task<Chat> GetByIdAsync(int id)
         {
-            var model = await dbContext.Chats
-                .Include(x => x.Messages.OrderByDescending(m => m.CreatedDate).Take(DefaultMessagesTop))
-                .ThenInclude(m => m.User).FirstOrDefaultAsync(x => x.Id == id);
+            IQueryable<Chat> chats = dbContext.Chats
+                .Include(x => x.Messages)
+                .ThenInclude(m => m.User);
+
+            await chats.ForEachAsync(x => x.Messages = x.Messages.OrderByDescending(m => m.CreatedDate).Take(1));
+
+            var model = await chats.FirstOrDefaultAsync(x => x.Id == id);
 
             if (model == null)
                 throw new NullReferenceException(nameof(Chat));
@@ -36,9 +46,15 @@ namespace SimpleChat.Dal.Repository
 
         public override async Task<int> GetCountAsync() => await dbContext.Chats.Where(x => x.IsPublic).CountAsync();
 
-        public override async Task<IEnumerable<Chat>> FilterAsync(Expression<Func<Chat, bool>> predicate) =>
-            await dbContext.Chats.AsNoTracking()
-            .Include(x => x.Messages.OrderByDescending(m => m.CreatedDate).FirstOrDefault())
-            .Where(x => x.IsPublic).Where(predicate).ToListAsync();
+        public override async Task<IEnumerable<Chat>> FilterAsync(Expression<Func<Chat, bool>> predicate)
+        {
+            IQueryable<Chat> chats = dbContext.Chats.AsNoTracking()
+                .Include(x => x.Messages)
+                .Where(x => x.IsPublic).Where(predicate);
+
+            await chats.ForEachAsync(x => x.Messages = x.Messages.OrderByDescending(m => m.CreatedDate).Take(1));
+
+            return await chats.ToListAsync();
+        }
     }
 }

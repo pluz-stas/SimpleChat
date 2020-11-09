@@ -21,7 +21,10 @@ namespace SimpleChat.Server.Extensions
 
             return new Chat
             {
-                Id = model.Id
+                Id = model.Id,
+                IsPublic = model.IsPublic,
+                Name = model.Name,
+                Photo = model.Photo
             };
         }
 
@@ -37,7 +40,10 @@ namespace SimpleChat.Server.Extensions
 
             return new ChatModel
             {
-                Id = contract.Id
+                Id = contract.Id,
+                IsPublic = contract.IsPublic,
+                Name = contract.Name,
+                Photo = contract.Photo
             };
         }
     }

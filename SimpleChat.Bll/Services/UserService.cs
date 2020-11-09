@@ -5,7 +5,7 @@ using SimpleChat.Dal.Interfaces;
 
 namespace SimpleChat.Bll.Services
 {
-    class UserService : AbstractService<User, UserModel>, IUserService
+    public class UserService : AbstractService<UserModel, User>, IUserService
     {
         public UserService(IUserRepository repository) : base (repository) { }
     }

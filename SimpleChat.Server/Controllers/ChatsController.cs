@@ -4,6 +4,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SimpleChat.Bll.Extensions;
 using SimpleChat.Bll.Interfaces;
 using SimpleChat.Server.Extensions;
 using SimpleChat.Shared.Contracts;
@@ -38,7 +39,7 @@ namespace SimpleChat.Server.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<Chat>> GetAsync([FromQuery] Pagination pagination) =>
-            (await service.GetAllAsync(pagination.Skip, pagination.Top)).Select(x => x.ToContract());
+            (await service.GetAllAsync(pagination.Skip, pagination.Top, Bll.Extensions.ChatExtensions.ToModel)).Select(x => x.ToContract());
 
         /// <summary>
         /// Gets chat by id.
@@ -49,7 +50,12 @@ namespace SimpleChat.Server.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<Chat> GetAsync(int id) =>
-           (await service.GetByIdAsync(id)).ToContract();
+           (await service.GetByIdAsync(id, x => 
+                { 
+                    var model = x.ToModel();
+                    model.Users = x.UserChats.Select(u => Bll.Extensions.UserExtensions.ToModel(u.User));
+                    return model;
+                })).ToContract();
 
         /// <summary>
         /// Creates a chat.
@@ -63,7 +69,7 @@ namespace SimpleChat.Server.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Chat>> Post([FromBody] Chat contract)
         {
-            contract.Id = await service.CreateAsync(contract.ToModel());
+            contract.Id = await service.CreateAsync(contract.ToModel(), Bll.Extensions.ChatExtensions.ToEntity);
 
             return CreatedAtAction(nameof(GetAsync), new { id = contract.Id }, contract);
         }
@@ -83,7 +89,7 @@ namespace SimpleChat.Server.Controllers
             if (id != contract.Id)
                 return BadRequest();
 
-            await service.UpdateAsync(contract.ToModel());
+            await service.UpdateAsync(contract.ToModel(), Bll.Extensions.ChatExtensions.ToEntity);
 
             return NoContent();
         }
