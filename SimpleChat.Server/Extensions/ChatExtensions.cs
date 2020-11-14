@@ -1,6 +1,7 @@
 ﻿using SimpleChat.Bll.Models;
 using SimpleChat.Shared.Contracts;
 using System;
+using System.Linq;
 
 namespace SimpleChat.Server.Extensions
 {
@@ -24,7 +25,9 @@ namespace SimpleChat.Server.Extensions
                 Id = model.Id,
                 IsPublic = model.IsPublic,
                 Name = model.Name,
-                Photo = model.Photo
+                Photo = model.Photo,
+                Users = model.Users.Select(x => x.ToContract()),
+                Messages = model.Messages.Select(x => x.ToContract())
             };
         }
 

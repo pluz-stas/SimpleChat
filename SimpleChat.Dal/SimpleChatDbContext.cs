@@ -14,7 +14,6 @@ namespace SimpleChat.Dal
         
         public SimpleChatDbContext(DbContextOptions<SimpleChatDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

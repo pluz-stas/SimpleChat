@@ -49,13 +49,11 @@ namespace SimpleChat.Server.Controllers
         /// <response code="200">Returns chat.</response>           
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<Chat> GetAsync(int id) =>
-           (await service.GetByIdAsync(id, x => 
-                { 
-                    var model = x.ToModel();
-                    model.Users = x.UserChats.Select(u => Bll.Extensions.UserExtensions.ToModel(u.User));
-                    return model;
-                })).ToContract();
+        public async Task<Chat> GetAsync(int id)
+        {
+            var chat = await service.GetByIdAsync(id, Bll.Extensions.ChatExtensions.ToModel);
+            return chat.ToContract();
+        }
 
         /// <summary>
         /// Creates a chat.
