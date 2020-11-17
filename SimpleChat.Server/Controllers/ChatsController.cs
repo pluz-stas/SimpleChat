@@ -69,7 +69,7 @@ namespace SimpleChat.Server.Controllers
         {
             contract.Id = await service.CreateAsync(contract.ToModel(), Bll.Extensions.ChatExtensions.ToEntity);
 
-            return CreatedAtAction(nameof(GetAsync), new { id = contract.Id }, contract);
+            return CreatedAtAction("Get", new { id = contract.Id }, contract);
         }
 
         /// <summary>
