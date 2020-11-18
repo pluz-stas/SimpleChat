@@ -21,6 +21,8 @@ namespace SimpleChat.Dal.Repository
         {
             IQueryable<Chat> chats = dbContext.Chats.AsNoTracking()
                 .Include(x => x.Messages)
+                .Include(x => x.UserChats)
+                .ThenInclude(s => s.User)
                 .Where(x => x.IsPublic).Skip(skip).Take(top);
 
             await chats.ForEachAsync(x => x.Messages = x.Messages.OrderByDescending(m => m.CreatedDate).Take(1));
@@ -30,13 +32,12 @@ namespace SimpleChat.Dal.Repository
 
         public override async Task<Chat> GetByIdAsync(int id)
         {
-            IQueryable<Chat> chats = dbContext.Chats
+            var model = await dbContext.Chats
+                .Include(m => m.UserChats)
+                .ThenInclude(s => s.User)
                 .Include(x => x.Messages)
-                .ThenInclude(m => m.User);
-
-            await chats.ForEachAsync(x => x.Messages = x.Messages.OrderByDescending(m => m.CreatedDate).Take(1));
-
-            var model = await chats.FirstOrDefaultAsync(x => x.Id == id);
+                .ThenInclude(s => s.User)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (model == null)
                 throw new NullReferenceException(nameof(Chat));

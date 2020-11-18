@@ -21,7 +21,8 @@ namespace SimpleChat.Server.Extensions
 
             return new User
             {
-                Id = model.Id
+                Id = model.Id,
+                Name = model.Name
             };
         }
 
@@ -37,7 +38,8 @@ namespace SimpleChat.Server.Extensions
 
             return new UserModel
             {
-                Id = contract.Id
+                Id = contract.Id,
+                Name = contract.Name
             };
         }
     }

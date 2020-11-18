@@ -32,8 +32,9 @@ namespace SimpleChat.Bll.Extensions
                 IsPublic = entity.IsPublic,
                 Name = entity.Name,
                 Photo = entity.Photo,
-                Messages = entity.Messages.Select(x => x.ToModel())
-            };
+                Messages = entity.Messages?.Select(x => x.ToModel()),
+                Users = entity.UserChats?.Select(u => UserExtensions.ToModel(u.User))
+        };
         }
     }
 }
