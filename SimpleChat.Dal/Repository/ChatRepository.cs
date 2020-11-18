@@ -21,6 +21,8 @@ namespace SimpleChat.Dal.Repository
         {
             IQueryable<Chat> chats = dbContext.Chats.AsNoTracking()
                 .Include(x => x.Messages)
+                .Include(x => x.UserChats)
+                .ThenInclude(s => s.User)
                 .Where(x => x.IsPublic).Skip(skip).Take(top);
 
             await chats.ForEachAsync(x => x.Messages = x.Messages.OrderByDescending(m => m.CreatedDate).Take(1));
