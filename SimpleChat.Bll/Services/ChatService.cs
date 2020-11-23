@@ -16,12 +16,9 @@ namespace SimpleChat.Bll.Services
 
         public override async Task<IEnumerable<ChatModel>> GetAllAsync(int skip, int top, Func<Chat, ChatModel> entityToModelMapper)
         {
-            if (entityToModelMapper != null)
-            {
-                return await base.GetAllAsync(skip, top, entityToModelMapper);
-            }
-
-            return (await _repository.GetAllAsync(skip, top))
+            return entityToModelMapper != null ? 
+                await base.GetAllAsync(skip, top, entityToModelMapper) :
+                (await _repository.GetAllAsync(skip, top))
                 .Select(x =>
                 {
                     var chatModel = x.ToModel();
