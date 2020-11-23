@@ -45,5 +45,19 @@ namespace SimpleChat.Bll.Services
 
             return await _repository.CreateAsync(messageEntity);
         }
+
+        public override async Task UpdateAsync(MessageModel model, Func<MessageModel, Message> modelToEntityMapper = null)
+        {
+            if (modelToEntityMapper != null)
+            {
+                await base.UpdateAsync(model, modelToEntityMapper);
+            }
+
+            var messageEntity = model.ToEntity();
+            messageEntity.ChatId = model.Chat?.Id ?? throw new NotImplementedException();
+            messageEntity.User = model.User.ToEntity();
+
+            await _repository.UpdateAsync(messageEntity);
+        }
     }
 }

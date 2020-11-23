@@ -85,7 +85,11 @@ namespace SimpleChat.Server.Controllers
             if (id != contract.Id)
                 return BadRequest();
 
-            await service.UpdateAsync(contract.ToModel(), Bll.Extensions.MessageExtensions.ToEntity);
+            var messageModel = contract.ToModel();
+            messageModel.Chat = contract.Chat.ToModel();
+            messageModel.User = contract.User.ToModel();
+
+            await service.UpdateAsync(messageModel);
 
             return NoContent();
         }

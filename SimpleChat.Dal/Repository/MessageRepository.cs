@@ -40,5 +40,14 @@ namespace SimpleChat.Dal.Repository
 
             return await base.CreateAsync(model);
         }
+
+        public override async Task UpdateAsync(Message model)
+        {
+            var userId = model.User?.Id ?? throw new ArgumentNullException();
+
+            model.User = await dbContext.Users.FindAsync(userId);
+
+            await base.UpdateAsync(model);
+        }
     }
 }
