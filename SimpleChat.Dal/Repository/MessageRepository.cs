@@ -17,15 +17,7 @@ namespace SimpleChat.Dal.Repository
         {
         }
 
-        public override async Task<IEnumerable<Message>> GetAllAsync(int skip, int top)
-        {
-            IQueryable<Message> messages = dbContext.Messages.AsNoTracking()
-                .Include(x => x.Chat)
-                .Include(s => s.User)
-                .Skip(skip).Take(top);
-
-            return await messages.ToListAsync();
-        }
+        public override Task<IEnumerable<Message>> GetAllAsync(int skip, int top) => throw new NotImplementedException();
 
         public override async Task<Message> GetByIdAsync(int id)
         {
@@ -38,6 +30,15 @@ namespace SimpleChat.Dal.Repository
                 throw new NullReferenceException(nameof(Message));
 
             return model;
+        }
+
+        public override async Task<int> CreateAsync(Message model)
+        {
+            var userId = model.User?.Id ?? throw new ArgumentNullException();
+
+            model.User = await dbContext.Users.FindAsync(userId);
+
+            return await base.CreateAsync(model);
         }
     }
 }

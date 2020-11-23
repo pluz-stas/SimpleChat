@@ -14,7 +14,7 @@ namespace SimpleChat.Bll.Extensions
             return new User()
             {
                 Id = model.Id,
-                Name = model.Name
+                Name = model.Name,
             };
         }
 
@@ -26,7 +26,7 @@ namespace SimpleChat.Bll.Extensions
             return new UserModel()
             {
                 Id = entity.Id,
-                Name = entity.Name
+                Name = entity.Name,
             };
         }
     }

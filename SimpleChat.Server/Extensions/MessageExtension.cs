@@ -25,10 +25,6 @@ namespace SimpleChat.Server.Extensions
                 Content = model.Content,
                 IsRead = model.IsRead,
                 CreatedDate = model.CreatedDate,
-                User = model.User?.ToContract(),
-                UserId = model.User.Id,
-                Chat = model.Chat?.ToContract(),
-                ChatId = model.ChatId,
             };
         }
 
@@ -47,9 +43,7 @@ namespace SimpleChat.Server.Extensions
                 Id = contract.Id,
                 Content = contract.Content,
                 IsRead = contract.IsRead,
-                CreatedDate = contract.CreatedDate,
-                User = contract.User?.ToModel(),
-                Chat = contract.Chat?.ToModel()
+                CreatedDate = contract.CreatedDate.HasValue ? contract.CreatedDate.Value : DateTime.Now,
             };
         }
     }
