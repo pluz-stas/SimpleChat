@@ -31,17 +31,6 @@ namespace SimpleChat.Server.Controllers
         }
 
         /// <summary>
-        /// Gets messages asynchronously.
-        /// </summary>
-        /// <param name="pagination">Presents data for pagination.</param>
-        /// <returns><see cref="IEnumerable{T}"/>Collection of messages.</returns>
-        /// <response code="200">Returns messages.</response>           
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<Message>> GetAsync([FromQuery] Pagination pagination) =>
-            (await service.GetAllAsync(pagination.Skip, pagination.Top, Bll.Extensions.MessageExtensions.ToModel)).Select(x => x.ToContract());
-
-        /// <summary>
         /// Gets message by id.
         /// </summary>
         /// <param name="id">Message id.</param>
@@ -51,8 +40,13 @@ namespace SimpleChat.Server.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<Message> GetAsync(int id)
         {
-            var message = await service.GetByIdAsync(id, Bll.Extensions.MessageExtensions.ToModel);
-            return message.ToContract();
+            var messageModel = await service.GetByIdAsync(id);
+
+            var messageContract = messageModel.ToContract();
+            messageContract.User = messageModel.User.ToContract();
+            messageContract.Chat = messageModel.Chat.ToContract();
+
+            return messageContract;
         }
 
         /// <summary>
@@ -67,7 +61,11 @@ namespace SimpleChat.Server.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Message>> Post([FromBody] Message contract)
         {
-            contract.Id = await service.CreateAsync(contract.ToModel(), Bll.Extensions.MessageExtensions.ToEntity);
+            var messageModel = contract.ToModel();
+            messageModel.Chat = contract.Chat.ToModel();
+            messageModel.User = contract.User.ToModel();
+
+            contract.Id = await service.CreateAsync(messageModel);
 
             return CreatedAtAction("Get", new { id = contract.Id }, contract);
         }
@@ -87,7 +85,11 @@ namespace SimpleChat.Server.Controllers
             if (id != contract.Id)
                 return BadRequest();
 
-            await service.UpdateAsync(contract.ToModel(), Bll.Extensions.MessageExtensions.ToEntity);
+            var messageModel = contract.ToModel();
+            messageModel.Chat = contract.Chat.ToModel();
+            messageModel.User = contract.User.ToModel();
+
+            await service.UpdateAsync(messageModel);
 
             return NoContent();
         }

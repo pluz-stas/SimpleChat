@@ -7,6 +7,6 @@ namespace SimpleChat.Bll.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public IEnumerable<ChatModel> Chats { get; set; } = new List<ChatModel>();
+        public IEnumerable<ChatModel> Chats { get; set; }
     }
 }

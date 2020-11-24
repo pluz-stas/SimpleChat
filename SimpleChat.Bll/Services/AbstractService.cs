@@ -18,16 +18,16 @@ namespace SimpleChat.Bll.Services
             _repository = repository;
         }
 
-        public virtual async Task<IEnumerable<TModel>> GetAllAsync(int skip, int top, Func<QEntity, TModel> entityToModelMapper) =>
+        public virtual async Task<IEnumerable<TModel>> GetAllAsync(int skip, int top, Func<QEntity, TModel> entityToModelMapper = null) =>
             (await _repository.GetAllAsync(skip, top)).Select(x => entityToModelMapper?.Invoke(x));
 
-        public virtual async Task<TModel> GetByIdAsync(int id, Func<QEntity, TModel> entityToModelMapper) =>
+        public virtual async Task<TModel> GetByIdAsync(int id, Func<QEntity, TModel> entityToModelMapper = null) =>
             entityToModelMapper?.Invoke(await _repository.GetByIdAsync(id));
 
-        public virtual async Task<int> CreateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper) =>
+        public virtual async Task<int> CreateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper = null) =>
             await _repository.CreateAsync(modelToEntityMapper?.Invoke(model));
 
-        public virtual async Task UpdateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper) =>
+        public virtual async Task UpdateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper = null) =>
             await _repository.UpdateAsync(modelToEntityMapper?.Invoke(model));
 
         public virtual async Task DeleteAsync(int id) =>

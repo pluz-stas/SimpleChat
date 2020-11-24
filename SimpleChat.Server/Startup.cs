@@ -49,7 +49,6 @@ namespace SimpleChat.Server
             services.AddDbContext<SimpleChatDbContext>(o => o.UseSqlServer(connectionString));
 
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserChatRepository, UserChatRepository>();
             services.AddScoped<IChatRepository, ChatRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
 
@@ -57,7 +56,9 @@ namespace SimpleChat.Server
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMessageService, MessageService>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddRazorPages();
             services.AddSignalR();
             services.AddResponseCompression(opts =>

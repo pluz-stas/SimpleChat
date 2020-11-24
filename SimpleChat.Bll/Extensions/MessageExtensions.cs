@@ -14,12 +14,9 @@ namespace SimpleChat.Bll.Extensions
             return new Message()
             {
                 Id = model.Id,
-                ChatId = model.ChatId,
-                UserId = model.UserId,
                 Content = model.Content,
                 CreatedDate = model.CreatedDate,
                 IsRead = model.IsRead,
-                User = model.User?.ToEntity()
             };
         }
 
@@ -31,12 +28,9 @@ namespace SimpleChat.Bll.Extensions
             return new MessageModel()
             {
                 Id = entity.Id,
-                ChatId = entity.ChatId,
-                UserId = entity.UserId,
                 Content = entity.Content,
                 CreatedDate = entity.CreatedDate,
                 IsRead = entity.IsRead,
-                User = entity.User?.ToModel()
             };
         }
     }

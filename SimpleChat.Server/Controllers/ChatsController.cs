@@ -39,7 +39,13 @@ namespace SimpleChat.Server.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<Chat>> GetAsync([FromQuery] Pagination pagination) =>
-            (await service.GetAllAsync(pagination.Skip, pagination.Top, Bll.Extensions.ChatExtensions.ToModel)).Select(x => x.ToContract());
+            (await service.GetAllAsync(pagination.Skip, pagination.Top))
+            .Select(x =>
+            {
+                var chatContract = x.ToContract();
+                chatContract.Messages = x.Messages.Select(m => m.ToContract());
+                return chatContract;
+            });
 
         /// <summary>
         /// Gets chat by id.
@@ -51,8 +57,18 @@ namespace SimpleChat.Server.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<Chat> GetAsync(int id)
         {
-            var chat = await service.GetByIdAsync(id, Bll.Extensions.ChatExtensions.ToModel);
-            return chat.ToContract();
+            var chatModel = await service.GetByIdAsync(id);
+
+            var chatContract = chatModel.ToContract();
+            chatContract.Users = chatModel.Users.Select(u => u.ToContract());
+            chatContract.Messages = chatModel.Messages.Select(m =>
+            {
+                var message = m.ToContract();
+                message.User = chatContract.Users.First(u => u.Id == m.User.Id);
+                return message;
+            });
+
+            return chatContract;
         }
 
         /// <summary>

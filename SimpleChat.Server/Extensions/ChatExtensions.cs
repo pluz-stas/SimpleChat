@@ -26,8 +26,6 @@ namespace SimpleChat.Server.Extensions
                 IsPublic = model.IsPublic,
                 Name = model.Name,
                 Photo = model.Photo,
-                Users = model.Users?.Select(x => x.ToContract()),
-                Messages = model.Messages?.Select(x => x.ToContract())
             };
         }
 

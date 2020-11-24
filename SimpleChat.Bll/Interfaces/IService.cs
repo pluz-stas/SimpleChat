@@ -9,13 +9,13 @@ namespace SimpleChat.Bll.Interfaces
         where TModel : class, new()
         where QEntity : class, IDbEntity, new()
     {
-        Task<IEnumerable<TModel>> GetAllAsync(int skip, int top, Func<QEntity, TModel> entityToModelMapper);
+        Task<IEnumerable<TModel>> GetAllAsync(int skip, int top, Func<QEntity, TModel> entityToModelMapper = null);
 
-        Task<TModel> GetByIdAsync(int id, Func<QEntity, TModel> entityToModelMapper);
+        Task<TModel> GetByIdAsync(int id, Func<QEntity, TModel> entityToModelMapper = null);
 
-        Task<int> CreateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper);
+        Task<int> CreateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper = null);
 
-        Task UpdateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper);
+        Task UpdateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper = null);
 
         Task DeleteAsync(int id);
 
