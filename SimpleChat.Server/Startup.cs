@@ -1,21 +1,21 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using SimpleChat.Dal;
 using System.Linq;
 using SimpleChat.Server.Hub;
 using SimpleChat.Shared.Hub;
 using SimpleChat.Bll.Interfaces;
 using SimpleChat.Bll.Services;
-using SimpleChat.Dal.Interfaces;
-using SimpleChat.Dal.Repository;
 using System.Reflection;
 using System;
 using System.IO;
+using Microsoft.Extensions.Configuration;
+using SimpleChat.Dal;
+using Microsoft.EntityFrameworkCore;
+using SimpleChat.Dal.Interfaces;
+using SimpleChat.Dal.Repository;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Builder;
 
 namespace SimpleChat.Server
 {
