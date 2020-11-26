@@ -50,6 +50,24 @@ namespace SimpleChat.Server.Controllers
         }
 
         /// <summary>
+        /// Gets message by Chat id.
+        /// </summary>
+        /// <param name="id">Chat id.</param>
+        /// <param name="pagination">Presents data for pagination.</param>
+        /// <returns><see cref="IEnumerable{T}"/>Collection of messages.</returns>
+        /// <response code="200">Returns message.</response>           
+        [HttpGet("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IEnumerable<Message>> GetByChatAsync(int id, [FromQuery] Pagination pagination) => 
+            (await service.GetByChatIdAsync(id, pagination.Skip, pagination.Top)).Select(x =>
+            {
+                var messageContract = x.ToContract();
+                messageContract.User = x.User.ToContract();
+                messageContract.Chat = x.Chat.ToContract();
+                return messageContract;
+            });
+
+        /// <summary>
         /// Creates a message.
         /// </summary>
         /// <param name="contract">Message model.</param>
@@ -64,6 +82,8 @@ namespace SimpleChat.Server.Controllers
             var messageModel = contract.ToModel();
             messageModel.Chat = contract.Chat.ToModel();
             messageModel.User = contract.User.ToModel();
+            //messageModel.User = HttpContext.Session.User.ToModel();
+
 
             contract.Id = await service.CreateAsync(messageModel);
 

@@ -32,6 +32,12 @@ namespace SimpleChat.Dal.Repository
             return model;
         }
 
+        public override async Task<IEnumerable<Message>> FilterAsync(Expression<Func<Message, bool>> predicate) =>
+            await dbContext.Set<Message>()
+            .Include(x => x.User)
+            .Include(x => x.Chat)
+            .AsNoTracking().Where(predicate).ToListAsync();
+
         public override async Task<int> CreateAsync(Message model)
         {
             var userId = model.User?.Id ?? throw new ArgumentNullException();

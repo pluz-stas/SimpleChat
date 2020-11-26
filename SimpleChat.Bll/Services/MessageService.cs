@@ -5,6 +5,7 @@ using SimpleChat.Dal.Entities;
 using SimpleChat.Dal.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SimpleChat.Bll.Services
@@ -12,6 +13,16 @@ namespace SimpleChat.Bll.Services
     public class MessageService : AbstractService<MessageModel, Message>, IMessageService
     {
         public MessageService(IMessageRepository messageRepository) : base(messageRepository) { }
+
+        public async Task<IEnumerable<MessageModel>> GetByChatIdAsync(int chatId, int skip, int top) =>
+            (await _repository.FilterAsync(x => x.ChatId.Equals(chatId))).Skip(skip).Take(top).Select(x =>
+            {
+                var messageModel = x.ToModel();
+                messageModel.User = x.User.ToModel();
+                messageModel.Chat = x.Chat.ToModel();
+                return messageModel;
+            });
+
 
         public override Task<IEnumerable<MessageModel>> GetAllAsync(int skip, int top, Func<Message, MessageModel> entityToModelMapper = null) =>
             throw new NotImplementedException();
