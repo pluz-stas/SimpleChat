@@ -28,5 +28,8 @@ namespace SimpleChat.Bll.Services
         }
         public async Task<IEnumerable<UserModel>> GetByChatIdAsync(int chatId, int skip, int top) => 
             (await _repository.FilterAsync(x => x.Chats.Any(c => c.Id == chatId))).Select(x => x.ToModel());
+
+        public async Task<UserModel> GetBySissionKeyAsync(string SessionKey) =>
+            (await _repository.FilterAsync(x => x.Sessions.Any(s => s.Key == SessionKey))).FirstOrDefault().ToModel();
     }
 }

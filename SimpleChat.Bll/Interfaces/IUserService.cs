@@ -8,5 +8,6 @@ namespace SimpleChat.Bll.Interfaces
     public interface IUserService : IService<UserModel, User>
     {
         Task<IEnumerable<UserModel>> GetByChatIdAsync(int chatId, int skip, int top);
+        Task<UserModel> GetBySissionKeyAsync(string SessionKey);
     }
 }

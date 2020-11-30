@@ -94,5 +94,25 @@ namespace SimpleChat.Server.Controllers
 
             return NoContent();
         }
+        /// <summary>
+        /// Creates a user.
+        /// </summary>
+        /// <param name="contract">User model.</param>
+        /// <returns>A newly created user.</returns>
+        /// <response code="201">Returns the newly created user.</response>
+        /// <response code="400">If the item is null</response>            
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<User>> Post([FromBody] User contract)
+        {
+            var userModel = contract.ToModel();
+
+            //userModel.Sessions = "some random session";
+
+            contract.Id = await service.CreateAsync(userModel);
+
+            return CreatedAtAction("Get", new { id = contract.Id }, contract);
+        }
     }
 }

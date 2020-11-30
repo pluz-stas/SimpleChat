@@ -8,6 +8,7 @@ namespace SimpleChat.Dal.Entities
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public IEnumerable<Session> Sessions { get; set; }
         public IEnumerable<Chat> Chats { get; set; } = new List<Chat>();
     }
 }

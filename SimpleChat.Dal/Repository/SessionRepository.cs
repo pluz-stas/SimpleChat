@@ -1,0 +1,17 @@
+﻿using SimpleChat.Dal.Entities;
+using SimpleChat.Dal.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SimpleChat.Dal.Repository
+{
+    public class SessionRepository : AbstractRepository<Session>, ISessionRepository
+    {
+        public SessionRepository(SimpleChatDbContext context) : base(context)
+        {
+        }
+    }
+}
