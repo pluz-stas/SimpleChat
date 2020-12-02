@@ -37,13 +37,7 @@ namespace SimpleChat.Bll.Services
             var chatEntity = await _repository.GetByIdAsync(id);
 
             var chatModel = chatEntity.ToModel();
-            chatModel.Users = chatEntity.Users.Select(u => u.ToModel());
-            chatModel.Messages = chatEntity.Messages.Select(m =>
-            {
-                var message = m.ToModel();
-                message.User = chatModel.Users.First(u => u.Id == m.User.Id);
-                return message;
-            });
+            chatModel.Messages = chatEntity.Messages.Select(m => m.ToModel());
 
             return chatModel;
         }

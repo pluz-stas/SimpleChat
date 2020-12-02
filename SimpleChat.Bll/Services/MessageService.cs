@@ -26,7 +26,6 @@ namespace SimpleChat.Bll.Services
             var messageEntity = await _repository.GetByIdAsync(id);
 
             var messageModel = messageEntity.ToModel();
-            messageModel.User = messageEntity.User.ToModel();
             messageModel.Chat = messageEntity.Chat.ToModel();
 
             return messageModel;
@@ -41,7 +40,6 @@ namespace SimpleChat.Bll.Services
 
             var messageEntity = model.ToEntity();
             messageEntity.ChatId = model.Chat?.Id ?? throw new ArgumentNullException();
-            messageEntity.User = model.User.ToEntity();
 
             return await _repository.CreateAsync(messageEntity);
         }
@@ -55,7 +53,6 @@ namespace SimpleChat.Bll.Services
 
             var messageEntity = model.ToEntity();
             messageEntity.ChatId = model.Chat?.Id ?? throw new NotImplementedException();
-            messageEntity.User = model.User.ToEntity();
 
             await _repository.UpdateAsync(messageEntity);
         }

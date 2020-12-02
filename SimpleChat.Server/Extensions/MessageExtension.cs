@@ -25,6 +25,7 @@ namespace SimpleChat.Server.Extensions
                 Content = model.Content,
                 IsRead = model.IsRead,
                 CreatedDate = model.CreatedDate,
+                UserName = model.UserName
             };
         }
 
@@ -44,6 +45,7 @@ namespace SimpleChat.Server.Extensions
                 Content = contract.Content,
                 IsRead = contract.IsRead,
                 CreatedDate = contract.CreatedDate.HasValue ? contract.CreatedDate.Value : DateTime.Now,
+                UserName = contract.UserName
             };
         }
     }

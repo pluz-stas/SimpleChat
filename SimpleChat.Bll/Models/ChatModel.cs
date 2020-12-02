@@ -10,7 +10,5 @@ namespace SimpleChat.Bll.Models
         public string Name { get; set; }
 
         public IEnumerable<MessageModel> Messages { get; set; }
-
-        public IEnumerable<UserModel> Users { get; set; }
     }
 }

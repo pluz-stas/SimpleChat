@@ -3,8 +3,6 @@ using SimpleChat.Dal.Entities;
 using SimpleChat.Dal.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SimpleChat.Dal.Repository
@@ -22,7 +20,6 @@ namespace SimpleChat.Dal.Repository
         public override async Task<Message> GetByIdAsync(int id)
         {
             var model = await dbContext.Messages
-                .Include(x => x.User)
                 .Include(x => x.Chat)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -30,24 +27,6 @@ namespace SimpleChat.Dal.Repository
                 throw new NullReferenceException(nameof(Message));
 
             return model;
-        }
-
-        public override async Task<int> CreateAsync(Message model)
-        {
-            var userId = model.User?.Id ?? throw new ArgumentNullException();
-
-            model.User = await dbContext.Users.FindAsync(userId);
-
-            return await base.CreateAsync(model);
-        }
-
-        public override async Task UpdateAsync(Message model)
-        {
-            var userId = model.User?.Id ?? throw new ArgumentNullException();
-
-            model.User = await dbContext.Users.FindAsync(userId);
-
-            await base.UpdateAsync(model);
         }
     }
 }

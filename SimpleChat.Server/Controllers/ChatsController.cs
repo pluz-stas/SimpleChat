@@ -60,13 +60,7 @@ namespace SimpleChat.Server.Controllers
             var chatModel = await service.GetByIdAsync(id);
 
             var chatContract = chatModel.ToContract();
-            chatContract.Users = chatModel.Users.Select(u => u.ToContract());
-            chatContract.Messages = chatModel.Messages.Select(m =>
-            {
-                var message = m.ToContract();
-                message.User = chatContract.Users.First(u => u.Id == m.User.Id);
-                return message;
-            });
+            chatContract.Messages = chatModel.Messages.Select(m => m.ToContract());
 
             return chatContract;
         }

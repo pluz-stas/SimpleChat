@@ -10,7 +10,6 @@ namespace SimpleChat.Dal.Entities
         public string Name { get; set; }
         public bool IsPublic { get; set; } = true;
 
-        public IEnumerable<User> Users { get; set; } = new List<User>();
         public IEnumerable<Message> Messages { get; set; } = new List<Message>();
     }
 }
