@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
+﻿using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +41,6 @@ namespace SimpleChat.Server.Controllers
             var messageModel = await service.GetByIdAsync(id);
 
             var messageContract = messageModel.ToContract();
-            messageContract.User = messageModel.User.ToContract();
             messageContract.Chat = messageModel.Chat.ToContract();
 
             return messageContract;
@@ -63,7 +60,6 @@ namespace SimpleChat.Server.Controllers
         {
             var messageModel = contract.ToModel();
             messageModel.Chat = contract.Chat.ToModel();
-            messageModel.User = contract.User.ToModel();
 
             contract.Id = await service.CreateAsync(messageModel);
 
@@ -87,7 +83,6 @@ namespace SimpleChat.Server.Controllers
 
             var messageModel = contract.ToModel();
             messageModel.Chat = contract.Chat.ToModel();
-            messageModel.User = contract.User.ToModel();
 
             await service.UpdateAsync(messageModel);
 

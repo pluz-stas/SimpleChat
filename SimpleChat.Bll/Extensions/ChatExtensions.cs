@@ -1,7 +1,6 @@
 ﻿using SimpleChat.Bll.Models;
 using SimpleChat.Dal.Entities;
 using System;
-using System.Linq;
 
 namespace SimpleChat.Bll.Extensions
 {

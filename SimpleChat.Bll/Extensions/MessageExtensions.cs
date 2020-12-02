@@ -17,6 +17,7 @@ namespace SimpleChat.Bll.Extensions
                 Content = model.Content,
                 CreatedDate = model.CreatedDate,
                 IsRead = model.IsRead,
+                UserName = model.UserName
             };
         }
 
@@ -31,6 +32,7 @@ namespace SimpleChat.Bll.Extensions
                 Content = entity.Content,
                 CreatedDate = entity.CreatedDate,
                 IsRead = entity.IsRead,
+                UserName = entity.UserName
             };
         }
     }

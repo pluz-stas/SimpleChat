@@ -8,8 +8,8 @@ namespace SimpleChat.Bll.Models
         public string Content { get; set; }
         public bool IsRead { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string UserName { get; set; }
 
-        public UserModel User { get; set; }
         public ChatModel Chat { get; set; }
     }
 }

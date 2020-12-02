@@ -26,7 +26,6 @@ namespace SimpleChat.Dal.Repository
         public override async Task<Chat> GetByIdAsync(int id)
         {
             var model = await dbContext.Chats
-                .Include(c => c.Users)
                 .Include(x => x.Messages.OrderByDescending(mes => mes.CreatedDate).Take(DefaultMessagesTop))
                 .FirstOrDefaultAsync(x => x.Id == id);
 
