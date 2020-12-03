@@ -1,17 +1,23 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
-
-        <div class="content px-4">
+    <Header />
+    <main role="main">
+        <section class="chats @(isChatSidebarOpen ? "open" : null)">
+            <button @onclick="@ToggleChats" class="ml-auto section-toggler">
+                <span class="oi @(isChatSidebarOpen ? "oi-arrow-circle-left" : "oi-arrow-circle-right")" />
+            </button>
+            <NavMenu class="@(isChatSidebarOpen ? null : "collapse")" />
+        </section>
+        <section class="central p-4 @(isChatSidebarOpen || isUserSidebarOpen ? "hiden" : null)">
             @Body
-        </div>
-    </div>
+        </section>
+        <section class="user @(isUserSidebarOpen ? "open" : null)">
+            <button @onclick="@ToggleUser" class="mr-auto section-toggler">
+                <span class="oi @(isUserSidebarOpen ? "oi-arrow-circle-right" : "oi-arrow-circle-left")" />
+            </button>
+            <UserComponent class="@(isUserSidebarOpen ? null : "collapse")" />
+        </section>
+    </main>
+    <Footer />
 </div>

@@ -1,5 +1,6 @@
 ﻿using SimpleChat.Bll.Models;
 using SimpleChat.Shared.Contracts;
+using SimpleChat.Shared.Contracts.Messages;
 using System;
 
 namespace SimpleChat.Server.Extensions
@@ -44,7 +45,26 @@ namespace SimpleChat.Server.Extensions
                 Id = contract.Id,
                 Content = contract.Content,
                 IsRead = contract.IsRead,
-                CreatedDate = contract.CreatedDate.HasValue ? contract.CreatedDate.Value : DateTime.Now,
+                CreatedDate = contract.CreatedDate.HasValue ? contract.CreatedDate.Value.ToUniversalTime() : DateTime.UtcNow,
+                UserName = contract.UserName
+            };
+        }
+
+        /// <summary>
+        /// Converts <see cref="Message"/> contract to <seealso cref="HubMessage"/> model.
+        /// </summary>
+        /// <param name="contract">Message contract.</param>
+        /// <returns><see cref="HubMessage"/> model.</returns>
+        public static HubMessage ToHubModel(this Message contract)
+        {
+            if (contract == null)
+                throw new ArgumentNullException(nameof(Message));
+
+            return new HubMessage
+            { 
+                Content = contract.Content,
+                CreatedDate = contract.CreatedDate.HasValue ? contract.CreatedDate.Value.ToUniversalTime() : DateTime.UtcNow,
+                IsRead = contract.IsRead,
                 UserName = contract.UserName
             };
         }
