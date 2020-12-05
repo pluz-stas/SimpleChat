@@ -3,7 +3,7 @@
     public static class HubConstants
     {
         public const string ReceiveMessage = nameof(ReceiveMessage);
-        public const string SendMessage = nameof(SendMessage);
+        public const string Enter = nameof(Enter);
         public const string ChatUri = @"/chathub";
     }
 }
