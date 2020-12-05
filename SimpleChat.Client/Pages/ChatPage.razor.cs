@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using SimpleChat.Shared.Contracts;
-using SimpleChat.Shared.Contracts.Messages;
 using SimpleChat.Shared.Hub;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace SimpleChat.Client.Pages
     public partial class ChatPage : IDisposable
     {
         private HubConnection hubConnection;
-        private List<HubMessage> messages = new List<HubMessage>();
+        private List<Message> messages = new List<Message>();
         private string userInput;
         private string messageInput;
         private Chat chat;
@@ -37,9 +36,9 @@ namespace SimpleChat.Client.Pages
                 .WithUrl(NavigationManager.ToAbsoluteUri(HubConstants.ChatUri))
                 .Build();
 
-            hubConnection.On<int, HubMessage>(HubConstants.ReceiveMessage, (chatId, mes) =>
+            hubConnection.On<Message>(HubConstants.ReceiveMessage, mes =>
             {
-                if (chatId == chat.Id)
+                if (mes.Chat.Id == ChatId)
                 {
                     messages.Add(mes);
                     StateHasChanged();
@@ -49,11 +48,11 @@ namespace SimpleChat.Client.Pages
             var hubConnectionTask = hubConnection.StartAsync();
             var loadChatTask = Http.GetFromJsonAsync<Chat>($"api/chats/{ChatId}");
 
-            await Task.WhenAll(hubConnectionTask, loadChatTask);
+            await Task.WhenAll(hubConnectionTask.ContinueWith(_ => hubConnection.InvokeAsync(HubConstants.Enter, ChatId)), loadChatTask);
 
             chat = loadChatTask.Result;
 
-            messages = chat.Messages.Select(x => new HubMessage { Content = x.Content, CreatedDate = x.CreatedDate.Value.ToLocalTime(), IsRead = x.IsRead, UserName = x.UserName }).Reverse().ToList();
+            messages = chat.Messages.ToList();
         }
 
         private async Task Send()
