@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Builder;
+using SimpleChat.Server.Filters;
 
 namespace SimpleChat.Server
 {
@@ -54,7 +55,7 @@ namespace SimpleChat.Server
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IMessageService, MessageService>();
 
-            services.AddControllersWithViews()
+            services.AddControllersWithViews(options => options.Filters.Add(typeof(HttpExceptionFilter)))
                 .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddRazorPages();
