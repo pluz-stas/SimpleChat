@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using SimpleChat.Shared.Hub;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace SimpleChat.Server.Hub
 {
@@ -10,13 +8,10 @@ namespace SimpleChat.Server.Hub
     public class ChatHub : Microsoft.AspNetCore.SignalR.Hub
     {
         /// <summary>
-        /// Sends message to group.
+        /// Subscribes user to chat.
         /// </summary>
-        /// <param name="user">Message author.</param>
-        /// <param name="message">Message body.</param>
-        public async Task SendMessage(string user, string message)
-        {
-            await Clients.All.SendAsync(HubConstants.ReceiveMessage, user, message);
-        }
+        /// <param name="chatId">Chat id.</param>
+        /// <returns></returns>
+        public async Task Enter(int chatId) => await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());           
     }
 }

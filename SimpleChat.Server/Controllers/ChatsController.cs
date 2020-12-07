@@ -19,15 +19,15 @@ namespace SimpleChat.Server.Controllers
     [ApiController]
     public class ChatsController : ControllerBase
     {
-        private readonly IChatService service;
+        private readonly IChatService chatService;
 
         /// <summary>
         /// Constuctor.
         /// </summary>
-        /// <param name="service">Injects <see cref="IChatService"/> in controller.</param>
-        public ChatsController(IChatService service)
+        /// <param name="chatService">Injects <see cref="IChatService"/> in controller.</param>
+        public ChatsController(IChatService chatService)
         {
-            this.service = service;
+            this.chatService = chatService;
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace SimpleChat.Server.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<Chat>> GetAsync([FromQuery] Pagination pagination) =>
-            (await service.GetAllAsync(pagination.Skip, pagination.Top))
+            (await chatService.GetAllAsync(pagination.Skip, pagination.Top))
             .Select(x =>
             {
                 var chatContract = x.ToContract();
@@ -57,7 +57,7 @@ namespace SimpleChat.Server.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<Chat> GetAsync(int id)
         {
-            var chatModel = await service.GetByIdAsync(id);
+            var chatModel = await chatService.GetByIdAsync(id);
 
             var chatContract = chatModel.ToContract();
             chatContract.Messages = chatModel.Messages.Select(m => m.ToContract());
@@ -77,7 +77,7 @@ namespace SimpleChat.Server.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Chat>> Post([FromBody] Chat contract)
         {
-            contract.Id = await service.CreateAsync(contract.ToModel(), Bll.Extensions.ChatExtensions.ToEntity);
+            contract.Id = await chatService.CreateAsync(contract.ToModel(), Bll.Extensions.ChatExtensions.ToEntity);
 
             return CreatedAtAction("Get", new { id = contract.Id }, contract);
         }
@@ -97,7 +97,7 @@ namespace SimpleChat.Server.Controllers
             if (id != contract.Id)
                 return BadRequest();
 
-            await service.UpdateAsync(contract.ToModel(), Bll.Extensions.ChatExtensions.ToEntity);
+            await chatService.UpdateAsync(contract.ToModel(), Bll.Extensions.ChatExtensions.ToEntity);
 
             return NoContent();
         }
@@ -111,7 +111,7 @@ namespace SimpleChat.Server.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Delete(int id)
         {
-            await service.DeleteAsync(id);
+            await chatService.DeleteAsync(id);
 
             return NoContent();
         }

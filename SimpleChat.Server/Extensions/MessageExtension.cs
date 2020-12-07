@@ -44,7 +44,7 @@ namespace SimpleChat.Server.Extensions
                 Id = contract.Id,
                 Content = contract.Content,
                 IsRead = contract.IsRead,
-                CreatedDate = contract.CreatedDate.HasValue ? contract.CreatedDate.Value : DateTime.Now,
+                CreatedDate = contract.CreatedDate.HasValue ? contract.CreatedDate.Value.ToUniversalTime() : DateTime.UtcNow,
                 UserName = contract.UserName
             };
         }
