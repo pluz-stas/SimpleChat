@@ -27,6 +27,6 @@ namespace SimpleChat.Client.Shared
         [Required]
         [StringLength(50, ErrorMessage ="Too Long")]
         public string Name { get; set; }
-        public byte[] Avatar { get; set; }
+        public string ImgUrl { get; set; }
     }
 }
