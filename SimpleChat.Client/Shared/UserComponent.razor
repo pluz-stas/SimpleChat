@@ -1,1 +1,17 @@
-﻿<h3 @attributes="@InputAttributes">UserComponent</h3>
+﻿@inherits UserModel
+<h3 @attributes="@InputAttributes">UserComponent</h3>
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <EditForm Model="@UserData" OnValidSubmit="SetAsync">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <label for="username">UserName</label>
+            <InputText id="username" @bind-Value="UserData.Name" class="form-control"/>
+            <label for="avatar">Avatar</label>
+            <InputFile id="avatar" @bind-Value="UserData.Avatar" class="form-control"/>
+
+            <button type="submit" class="btn">Update</button>
+        </EditForm>
+    </div>
+</div>
