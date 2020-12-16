@@ -1,4 +1,17 @@
-﻿.navbar-brand-container {
+﻿header {
+    background-color: var(--theme-header-background);
+    color: var(--theme-header-text);
+}
+
+a, .btn-link {
+    color: var(--theme-header-text);
+}
+
+button {
+    color: var(--theme-header-button);
+}
+
+.navbar-brand-container {
     text-align: center;
     flex: auto;
     padding-left: 45px;
