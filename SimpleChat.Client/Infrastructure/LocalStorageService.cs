@@ -6,43 +6,42 @@ namespace SimpleChat.Client.Infrastructure
 {
     public class LocalStorageService : ILocalStorageService
     {
-        private readonly IJSRuntime _jsRuntime;
+        private readonly IJSRuntime jsRuntime;
+        private const string Set = "set";
+        private const string Get = "get";
+        private const string Remove = "remove";
 
         public LocalStorageService(IJSRuntime jsRuntime)
         {
-            _jsRuntime = jsRuntime;
+            this.jsRuntime = jsRuntime;
         }
 
         public async Task SetAsync<T>(string key, T item) where T : class
         {
             var data = JsonSerializer.Serialize(item);
-            await _jsRuntime.InvokeVoidAsync("set", key, data);
+            await jsRuntime.InvokeVoidAsync(Set, key, data);
         }
 
         public Task SetStringAsync(string key, string value)
         {
-            _jsRuntime.InvokeAsync<string>("set", key, value);
+            jsRuntime.InvokeAsync<string>(Set, key, value);
             return Task.CompletedTask;
         }
 
         public async Task<T> GetAsync<T>(string key) where T : class
         {
-            var data = await _jsRuntime.InvokeAsync<string>("get", key);
-            if (string.IsNullOrEmpty(data))
-            {
-                return null!;
-            }
-            return JsonSerializer.Deserialize<T>(data)!;
+            var data = await jsRuntime.InvokeAsync<string>(Get, key);
+            return string.IsNullOrEmpty(data) ? null : JsonSerializer.Deserialize<T>(data);
         }
 
         public async Task<string> GetStringAsync(string key)
         {
-            return await _jsRuntime.InvokeAsync<string>("get", key);
+            return await jsRuntime.InvokeAsync<string>(Get, key);
         }
 
         public Task RemoveAsync(string key)
         {
-            _jsRuntime.InvokeAsync<string>("remove", key);
+            jsRuntime.InvokeAsync<string>(Remove, key);
             return Task.CompletedTask;
         }
     }
