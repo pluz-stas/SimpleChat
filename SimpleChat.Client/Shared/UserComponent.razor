@@ -1,16 +1,13 @@
-﻿<h3 @attributes="@InputAttributes">UserComponent</h3>
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <EditForm Model="@UserData" OnValidSubmit="SetAsync">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-
-            <label for="username">UserName</label>
-            <InputText id="username" @bind-Value="UserData.Name" class="form-control"/>
-            <label for="avatar">Avatar</label>
-            <InputText id="avatar" @bind-Value="UserData.ImgUrl" class="form-control"/>
-
-            <button type="submit" class="btn">Update</button>
-        </EditForm>
+﻿<div @attributes="@InputAttributes">
+    UserComponent
+    <div class="input-container">
+        <div class="@(isUserNameInputOpen ? "d-none" : "user-data")">@UserName</div>
+        <input class="@(isUserNameInputOpen ? "user-data" : "d-none")" @bind="UserName">
+        <button class="button" @onclick="@ToggleEditUserNameInputAsync">@(isUserNameInputOpen ? "OK" : "edit")</button>
+    </div>
+    <div class="input-container">
+        <div class="@(isUserImgInputOpen ? "d-none" : "user-data")">@UserImg</div>
+        <input class="@(isUserImgInputOpen ? "user-data" : "d-none")" @bind="UserImg">
+        <button class="button" @onclick="@ToggleEditUserImgInputAsync">@(isUserImgInputOpen ? "OK" : "edit")</button>
     </div>
 </div>
