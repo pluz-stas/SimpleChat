@@ -4,22 +4,23 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using SimpleChat.Client.Infrastructure;
-using SimpleChat.Client.Models;
+using static System.String;
 
 namespace SimpleChat.Client.Shared
 {
     public partial class UserComponent
     {
-        [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object> InputAttributes { get; set; }
-        [Inject] private ILocalStorageService LocalStorageService { get; set; }
-        
         private const string UserNameKeyName = "UserName";
         private const string UserImgKeyName = "UserImgUrl";
         
         private bool isUserNameInputOpen;
         private bool isUserImgInputOpen;
-
+        
+        [Parameter(CaptureUnmatchedValues = true)]
+        public Dictionary<string, object> InputAttributes { get; set; }
+        [Inject]
+        private ILocalStorageService LocalStorageService { get; set; }
+        
         [Required]
         [StringLength(50, ErrorMessage = "Too Long")]
         private string UserName { get; set; }
@@ -28,37 +29,29 @@ namespace SimpleChat.Client.Shared
         protected override async Task OnInitializedAsync()
         {
             string localStorageName = await LocalStorageService.GetStringAsync(UserNameKeyName);
-            if (localStorageName == null)
-            {
-                UserName = "anon";
-            }
-            else
-            {
-                UserName = localStorageName;
-            }
+            UserName = IsNullOrWhiteSpace(localStorageName) ? "anon" : localStorageName;
             UserImg = await LocalStorageService.GetStringAsync(UserImgKeyName);
             await base.OnInitializedAsync();
         }
         
         private async Task SetNameAsync()
         {
-            if (UserName != null)
+            if (!IsNullOrWhiteSpace(UserName))
             {
+                Console.WriteLine("40");
                 await LocalStorageService.SetStringAsync(UserNameKeyName, UserName);
             }
         }       
         
         private async Task SetImgAsync()
         {
-            if (UserImg != null)
-            {
-                await LocalStorageService.SetStringAsync(UserImgKeyName, UserName);
-            }
+            if (!IsNullOrWhiteSpace(UserImg))
+                await LocalStorageService.SetStringAsync(UserImgKeyName, UserImg);
         }
         
         private async Task ToggleEditUserNameInputAsync()
         {
-            if (!isUserImgInputOpen)
+            if (isUserNameInputOpen)
             {
                 await SetNameAsync();
             }
@@ -68,7 +61,7 @@ namespace SimpleChat.Client.Shared
 
         private async Task ToggleEditUserImgInputAsync()
         {
-            if (!isUserImgInputOpen)
+            if (isUserImgInputOpen)
             {
                 await SetImgAsync();
             }
