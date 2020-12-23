@@ -38,7 +38,6 @@ namespace SimpleChat.Client.Shared
         {
             if (!IsNullOrWhiteSpace(UserName))
             {
-                Console.WriteLine("40");
                 await LocalStorageService.SetStringAsync(UserNameKeyName, UserName);
             }
         }       
