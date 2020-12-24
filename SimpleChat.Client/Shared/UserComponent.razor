@@ -1,1 +1,13 @@
-﻿<h3 @attributes="@InputAttributes">UserComponent</h3>
+﻿<div @attributes="@InputAttributes">
+    UserComponent
+    <div class="input-container">
+        <div class="@(isUserNameInputOpen ? "d-none" : "user-data")">@UserName</div>
+        <input class="@(isUserNameInputOpen ? "user-data" : "d-none")" @bind="UserName">
+        <button class="button" @onclick="@ToggleEditUserNameInputAsync">@(isUserNameInputOpen ? "OK" : "edit")</button>
+    </div>
+    <div class="input-container">
+        <div class="@(isUserImgInputOpen ? "d-none" : "user-data")">@UserImg</div>
+        <input class="@(isUserImgInputOpen ? "user-data" : "d-none")" @bind="UserImg">
+        <button class="button" @onclick="@ToggleEditUserImgInputAsync">@(isUserImgInputOpen ? "OK" : "edit")</button>
+    </div>
+</div>
