@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using SimpleChat.Server.Extensions;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using SimpleChat.Server.Extensions;
+using SimpleChat.Shared.Exceptions;
 
 namespace SimpleChat.Server.Filters
 {
@@ -18,11 +18,11 @@ namespace SimpleChat.Server.Filters
         /// </summary>
         /// <param name="context">The Microsoft.AspNetCore.Mvc.Filters.ExceptionContext.</param>
         /// <returns><see cref="Task"/> A System.Threading.Tasks.Task that on completion indicates the filter has executed.</returns>
-        async public Task OnExceptionAsync(ExceptionContext context)
+        public async Task OnExceptionAsync(ExceptionContext context)
         {
             switch (context.Exception)
             {
-                case System.NullReferenceException:
+                case NotFoundException:
                     {
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
                         await context.HttpContext.Response.WriteAsJsonAsync(context.Exception.ToContract());

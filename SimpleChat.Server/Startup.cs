@@ -5,6 +5,7 @@ using SimpleChat.Bll.Interfaces;
 using SimpleChat.Bll.Services;
 using System.Reflection;
 using System;
+using System.Globalization;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using SimpleChat.Dal;
@@ -16,7 +17,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
 using SimpleChat.Server.Filters;
+using SimpleChat.Shared;
 
 namespace SimpleChat.Server
 {
@@ -48,7 +51,22 @@ namespace SimpleChat.Server
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<SimpleChatDbContext>(o => o.UseSqlServer(connectionString));
+            
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("ru")
+                };
+ 
+                options.DefaultRequestCulture = new RequestCulture("ru");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+            
             services.AddScoped<IChatRepository, ChatRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
 
@@ -56,7 +74,10 @@ namespace SimpleChat.Server
             services.AddScoped<IMessageService, MessageService>();
 
             services.AddControllersWithViews(options => options.Filters.Add(typeof(HttpExceptionFilter)))
-                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore).AddDataAnnotationsLocalization(options => {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                        factory.Create(typeof(SharedExceptionResource));
+                });
 
             services.AddRazorPages();
             services.AddSignalR();

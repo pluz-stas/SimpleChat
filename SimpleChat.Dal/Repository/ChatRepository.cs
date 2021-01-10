@@ -6,15 +6,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
+using SimpleChat.Shared;
+using SimpleChat.Shared.Exceptions;
 
 namespace SimpleChat.Dal.Repository
 {
     public class ChatRepository : AbstractRepository<Chat>, IChatRepository
     {
         private const int DefaultMessagesTop = 50;
+        private readonly IStringLocalizer<SharedExceptionResource> _localizer;
 
-        public ChatRepository(SimpleChatDbContext context) : base(context)
+        public ChatRepository(SimpleChatDbContext context, IStringLocalizer<SharedExceptionResource> localizer) : base(context)
         {
+            _localizer = localizer;
         }
 
         public override async Task<IEnumerable<Chat>> GetAllAsync(int skip, int top) =>
@@ -30,7 +35,7 @@ namespace SimpleChat.Dal.Repository
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (model == null)
-                throw new NullReferenceException(nameof(Chat));
+                throw new NotFoundException(_localizer["NotFound"]);
 
             return model;
         }
