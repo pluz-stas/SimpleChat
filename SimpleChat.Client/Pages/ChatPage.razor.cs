@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
+using SimpleChat.Client.Services;
 
 namespace SimpleChat.Client.Pages
 {
@@ -23,7 +25,7 @@ namespace SimpleChat.Client.Pages
         private NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        private HttpClient Http { get; set; }
+        private IHttpClientService Http { get; set; }
 
         [Parameter]
         public int ChatId { get; set; }
@@ -46,7 +48,7 @@ namespace SimpleChat.Client.Pages
             });
 
             var hubConnectionTask = hubConnection.StartAsync();
-            var loadChatTask = Http.GetFromJsonAsync<Chat>($"api/chats/{ChatId}");
+            var loadChatTask = Http.GetAsync<Chat>($"api/chats/{454}");
 
             await Task.WhenAll(hubConnectionTask.ContinueWith(_ => hubConnection.InvokeAsync(HubConstants.Enter, ChatId)), loadChatTask);
 
@@ -66,7 +68,7 @@ namespace SimpleChat.Client.Pages
                 CreatedDate = DateTime.Now.ToUniversalTime()
             };
 
-            await Http.PostAsJsonAsync($"api/messages/", message);
+            await Http.PostAsync($"api/messages/", JsonSerializer.Serialize(message));
 
             messageInput = string.Empty;
         }
