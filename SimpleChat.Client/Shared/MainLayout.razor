@@ -1,18 +1,18 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <Header />
+<div id="page">
+    <Header/>
     <main role="main">
-        <section class="chats @(isChatSidebarOpen ? "open" : null)">
+        <section id="chats-section" class="@(isChatSidebarOpen ? "open" : null)">
             <button @onclick="@ToggleChats" class="ml-auto section-toggler">
                 <span class="oi @(isChatSidebarOpen ? "oi-arrow-circle-left" : "oi-arrow-circle-right")" />
             </button>
             <NavMenu class="@(isChatSidebarOpen ? null : "collapse")" />
         </section>
-        <section class="central p-4 @(isChatSidebarOpen || isUserSidebarOpen ? "hiden" : null)">
+        <section id="central-section" class="p-4 @(isChatSidebarOpen || isUserSidebarOpen ? "hiden" : null)">
             @Body
         </section>
-        <section class="user @(isUserSidebarOpen ? "open" : null)">
+        <section id="user-section" class="@(isUserSidebarOpen ? "open" : null)">
             <button @onclick="@ToggleUser" class="mr-auto section-toggler">
                 <span class="oi @(isUserSidebarOpen ? "oi-arrow-circle-right" : "oi-arrow-circle-left")" />
             </button>

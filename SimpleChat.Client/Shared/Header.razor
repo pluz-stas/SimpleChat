@@ -1,12 +1,12 @@
-﻿<header>
-    <nav class="navbar fixed-top navbar-light bg-light">
+﻿<header class="fixed-top">
+    <nav class="navbar">
         <div class="navbar-brand-container">
             <a class="navbar-brand mb-0 h1" href="">SimpleChat</a>
         </div>
         
         <div class="ml-auto">
-            <button @onclick="@(() => isDarkMod = !isDarkMod)"><span class="oi @(isDarkMod ? "oi-moon" : "oi-sun")" /></button>
-            <button>eng<span class="oi oi-arrow-thick-bottom" /></button>
+            <button @onclick="@SwitchTheme"><span class="oi @GetThemeIcon()" /></button>
+            <button>eng</button>
         </div>
     </nav>
 </header>

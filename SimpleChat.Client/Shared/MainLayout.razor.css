@@ -5,16 +5,20 @@
     height: 100vh;
 }
 
-section.central {
+#central-section {
     flex: auto;
 }
 
-section.user {
-    background-color: chartreuse;
+#user-section {
+    background-color: var(--theme-user-background);
+    margin: 5px 0;
+    border-radius: 10px 0 0 10px;
 }
 
-section.chats {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+#chats-section {
+    background-color: var(--theme-chats-background);
+    margin: 5px 0;
+    border-radius: 0 10px 10px 0;
 }
 
 .hiden {
@@ -31,7 +35,7 @@ section.chats {
 
 @media (min-width: 768px) {
 
-    section.chats {
+    #chats-section {
         display: block;
         min-width: 300px;
         max-width: 500px;
@@ -40,14 +44,14 @@ section.chats {
         left: 0;
     }
 
-    section.user {
+    #user-section {
         max-width: 500px;
         position: sticky;
         right: 0;
     }
 
     main {
-        padding-bottom: 56px;
+        padding-bottom: 55px;
     }
 
     .hiden {
@@ -58,7 +62,7 @@ section.chats {
         width: auto;
     }
 
-    section.chats > .section-toggler {
+    #chats-section > .section-toggler {
         display: none;
     }
 }
