@@ -1,12 +1,10 @@
 ﻿@using SimpleChat.Client.Components
 
-<div @attributes="@InputAttributes">
-    <nav>
-        <ul class="list-group">
-            @foreach (var chat in chats)
-            {
-                <ChatCard Chat="@chat" />
-            }
-        </ul>
-    </nav>
-</div>
+<nav @attributes="@InputAttributes">
+    <ul class="list-group">
+        @foreach (var chat in chats)
+        {
+            <ChatCard Chat="@chat" />
+        }
+    </ul>
+</nav>
