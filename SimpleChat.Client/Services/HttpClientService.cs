@@ -28,7 +28,7 @@ namespace SimpleChat.Client.Services
             }
             catch
             {
-                Console.WriteLine("sexual error");
+                await _errorState.SetErrorAsync("Error", "Something went wrong");
                 throw;
             }
 
@@ -37,29 +37,39 @@ namespace SimpleChat.Client.Services
                 return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
             }
 
-            await InvokeError(response);
+            await GetError(response);
             throw new Exception(response.StatusCode.ToString());
         }
 
         public async Task PostAsync<T>(string uri, T value)
         {
             JsonContent content = JsonContent.Create(value, mediaType: null);
-            var response = await _client.PostAsync(uri, content);
+            HttpResponseMessage response;
+            try
+            {
+                response = await _client.PostAsync(uri, content);
+            }
+            catch
+            {
+                await _errorState.SetErrorAsync("Error", "Something went wrong");
+                throw;
+            }
+
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine(response.StatusCode + "ssssssssssssssuka");
+                await GetError(response);
+                throw new Exception(response.StatusCode.ToString());
             }
         }
 
-        private async Task InvokeError(HttpResponseMessage response)
+        private async Task GetError(HttpResponseMessage response)
         {
-            ExceptionContract exception = null;
             string title;
             string message;
             
             try
             {
-                exception = JsonConvert.DeserializeObject<ExceptionContract>(
+                var exception = JsonConvert.DeserializeObject<ExceptionContract>(
                     await response.Content.ReadAsStringAsync());
                 title = exception.Title;
                 message = exception.Message;
@@ -71,6 +81,5 @@ namespace SimpleChat.Client.Services
             }
             await _errorState.SetErrorAsync(title, message);
         }
-        
     }
 }

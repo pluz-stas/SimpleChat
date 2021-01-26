@@ -1,5 +1,5 @@
-﻿<div id="blazor-error-ui">
-    <h3>Error</h3>
+﻿<div id="blazor-error-ui" style="@(isShowError ? "" : "display: none")">
+    <button @onclick="@CloseError" class="oi oi-x close-error"></button>
+    <h3>@ErrorState.Title</h3>
     <p>@ErrorState.Message</p>
-    <p>Huyaka</p>
 </div>
