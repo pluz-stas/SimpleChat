@@ -26,6 +26,9 @@ namespace SimpleChat.Client.Pages
 
         [Inject]
         private IHttpClientService Http { get; set; }
+        
+        [Inject]
+        private HttpClient Http2 { get; set; }
 
         [Parameter]
         public int ChatId { get; set; }
@@ -48,7 +51,7 @@ namespace SimpleChat.Client.Pages
             });
 
             var hubConnectionTask = hubConnection.StartAsync();
-            var loadChatTask = Http.GetAsync<Chat>($"api/chats/{454}");
+            var loadChatTask = Http.GetAsync<Chat>($"api/chats/{ChatId}");
 
             await Task.WhenAll(hubConnectionTask.ContinueWith(_ => hubConnection.InvokeAsync(HubConstants.Enter, ChatId)), loadChatTask);
 
@@ -68,7 +71,7 @@ namespace SimpleChat.Client.Pages
                 CreatedDate = DateTime.Now.ToUniversalTime()
             };
 
-            await Http.PostAsync($"api/messages/", JsonSerializer.Serialize(message));
+            await Http.PostAsync($"api/messages/", message);
 
             messageInput = string.Empty;
         }

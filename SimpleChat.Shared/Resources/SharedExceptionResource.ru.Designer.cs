@@ -61,6 +61,51 @@ namespace SimpleChat.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ошибка.
+        /// </summary>
+        internal static string ExcepionErrorTitle {
+            get {
+                return ResourceManager.GetString("ExcepionErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ExceptionError {
+            get {
+                return ResourceManager.GetString("ExceptionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка во время получения ошибки.
+        /// </summary>
+        internal static string ExceptionErrorMessage {
+            get {
+                return ResourceManager.GetString("ExceptionErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Невозможно отправить запрос.
+        /// </summary>
+        internal static string HttpClientErrorMessage {
+            get {
+                return ResourceManager.GetString("HttpClientErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка HTTP клиента.
+        /// </summary>
+        internal static string HttpClientErrorTitle {
+            get {
+                return ResourceManager.GetString("HttpClientErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ресурс не существует.
         /// </summary>
         internal static string NotFound {

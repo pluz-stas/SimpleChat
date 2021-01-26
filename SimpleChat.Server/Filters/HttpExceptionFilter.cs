@@ -20,27 +20,13 @@ namespace SimpleChat.Server.Filters
         /// <returns><see cref="Task"/> A System.Threading.Tasks.Task that on completion indicates the filter has executed.</returns>
         public async Task OnExceptionAsync(ExceptionContext context)
         {
-            switch (context.Exception)
+            context.HttpContext.Response.StatusCode = context.Exception switch
             {
-                case NotFoundException:
-                    {
-                        context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                        await context.HttpContext.Response.WriteAsJsonAsync(context.Exception.ToContract());
-                        context.ExceptionHandled = true;
-                        break;
-                    }
-                default:
-                    {
-                        context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        var exception = context.Exception.ToContract();
-                        exception.Title = "Error";
-                        exception.Message = "Something went wrong";
-                        await context.HttpContext.Response.WriteAsJsonAsync(exception);
-                        context.ExceptionHandled = true;
-                        break;
-                    }
-            }
+                NotFoundException => (int) HttpStatusCode.NotFound,
+                _ => (int) HttpStatusCode.InternalServerError,
+            };
+            await context.HttpContext.Response.WriteAsJsonAsync(context.Exception.ToContract());
+            context.ExceptionHandled = true;
         }
-
     }
 }

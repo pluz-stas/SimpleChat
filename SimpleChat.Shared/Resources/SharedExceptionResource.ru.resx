@@ -21,4 +21,19 @@
     <data name="NotFound" xml:space="preserve">
         <value>Ресурс не существует</value>
     </data>
+    <data name="HttpClientErrorTitle" xml:space="preserve">
+        <value>Ошибка HTTP клиента</value>
+    </data>
+    <data name="HttpClientErrorMessage" xml:space="preserve">
+        <value>Невозможно отправить запрос</value>
+    </data>
+    <data name="ExceptionError" xml:space="preserve">
+        <value />
+    </data>
+    <data name="ExcepionErrorTitle" xml:space="preserve">
+        <value>Ошибка</value>
+    </data>
+    <data name="ExceptionErrorMessage" xml:space="preserve">
+        <value>Ошибка во время получения ошибки</value>
+    </data>
 </root>

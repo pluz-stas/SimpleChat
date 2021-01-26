@@ -26,7 +26,6 @@ namespace SimpleChat.Client.Components
 
         private void CloseError()
         {
-            Console.WriteLine(isShowError);
             isShowError = false;
         }
     }

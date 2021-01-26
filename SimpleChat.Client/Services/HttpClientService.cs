@@ -4,7 +4,10 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
+using SimpleChat.Shared;
 using SimpleChat.Shared.Contracts;
+using Microsoft.Extensions.Localization;
+
 
 namespace SimpleChat.Client.Services
 {
@@ -12,11 +15,13 @@ namespace SimpleChat.Client.Services
     {
         private readonly HttpClient _client;
         private readonly ErrorStateService _errorState;
+        private readonly IStringLocalizer<SharedExceptionResource> _localizer;
 
-        public HttpClientService(HttpClient client, ErrorStateService errorState)
+        public HttpClientService(HttpClient client, ErrorStateService errorState, IStringLocalizer<SharedExceptionResource> localizer)
         {
             _client = client;
             _errorState = errorState;
+            _localizer = localizer;
         }
         
         public async Task<T> GetAsync<T>(string uri)
@@ -28,7 +33,7 @@ namespace SimpleChat.Client.Services
             }
             catch
             {
-                await _errorState.SetErrorAsync("Error", "Something went wrong");
+                await _errorState.SetErrorAsync(_localizer["HttpClientErrorTitle"], _localizer["HttpClientErrorMessage"]);
                 throw;
             }
 
@@ -51,7 +56,7 @@ namespace SimpleChat.Client.Services
             }
             catch
             {
-                await _errorState.SetErrorAsync("Error", "Something went wrong");
+                await _errorState.SetErrorAsync(_localizer["HttpClientErrorTitle"], _localizer["HttpClientErrorMessage"]);
                 throw;
             }
 
@@ -76,8 +81,8 @@ namespace SimpleChat.Client.Services
             }
             catch
             {
-                title = "Something went Wrong";
-                message = response.StatusCode.ToString();
+                title = _localizer["ExceptionErrorTitle"];
+                message = _localizer["ExceptionErrorMessage"];
             }
             await _errorState.SetErrorAsync(title, message);
         }

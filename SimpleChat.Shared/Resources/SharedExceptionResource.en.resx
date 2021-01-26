@@ -21,4 +21,16 @@
     <data name="NotFound" xml:space="preserve">
         <value>Resource is not found</value>
     </data>
+    <data name="HttpClientErrorTitle" xml:space="preserve">
+        <value>HTTP client error</value>
+    </data>
+    <data name="HttpClientErrorMessage" xml:space="preserve">
+        <value>Unable to send requets</value>
+    </data>
+    <data name="ExcepionErrorTitle" xml:space="preserve">
+        <value>Error</value>
+    </data>
+    <data name="ExceptionErrorMessage" xml:space="preserve">
+        <value>Error while getting error </value>
+    </data>
 </root>

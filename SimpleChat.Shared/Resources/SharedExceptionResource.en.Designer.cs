@@ -61,6 +61,42 @@ namespace SimpleChat.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string ExcepionErrorTitle {
+            get {
+                return ResourceManager.GetString("ExcepionErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while getting error .
+        /// </summary>
+        internal static string ExceptionErrorMessage {
+            get {
+                return ResourceManager.GetString("ExceptionErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to send requets.
+        /// </summary>
+        internal static string HttpClientErrorMessage {
+            get {
+                return ResourceManager.GetString("HttpClientErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HTTP client error.
+        /// </summary>
+        internal static string HttpClientErrorTitle {
+            get {
+                return ResourceManager.GetString("HttpClientErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resource is not found.
         /// </summary>
         internal static string NotFound {
