@@ -21,7 +21,6 @@ namespace SimpleChat.Client
             builder.Services.AddSingleton<ErrorStateService>();
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-
             await builder.Build().RunAsync();
         }
     }

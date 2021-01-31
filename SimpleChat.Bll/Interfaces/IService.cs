@@ -14,7 +14,7 @@ namespace SimpleChat.Bll.Interfaces
 
         Task<int> CreateAsync(TModel model);
 
-        Task UpdateAsync(TModel mode);
+        Task UpdateAsync(TModel model);
 
         Task DeleteAsync(int id);
 

@@ -59,6 +59,13 @@ namespace SimpleChat.Server
             services.AddScoped<IMessageService, MessageService>();
 
             services.AddControllersWithViews(options => options.Filters.Add(typeof(HttpExceptionFilter)))
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                        throw new ArgumentException(context.ModelState.Values
+                            .First(x => x.Errors?.Any() == true).Errors
+                            .FirstOrDefault(x => !string.IsNullOrEmpty(x.ErrorMessage)).ErrorMessage);
+                })
                 .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddRazorPages();
