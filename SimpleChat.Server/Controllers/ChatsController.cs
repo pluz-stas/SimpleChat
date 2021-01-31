@@ -4,10 +4,10 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SimpleChat.Bll.Extensions;
 using SimpleChat.Bll.Interfaces;
 using SimpleChat.Server.Extensions;
 using SimpleChat.Shared.Contracts;
+using SimpleChat.Shared.Contracts.Chat;
 
 namespace SimpleChat.Server.Controllers
 {
@@ -35,69 +35,70 @@ namespace SimpleChat.Server.Controllers
         /// </summary>
         /// <param name="pagination">Presents data for pagination.</param>
         /// <returns><see cref="IEnumerable{T}"/>Collection of chats.</returns>
-        /// <response code="200">Returns chats.</response>           
+        /// <response code="200">Returns chats.</response>
+        /// <response code="500">There are any server problems.</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<Chat>> GetAsync([FromQuery] Pagination pagination) =>
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IEnumerable<ChatContract>> GetAsync([FromQuery] Pagination pagination) =>
             (await chatService.GetAllAsync(pagination.Skip, pagination.Top))
-            .Select(x =>
-            {
-                var chatContract = x.ToContract();
-                chatContract.Messages = x.Messages.Select(m => m.ToContract());
-                return chatContract;
-            });
+                .Select(x => x.ToContract());
 
         /// <summary>
         /// Gets chat by id.
         /// </summary>
         /// <param name="id">Chat id.</param>
-        /// <returns>Instance of <see cref="Chat"/>.</returns>
-        /// <response code="200">Returns chat.</response>           
+        /// <returns>Instance of <see cref="ChatContract"/>.</returns>
+        /// <response code="200">Returns chat.</response>       
+        /// <response code="404">A chat not found.</response>
+        /// <response code="500">There are any server problems.</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<Chat> GetAsync(int id)
-        {
-            var chatModel = await chatService.GetByIdAsync(id);
-
-            var chatContract = chatModel.ToContract();
-            chatContract.Messages = chatModel.Messages.Select(m => m.ToContract());
-
-            return chatContract;
-        }
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ChatContract> GetAsync(int id) => (await chatService.GetByIdAsync(id)).ToContract();
 
         /// <summary>
         /// Creates a chat.
         /// </summary>
-        /// <param name="contract">Chat model.</param>
+        /// <param name="createChatContract">Chat model.</param>
         /// <returns>A newly created chat.</returns>
         /// <response code="201">Returns the newly created chat.</response>
-        /// <response code="400">If the item is null</response>            
+        /// <response code="400">If the item is null</response>        
+        /// <response code="500">There are any server problems.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Chat>> Post([FromBody] Chat contract)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ChatContract>> Post([FromBody] CreateChatContract createChatContract)
         {
-            contract.Id = await chatService.CreateAsync(contract.ToModel(), Bll.Extensions.ChatExtensions.ToEntity);
+            var chatModel = createChatContract.ToModel();
 
-            return CreatedAtAction("Get", new { id = contract.Id }, contract);
+            chatModel.Id = await chatService.CreateAsync(chatModel);
+
+            return CreatedAtAction("Get", new { id = chatModel.Id }, chatModel.ToContract());
         }
 
         /// <summary>
         /// Updates existent chat.
         /// </summary>
         /// <param name="id">Existent chat id.</param>
-        /// <param name="contract">New chat model.</param>
+        /// <param name="contract">Updated chat model.</param>
         /// <response code="204">Returns NoContent response.</response>
-        /// <response code="400">If the model is null or id does not match the chat model.</response>            
+        /// <response code="400">If the model is null or id does not match the chat model.</response>  
+        /// <response code="404">A chat not found.</response>
+        /// <response code="500">There are any server problems.</response>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Put(int id, [FromBody] Chat contract)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Put(int id, [FromBody] EditChatContract contract)
         {
             if (id != contract.Id)
                 return BadRequest();
 
-            await chatService.UpdateAsync(contract.ToModel(), Bll.Extensions.ChatExtensions.ToEntity);
+            await chatService.UpdateAsync(contract.ToModel());
 
             return NoContent();
         }
@@ -107,8 +108,12 @@ namespace SimpleChat.Server.Controllers
         /// </summary>
         /// <param name="id">Existent chat id.</param>
         /// <response code="204">Returns NoContent response.</response>
+        /// <response code="404">A chat not found.</response>
+        /// <response code="500">There are any server problems.</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(int id)
         {
             await chatService.DeleteAsync(id);

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
-using SimpleChat.Shared.Contracts;
+using SimpleChat.Shared.Contracts.Chat;
 
 namespace SimpleChat.Client.Components
 {
     public partial class ChatCard
     {
         [Parameter]
-        public Chat Chat { get; set; }
+        public ChatContract Chat { get; set; }
     }
 }

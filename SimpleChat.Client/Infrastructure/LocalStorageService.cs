@@ -5,10 +5,11 @@ namespace SimpleChat.Client.Infrastructure
 {
     public class LocalStorageService : ILocalStorageService
     {
-        private readonly IJSRuntime jsRuntime;
         private const string Set = "set";
         private const string Get = "get";
         private const string Remove = "remove";
+
+        private readonly IJSRuntime jsRuntime;
 
         public LocalStorageService(IJSRuntime jsRuntime)
         {

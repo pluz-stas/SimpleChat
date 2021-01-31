@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using SimpleChat.Client.Services;
 
 namespace SimpleChat.Client.Components
 {
     
-    public partial class CustomError
+    public partial class CustomError : IDisposable
     {
         private bool isShowError = true;
+
         [Inject]
         private ErrorStateService ErrorState { get; set; }
         
@@ -27,6 +27,9 @@ namespace SimpleChat.Client.Components
         private void CloseError()
         {
             isShowError = false;
+            ErrorState.ClearError();
         }
+
+        public void Dispose() => ErrorState.OnChange -= StateHasChanged;
     }
 }

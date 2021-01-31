@@ -1,5 +1,4 @@
 ﻿using SimpleChat.Dal.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,13 +8,13 @@ namespace SimpleChat.Bll.Interfaces
         where TModel : class, new()
         where QEntity : class, IDbEntity, new()
     {
-        Task<IEnumerable<TModel>> GetAllAsync(int skip, int top, Func<QEntity, TModel> entityToModelMapper = null);
+        Task<IEnumerable<TModel>> GetAllAsync(int skip, int top);
 
-        Task<TModel> GetByIdAsync(int id, Func<QEntity, TModel> entityToModelMapper = null);
+        Task<TModel> GetByIdAsync(int id);
 
-        Task<int> CreateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper = null);
+        Task<int> CreateAsync(TModel model);
 
-        Task UpdateAsync(TModel model, Func<TModel, QEntity> modelToEntityMapper = null);
+        Task UpdateAsync(TModel mode);
 
         Task DeleteAsync(int id);
 

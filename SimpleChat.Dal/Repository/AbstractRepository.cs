@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimpleChat.Dal.Interfaces;
+using SimpleChat.Dal.Resources;
+using SimpleChat.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +21,7 @@ namespace SimpleChat.Dal.Repository
         public virtual async Task<int> CreateAsync(TEntity model)
         {
             if (model == null)
-                throw new ArgumentNullException(nameof(TEntity));
+                throw new ArgumentNullException(string.Format(ErrorDetails.EntityCannotBeNull, nameof(TEntity)));
 
             await dbContext.Set<TEntity>().AddAsync(model);
             await dbContext.SaveChangesAsync();
@@ -32,31 +34,39 @@ namespace SimpleChat.Dal.Repository
             var model = await dbContext.Set<TEntity>().FindAsync(id);
 
             if (model == null)
-                throw new NullReferenceException(nameof(TEntity));
+                throw new NotFoundException(string.Format(ErrorDetails.ResourceDoesNotExist, nameof(TEntity), id));
 
             dbContext.Set<TEntity>().Remove(model);
             await dbContext.SaveChangesAsync();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate) => await dbContext.Set<TEntity>().AsNoTracking().Where(predicate).ToListAsync();
+        public virtual async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate) => 
+            await dbContext.Set<TEntity>()
+                .AsNoTracking()
+                .Where(predicate)
+                .ToListAsync();
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(int skip, int top) => await dbContext.Set<TEntity>().Skip(skip).Take(top).AsNoTracking().ToListAsync();
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(int skip, int top) => 
+            await dbContext.Set<TEntity>()
+                .Skip(skip)
+                .Take(top)
+                .AsNoTracking()
+                .ToListAsync();
 
-        public virtual async Task<TEntity> GetByIdAsync(int id)
-        {
-            var model = await dbContext.Set<TEntity>().FindAsync(id);
-            if (model == null)
-                throw new NullReferenceException(nameof(TEntity));
+        public virtual async Task<TEntity> GetByIdAsync(int id) => 
+            await dbContext.Set<TEntity>().FindAsync(id) ??
+            throw new NotFoundException(string.Format(ErrorDetails.ResourceDoesNotExist, nameof(TEntity), id));
 
-            return model;
-        }
+        public virtual async Task<int> GetCountAsync() =>
+            await dbContext.Set<TEntity>()
+                .CountAsync();
 
-        public virtual async Task<int> GetCountAsync() => await dbContext.Set<TEntity>().CountAsync();
+        public Task<bool> IsExistsAsync(int id) => dbContext.Set<TEntity>().AnyAsync(x => x.Id == id);
 
         public virtual async Task UpdateAsync(TEntity model)
         {
             if (model == null)
-                throw new ArgumentNullException(nameof(TEntity));
+                throw new ArgumentNullException(string.Format(ErrorDetails.EntityCannotBeNull, nameof(TEntity)));
 
             dbContext.Set<TEntity>().Update(model);
             await dbContext.SaveChangesAsync();

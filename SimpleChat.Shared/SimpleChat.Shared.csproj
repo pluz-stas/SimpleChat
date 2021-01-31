@@ -4,15 +4,4 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\SharedExceptionResource.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SharedExceptionResource.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\SharedExceptionResource.ru.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SharedExceptionResource.ru.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
 </Project>

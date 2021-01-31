@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
-using System.Net;
 using System.Threading.Tasks;
-using SimpleChat.Server.Extensions;
 using SimpleChat.Shared.Exceptions;
 
 namespace SimpleChat.Server.Filters
@@ -22,10 +20,13 @@ namespace SimpleChat.Server.Filters
         {
             context.HttpContext.Response.StatusCode = context.Exception switch
             {
-                NotFoundException => (int) HttpStatusCode.NotFound,
-                _ => (int) HttpStatusCode.InternalServerError,
+                NullReferenceException => StatusCodes.Status400BadRequest,
+                ArgumentException => StatusCodes.Status400BadRequest,
+                NotFoundException => StatusCodes.Status404NotFound,
+                _ => StatusCodes.Status500InternalServerError,
             };
-            await context.HttpContext.Response.WriteAsJsonAsync(context.Exception.ToContract());
+
+            await context.HttpContext.Response.WriteAsJsonAsync(context.Exception.Message);
             context.ExceptionHandled = true;
         }
     }
