@@ -12,7 +12,7 @@ namespace SimpleChat.Server.Filters
     public class HttpExceptionFilter : Attribute, IAsyncExceptionFilter
     {
         /// <summary>
-        /// Called after an action has thrown an System.Exception.
+        /// Called after an action has thrown an Exception.
         /// </summary>
         /// <param name="context">The Microsoft.AspNetCore.Mvc.Filters.ExceptionContext.</param>
         /// <returns><see cref="Task"/> A System.Threading.Tasks.Task that on completion indicates the filter has executed.</returns>

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 
 
@@ -9,18 +9,17 @@ namespace SimpleChat.Client.Services
 {
     public class HttpClientService : IHttpClientService
     {
-        private const string Error = nameof(Error);
-        private const string DefaultMessage = "Ooops! Something went wrong(..";
-
         private readonly HttpClient _client;
         private readonly ErrorStateService _errorState;
+        private readonly NavigationManager _navigationManager;
 
-        public HttpClientService(HttpClient client, ErrorStateService errorState)
+        public HttpClientService(HttpClient client, ErrorStateService errorState, NavigationManager navigationManager)
         {
             _client = client;
             _errorState = errorState;
+            _navigationManager = navigationManager;
         }
-        
+
         public async Task<T> GetAsync<T>(string uri)
         {
             HttpResponseMessage response;
@@ -40,16 +39,17 @@ namespace SimpleChat.Client.Services
             }
 
             await GetError(response);
-            throw new Exception(response.StatusCode.ToString());
+
+            return default;
         }
 
         public async Task PostAsync<T>(string uri, T value)
         {
-            JsonContent content = JsonContent.Create(value, mediaType: null);
             HttpResponseMessage response;
+
             try
             {
-                response = await _client.PostAsync(uri, content);
+                response = await _client.PostAsJsonAsync(uri, value);
             }
             catch
             {
@@ -59,25 +59,24 @@ namespace SimpleChat.Client.Services
             if (!response.IsSuccessStatusCode)
             {
                 await GetError(response);
-                throw new Exception(response.StatusCode.ToString());
             }
         }
 
         private async Task GetError(HttpResponseMessage response)
         {
-            string title = Error;
             string message;
-            
+
             try
             {
                 message = await response.Content.ReadAsStringAsync();
             }
             catch
             {
-                message = DefaultMessage;
+                message = "Something went wrong..";
             }
 
-            _errorState.SetError(title, message);
+            _errorState.SetError("Error", message);
+            _navigationManager.NavigateTo(_navigationManager.BaseUri);
         }
     }
 }
