@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleChat.Client.Infrastructure;
+using SimpleChat.Client.Services;
 
 namespace SimpleChat.Client
 {
@@ -15,7 +16,10 @@ namespace SimpleChat.Client
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
+            builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
+            builder.Services.AddScoped<IHttpClientService, HttpClientService>();
+            builder.Services.AddSingleton<ErrorStateService>();
+            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             await builder.Build().RunAsync();
         }

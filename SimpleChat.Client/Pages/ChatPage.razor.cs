@@ -1,29 +1,29 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
-using SimpleChat.Shared.Contracts;
 using SimpleChat.Shared.Hub;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
+using SimpleChat.Client.Services;
+using SimpleChat.Shared.Contracts.Message;
+using SimpleChat.Shared.Contracts.Chat;
 
 namespace SimpleChat.Client.Pages
 {
     public partial class ChatPage : IDisposable
     {
         private HubConnection hubConnection;
-        private List<Message> messages = new List<Message>();
+        private List<MessageContract> messages = new List<MessageContract>();
         private string userInput;
         private string messageInput;
-        private Chat chat;
+        private ChatContract chat;
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        private HttpClient Http { get; set; }
+        private IHttpClientService Http { get; set; }
 
         [Parameter]
         public int ChatId { get; set; }
@@ -36,7 +36,7 @@ namespace SimpleChat.Client.Pages
                 .WithUrl(NavigationManager.ToAbsoluteUri(HubConstants.ChatUri))
                 .Build();
 
-            hubConnection.On<Message>(HubConstants.ReceiveMessage, mes =>
+            hubConnection.On<MessageContract>(HubConstants.ReceiveMessage, mes =>
             {
                 if (mes.Chat.Id == ChatId)
                 {
@@ -46,7 +46,7 @@ namespace SimpleChat.Client.Pages
             });
 
             var hubConnectionTask = hubConnection.StartAsync();
-            var loadChatTask = Http.GetFromJsonAsync<Chat>($"api/chats/{ChatId}");
+            var loadChatTask = Http.GetAsync<ChatContract>($"api/chats/{ChatId}");
 
             await Task.WhenAll(hubConnectionTask.ContinueWith(_ => hubConnection.InvokeAsync(HubConstants.Enter, ChatId)), loadChatTask);
 
@@ -57,16 +57,13 @@ namespace SimpleChat.Client.Pages
 
         private async Task Send()
         {
-            var message = new Message
+            var message = new CreateMessageContract
             {
-                Chat = chat,
                 Content = messageInput,
                 UserName = userInput,
-                IsRead = false,
-                CreatedDate = DateTime.Now.ToUniversalTime()
             };
 
-            await Http.PostAsJsonAsync($"api/messages/", message);
+            await Http.PostAsync($"api/messages/{ChatId}", message);
 
             messageInput = string.Empty;
         }

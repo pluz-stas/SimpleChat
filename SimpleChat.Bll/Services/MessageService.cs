@@ -1,58 +1,45 @@
-﻿using SimpleChat.Bll.Extensions;
+﻿using AutoMapper;
 using SimpleChat.Bll.Interfaces;
 using SimpleChat.Bll.Models;
 using SimpleChat.Dal.Entities;
 using SimpleChat.Dal.Interfaces;
-using System;
-using System.Collections.Generic;
+using SimpleChat.Dal.Resources;
+using SimpleChat.Shared.Exceptions;
 using System.Threading.Tasks;
 
 namespace SimpleChat.Bll.Services
 {
     public class MessageService : AbstractService<MessageModel, Message>, IMessageService
     {
-        public MessageService(IMessageRepository messageRepository) : base(messageRepository) { }
-
-        public override Task<IEnumerable<MessageModel>> GetAllAsync(int skip, int top, Func<Message, MessageModel> entityToModelMapper = null) =>
-            throw new NotImplementedException();
-
-        public override async Task<MessageModel> GetByIdAsync(int id, Func<Message, MessageModel> entityToModelMapper = null)
+        private readonly IChatRepository _chatRepository;
+        public MessageService(IChatRepository chatRepository, IMessageRepository messageRepository, IMapper mapper) : base(messageRepository, mapper)
         {
-            if (entityToModelMapper != null)
-            {
-                return await base.GetByIdAsync(id, entityToModelMapper);
-            }
-
-            var messageEntity = await _repository.GetByIdAsync(id);
-
-            var messageModel = messageEntity.ToModel();
-            messageModel.Chat = messageEntity.Chat.ToModel();
-
-            return messageModel;
+            _chatRepository = chatRepository;
         }
 
-        public override async Task<int> CreateAsync(MessageModel model, Func<MessageModel, Message> modelToEntityMapper = null)
+        public override async Task<int> CreateAsync(MessageModel model)
         {
-            if (modelToEntityMapper != null)
+            if (!await _chatRepository.IsExistsAsync(model.Chat.Id))
             {
-                return await base.CreateAsync(model, modelToEntityMapper);
+                throw new NotFoundException(string.Format(ErrorDetails.ChatDoesNotExist, model.Chat.Id));
             }
 
-            var messageEntity = model.ToEntity();
-            messageEntity.ChatId = model.Chat?.Id ?? throw new ArgumentNullException();
+            var messageEntity = _mapper.Map<Message>(model);
+            messageEntity.Chat = null;
 
             return await _repository.CreateAsync(messageEntity);
         }
 
-        public override async Task UpdateAsync(MessageModel model, Func<MessageModel, Message> modelToEntityMapper = null)
+        public override async Task UpdateAsync(MessageModel model)
         {
-            if (modelToEntityMapper != null)
+            var messageEntity = await _repository.GetByIdAsync(model.Id);
+
+            if (messageEntity == null)
             {
-                await base.UpdateAsync(model, modelToEntityMapper);
+                throw new NotFoundException(string.Format(ErrorDetails.MessageDoesNotExist, model.Id));
             }
 
-            var messageEntity = model.ToEntity();
-            messageEntity.ChatId = model.Chat?.Id ?? throw new NotImplementedException();
+            messageEntity.Content = model.Content;
 
             await _repository.UpdateAsync(messageEntity);
         }

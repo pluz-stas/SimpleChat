@@ -16,6 +16,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Builder;
+using SimpleChat.Server.Filters;
+using AutoMapper;
+using SimpleChat.Bll.Mapper;
 
 namespace SimpleChat.Server
 {
@@ -47,14 +50,22 @@ namespace SimpleChat.Server
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<SimpleChatDbContext>(o => o.UseSqlServer(connectionString));
-
+            services.AddAutoMapper(config => config.AddProfile(new MappingProfile()), typeof(Startup));
+            
             services.AddScoped<IChatRepository, ChatRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
 
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IMessageService, MessageService>();
 
-            services.AddControllersWithViews()
+            services.AddControllersWithViews(options => options.Filters.Add(typeof(HttpExceptionFilter)))
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                        throw new ArgumentException(context.ModelState.Values
+                            .First(x => x.Errors?.Any() == true).Errors
+                            .FirstOrDefault(x => !string.IsNullOrEmpty(x.ErrorMessage)).ErrorMessage);
+                })
                 .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddRazorPages();

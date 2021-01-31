@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimpleChat.Dal.Entities;
 using SimpleChat.Dal.Interfaces;
+using SimpleChat.Dal.Resources;
+using SimpleChat.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,18 +17,14 @@ namespace SimpleChat.Dal.Repository
         {
         }
 
-        public override Task<IEnumerable<Message>> GetAllAsync(int skip, int top) => throw new NotImplementedException();
+        public override Task<IEnumerable<Message>> GetAllAsync(int skip, int top) => 
+            throw new NotImplementedException(string.Format(ErrorDetails.MethodDoesNotImplemented, nameof(GetAllAsync)));
 
-        public override async Task<Message> GetByIdAsync(int id)
-        {
-            var model = await dbContext.Messages
+        public override async Task<Message> GetByIdAsync(int id) =>
+            await dbContext.Messages
+                .AsNoTracking()
                 .Include(x => x.Chat)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (model == null)
-                throw new NullReferenceException(nameof(Message));
-
-            return model;
-        }
+                .FirstOrDefaultAsync(x => x.Id == id) ??
+            throw new NotFoundException(string.Format(ErrorDetails.ResourceDoesNotExist, nameof(Message), id));
     }
 }

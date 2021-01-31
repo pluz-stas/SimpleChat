@@ -15,6 +15,8 @@ namespace SimpleChat.Dal.Interfaces
 
         Task<T> GetByIdAsync(int id);
 
+        Task<bool> IsExistsAsync(int id);
+
         Task UpdateAsync(T model);
 
         Task DeleteAsync(int id);

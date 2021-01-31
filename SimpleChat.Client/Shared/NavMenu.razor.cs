@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SimpleChat.Shared.Contracts;
+using SimpleChat.Shared.Contracts.Chat;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,7 +11,7 @@ namespace SimpleChat.Client.Shared
 {
     public partial class NavMenu
     {
-        private List<Chat> chats = new List<Chat>();
+        private List<ChatContract> chats = new List<ChatContract>();
 
         [Inject]
         private HttpClient Http { get; set; }
@@ -20,7 +21,7 @@ namespace SimpleChat.Client.Shared
 
         protected override async Task OnInitializedAsync()
         {
-            var publicChats = await Http.GetFromJsonAsync<IEnumerable<Chat>>("api/chats");
+            var publicChats = await Http.GetFromJsonAsync<IEnumerable<ChatContract>>("api/chats");
 
             if (publicChats?.Any() == true)
             {
