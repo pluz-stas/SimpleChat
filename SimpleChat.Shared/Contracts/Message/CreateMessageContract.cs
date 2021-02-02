@@ -9,7 +9,6 @@ namespace SimpleChat.Shared.Contracts.Message
         public string Content { get; set; }
         
         [Required]
-        [MaxLength(30)]
-        public string UserName { get; set; }
+        public ShortUserInfoContract User { get; set; }
     }
 }

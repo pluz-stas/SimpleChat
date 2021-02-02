@@ -1,5 +1,6 @@
 ﻿using System.Net.Mime;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -63,9 +64,12 @@ namespace SimpleChat.Server.Controllers
         public async Task<ActionResult<MessageContract>> Post(int chatId, [FromBody] CreateMessageContract contract)
         {
             var messageModel = contract.ToModel();
-            messageModel.Chat.Id = chatId; 
+            messageModel.Chat.Id = chatId;
 
-            var sendHubMessageTask = hubContext.Clients.Group(chatId.ToString()).SendAsync(HubConstants.ReceiveMessage, messageModel);
+            var hubMessageContract = messageModel.ToHubContract();
+            hubMessageContract.User = contract.User;
+
+            var sendHubMessageTask = hubContext.Clients.Group(chatId.ToString()).SendAsync(HubConstants.ReceiveMessage, hubMessageContract);
             var writeMessageToDbTask = messageService.CreateAsync(messageModel);
 
             await Task.WhenAll(sendHubMessageTask, writeMessageToDbTask);

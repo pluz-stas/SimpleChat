@@ -12,6 +12,7 @@ namespace SimpleChat.Client.Shared
     {
         private const string UserNameKeyName = "UserName";
         private const string UserImgKeyName = "UserImgUrl";
+        private const string UserIdKeyName = "UserId";
         
         private bool isUserNameInputOpen;
         private bool isUserImgInputOpen;
@@ -25,9 +26,13 @@ namespace SimpleChat.Client.Shared
         [StringLength(50, ErrorMessage = "Too Long")]
         private string UserName { get; set; }
         private string UserImg { get; set; }
-
+        
         protected override async Task OnInitializedAsync()
         {
+            string localStorageId = await LocalStorageService.GetStringAsync(UserIdKeyName);
+            if (IsNullOrEmpty(localStorageId))
+                await LocalStorageService.SetStringAsync(UserIdKeyName, Guid.NewGuid().ToString());
+            
             string localStorageName = await LocalStorageService.GetStringAsync(UserNameKeyName);
             UserName = IsNullOrWhiteSpace(localStorageName) ? "anon" : localStorageName;
             UserImg = await LocalStorageService.GetStringAsync(UserImgKeyName);
