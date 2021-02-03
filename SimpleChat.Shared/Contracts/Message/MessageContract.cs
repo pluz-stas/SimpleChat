@@ -9,8 +9,8 @@ namespace SimpleChat.Shared.Contracts.Message
         public string Content { get; set; }
         public bool IsRead { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public string UserName { get; set; }
 
         public ShortChatInfoContract Chat { get; set; }
+        public ShortUserInfoContract User { get; set; }
     }
 }

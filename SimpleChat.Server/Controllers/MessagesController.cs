@@ -1,12 +1,14 @@
-﻿using System.Net.Mime;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SimpleChat.Bll.Interfaces;
 using SimpleChat.Server.Extensions;
 using SimpleChat.Server.Hub;
+using SimpleChat.Shared.Contracts;
 using SimpleChat.Shared.Contracts.Message;
 using SimpleChat.Shared.Hub;
 
@@ -33,6 +35,21 @@ namespace SimpleChat.Server.Controllers
             this.messageService = messageService;
             this.hubContext = hubContext;
         }
+        
+        /// <summary>
+        /// Gets messages by chatId.
+        /// </summary>
+        /// <param name="chatId">Chat id</param>
+        /// <param name="pagination">Presents data for pagination.</param>
+        /// <returns><see cref="IEnumerable{T}"/>Collection of messages.</returns>
+        /// <response code="200">Returns messages.</response>
+        /// <response code="500">There are any server problems.</response>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IEnumerable<MessageContract>> GetByChatAsync(int chatId, [FromQuery] Pagination pagination) =>
+            (await messageService.GetByChat(chatId, pagination.Skip, pagination.Top))
+            .Select(x => x.ToContract());
 
         /// <summary>
         /// Gets message by id.
@@ -53,7 +70,6 @@ namespace SimpleChat.Server.Controllers
         /// </summary>
         /// <param name="chatId">Chat Id.</param>
         /// <param name="contract">Message model.</param>
-        /// <returns>A newly created message.</returns>
         /// <response code="204">Message created.</response>
         /// <response code="400">If the item is null</response>   
         /// <response code="500">There are any server problems.</response>
@@ -61,15 +77,15 @@ namespace SimpleChat.Server.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<MessageContract>> Post(int chatId, [FromBody] CreateMessageContract contract)
+        public async Task<ActionResult> Post(int chatId, [FromBody] CreateMessageContract contract)
         {
             var messageModel = contract.ToModel();
             messageModel.Chat.Id = chatId;
 
-            var hubMessageContract = messageModel.ToHubContract();
-            hubMessageContract.User = contract.User;
+            var messageContract = messageModel.ToContract();
+            messageContract.User = contract.User;
 
-            var sendHubMessageTask = hubContext.Clients.Group(chatId.ToString()).SendAsync(HubConstants.ReceiveMessage, hubMessageContract);
+            var sendHubMessageTask = hubContext.Clients.Group(chatId.ToString()).SendAsync(HubConstants.ReceiveMessage, messageContract);
             var writeMessageToDbTask = messageService.CreateAsync(messageModel);
 
             await Task.WhenAll(sendHubMessageTask, writeMessageToDbTask);

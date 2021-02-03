@@ -6,23 +6,35 @@
     <div class="form-group">
         <label>
             User:
-            <input @bind="userInput" />
+            <input @bind="userInput"/>
         </label>
     </div>
     <div class="form-group">
         <label>
             Message:
-            <input @bind="messageInput" size="50" />
+            <input @bind="messageInput" size="50"/>
         </label>
     </div>
     <button @onclick="Send" disabled="@(!IsConnected)">Send</button>
-
     <hr>
 
-    <ul id="messagesList">
+    <ul id="messagesList" style="height: 200px; overflow: scroll">
         @foreach (var message in messages)
         {
-            <li>@message.UserName: @message.Content</li>
+            <li>@message.User.UserName: @message.Content</li>
         }
     </ul>
+    @* <div class="messagesWrapper"> *@
+    @*     @foreach (var messageGroup in messageGroups) *@
+    @*     { *@
+    @*         <div class="messagesGroup"> *@
+    @*              *@
+    @*             @foreach (var message in messageGroup) *@
+    @*             { *@
+    @*                 <div class="messageContent">@message.Content</div> *@
+    @*                 <div class="meta"></div> *@
+    @*             } *@
+    @*         </div> *@
+    @*     } *@
+    @* </div> *@
 }

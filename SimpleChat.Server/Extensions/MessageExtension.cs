@@ -20,36 +20,19 @@ namespace SimpleChat.Server.Extensions
             if (model == null)
                 throw new ArgumentNullException(nameof(MessageModel));
 
+            var user = new ShortUserInfoContract()
+            {
+                UserName = model.UserName
+            };
+            
             return new MessageContract
             {
                 Id = model.Id,
                 Content = model.Content,
                 IsRead = model.IsRead,
                 CreatedDate = model.CreatedDate,
-                UserName = model.UserName,
+                User = user,
                 Chat = model.Chat?.ToShortInfoContract()
-            };
-        }
-        
-        /// <summary>
-        /// Converts <see cref="MessageModel"/> model to <seealso cref="HubMessageContract"/> contract.
-        /// </summary>
-        /// <param name="model">Message model.</param>
-        /// <returns><see cref="HubMessageContract"/> contract.</returns>
-        public static HubMessageContract ToHubContract(this MessageModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(MessageModel));
-
-            return new HubMessageContract
-            {
-                Id = model.Id,
-                Content = model.Content,
-                IsRead = model.IsRead,
-                CreatedDate = model.CreatedDate,
-                UserName = model.UserName,
-                Chat = model.Chat?.ToShortInfoContract(),
-                User = new ShortUserInfoContract()
             };
         }
 
