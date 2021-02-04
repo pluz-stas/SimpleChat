@@ -48,7 +48,7 @@ namespace SimpleChat.Server.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<MessageContract>> GetByChatAsync(int chatId, [FromQuery] Pagination pagination) =>
-            (await messageService.GetByChat(chatId, pagination.Skip, pagination.Top))
+            (await messageService.GetByChatAsync(chatId, pagination.Skip, pagination.Top))
             .Select(x => x.ToContract());
 
         /// <summary>

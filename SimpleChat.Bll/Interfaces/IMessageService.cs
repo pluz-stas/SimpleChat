@@ -8,6 +8,6 @@ namespace SimpleChat.Bll.Interfaces
 {
     public interface IMessageService : IService<MessageModel, Message>
     {
-        Task<IEnumerable<MessageModel>> GetByChat(int chatId, int skip, int top);
+        Task<IEnumerable<MessageModel>> GetByChatAsync(int chatId, int skip, int top);
     }
 }

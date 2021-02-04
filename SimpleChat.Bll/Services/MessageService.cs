@@ -14,9 +14,11 @@ namespace SimpleChat.Bll.Services
     public class MessageService : AbstractService<MessageModel, Message>, IMessageService
     {
         private readonly IChatRepository _chatRepository;
+        private readonly IMessageRepository _messageRepository;
         public MessageService(IChatRepository chatRepository, IMessageRepository messageRepository, IMapper mapper) : base(messageRepository, mapper)
         {
             _chatRepository = chatRepository;
+            _messageRepository = messageRepository;
         }
 
         public override async Task<int> CreateAsync(MessageModel model)
@@ -46,8 +48,8 @@ namespace SimpleChat.Bll.Services
             await _repository.UpdateAsync(messageEntity);
         }
 
-        public async Task<IEnumerable<MessageModel>> GetByChat(int chatId, int skip, int top)  =>
-            (await _repository.FilterAsync(x => x.ChatId == chatId)).Skip(skip).Take(top).Select(x => _mapper.Map<Message, MessageModel>(x));
+        public async Task<IEnumerable<MessageModel>> GetByChatAsync(int chatId, int skip, int top)  =>
+            (await _messageRepository.GetByChatAsync(chatId, skip, top)).Select(x => _mapper.Map<Message, MessageModel>(x));
 
     }
 }

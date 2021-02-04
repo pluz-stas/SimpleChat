@@ -5,6 +5,7 @@ using SimpleChat.Dal.Resources;
 using SimpleChat.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SimpleChat.Dal.Repository
@@ -26,5 +27,10 @@ namespace SimpleChat.Dal.Repository
                 .Include(x => x.Chat)
                 .FirstOrDefaultAsync(x => x.Id == id) ??
             throw new NotFoundException(string.Format(ErrorDetails.ResourceDoesNotExist, nameof(Message), id));
+
+        public async Task<IEnumerable<Message>> GetByChatAsync(int chatId, int skip, int top) =>
+            await dbContext.Messages.AsNoTracking()
+                .Where(x => x.ChatId == chatId).OrderBy(x => x.Id).Reverse()
+                .Skip(skip).Take(top).ToListAsync();
     }
 }
