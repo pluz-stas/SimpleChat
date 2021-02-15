@@ -9,6 +9,8 @@ html, body {
 :root[data-theme='Light'] {
     --theme-chats-background: #dcfbfe;
     --theme-user-background: #fadef5;
+    --theme-smbd-message-background: #e6d1d6;
+    --theme-my-message-background: #ff87a2;
     --theme-body-background: white;
     --theme-text: black;
     --theme-footer-background: #f2c8bb;
@@ -21,7 +23,9 @@ html, body {
 
 :root[data-theme='Dark'] {
     --theme-chats-background: #2e2e2e;
-    --theme-user-background: #2e2e2e;
+    --theme-user-background: #0c4889;
+    --theme-smbd-message-background: #575757;
+    --theme-my-message-background: #075ab4;
     --theme-body-background: #171717;
     --theme-text: #e1e1e1;
     --theme-footer-background: black;

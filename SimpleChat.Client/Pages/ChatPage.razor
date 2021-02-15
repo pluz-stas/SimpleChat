@@ -31,6 +31,7 @@
             
             bool isCurrentUserMessage = false;
             bool isDateSplit = false;
+            bool isDefaultAvatar = true;
             
             if (uid != null)
             {
@@ -44,7 +45,10 @@
                     message.User.UserName = null;
 
                 if (uid == nextMessageUid)
+                {
+                    isDefaultAvatar = false;
                     message.User.UserImg = null;
+                }
             }
             if (previousMessage?.CreatedDate != null && message.CreatedDate != null)
             {
@@ -54,14 +58,20 @@
                 @message.CreatedDate.Value.ToShortDateString()
             </div>
             <div class="messageRow">
-                <div class="messageUserAvatar">@message.User.UserImg</div>
+                <div class="messageUserAvatarWrap">
+                    <img class="messageUserAvatar" src=@(message.User.UserImg ?? (isDefaultAvatar ? DefaultAvatar : ""))
+                         style=@(!isDefaultAvatar && message.User.UserImg == null ? "display: none": "")>
+                </div>
                 <div class=@(isCurrentUserMessage ? "imMessageWrap" : "smbdMessageWrap")>
                     <div class="textColumn">
                         <div class="messageUserName">@message.User.UserName</div >
                         <div class="messageContent">@message.Content</div>
                     </div>
+                </div>
+                <div class="messageMetaWrap">
                     <div class="messageMeta">@message.CreatedDate.Value.ToLocalTime().ToShortTimeString()</div>
                 </div>
+
             </div>
         }
     </div>

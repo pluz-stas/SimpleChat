@@ -1,18 +1,61 @@
-﻿.messageRow{
+﻿.messageRow {
     display: flex;
     flex-direction: row;
+    margin: 8px 0 8px;
 }
 
-.imMessageWrap,.smbdMessageWrap{
+.imMessageWrap, .smbdMessageWrap {
     display: flex;
+    padding: 7px 10px;
     flex-direction: row;
     border-radius: 7px;
 }
 
-.imMessageWrap{
-    background-color: #0c5460;
+.imMessageWrap {
+    background-color: var(--theme-my-message-background);
 }
 
-.smbdMessageWrap{
-    background-color: #1b6ec2;
+.smbdMessageWrap {
+    background-color: var(--theme-smbd-message-background);
+}
+
+.messageUserAvatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.messageUserAvatarWrap {
+    display: block;
+    width: 46px;
+    height: 46px;
+    padding: 5px;
+}
+
+.messageUserName{
+    opacity: 0.8;
+}
+
+.messageMetaWrap{
+    display: block;
+    position: relative;
+    padding: 4px;
+}
+
+.messageMeta{
+    font-size: 12px;
+    position: absolute;
+    bottom: 0px;
+    opacity: 0.8;
+}
+.dateSplit{
+    display: block;
+    min-width: 10px;
+    padding: 4px 7px;
+    line-height: 1.4;
+    color: #999;
+    text-align: center;
+    border-radius: 10px;
+    margin: 5px 0;
 }

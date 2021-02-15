@@ -19,6 +19,7 @@ namespace SimpleChat.Client.Pages
         private const string UserNameKeyName = "UserName";
         private const string UserImgKeyName = "UserImgUrl";
         private const string UserIdKeyName = "UserId";
+        private const string DefaultAvatar = "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg";
         
         private HubConnection hubConnection;
         private List<MessageContract> messages = new List<MessageContract>();
