@@ -1,4 +1,6 @@
 ﻿@page "/chat/{chatId:int}"
+@using SimpleChat.Shared.Contracts.Message
+@using System.Text.Encodings.Web
 
 @if (chat != null)
 {
@@ -18,23 +20,44 @@
     <button @onclick="Send" disabled="@(!IsConnected)">Send</button>
     <hr>
 
-    <ul id="messagesList" style="height: 200px; overflow: scroll">
-        @foreach (var message in messages)
+    <button @onclick="GetHistoryMessages">get</button>
+
+    <div class="messagesWrapper" style="height: 200px; overflow: scroll">
+        @for (var i = 0; i < messages.Count; i++)
         {
-            <li>@message.User.UserName: @message.Content</li>
+            var message = messages[i];
+            var previousMessage = i > 0 ? messages[i - 1] : null;
+            var uid = message.User.UserId;
+            bool isCurrentUserMessage = false;
+            if (uid != null)
+            {
+                var previousMessageUid = previousMessage.User.UserId;
+                var nextMessageUid = i + 1 < messages.Count ? messages[i + 1].User.UserId : null;
+
+                if (uid == UserId)
+                    isCurrentUserMessage = true;
+
+                if (uid == previousMessageUid)
+                    message.User.UserName = null;
+
+                if (uid == nextMessageUid)
+                    message.User.UserImg = null;
+            }
+            <div class="messageRow">
+                <div class="messageUserAvatar">@message.User.UserImg</div>
+                <div class=@(isCurrentUserMessage ? "imMessageWrap" : "smbdMessageWrap")>
+                    <div class="textColumn">
+                        <div class="messageUserName">@message.User.UserName</div >
+                        <div class="messageContent">@message.Content</div>
+                    </div>
+                    <div class="messageMeta">@message.CreatedDate</div>
+                </div>
+            </div>
         }
-    </ul>
-    @* <div class="messagesWrapper"> *@
-    @*     @foreach (var messageGroup in messageGroups) *@
-    @*     { *@
-    @*         <div class="messagesGroup"> *@
-    @*              *@
-    @*             @foreach (var message in messageGroup) *@
-    @*             { *@
-    @*                 <div class="messageContent">@message.Content</div> *@
-    @*                 <div class="meta"></div> *@
-    @*             } *@
-    @*         </div> *@
-    @*     } *@
-    @* </div> *@
+    </div>
+}
+@{
+    void RenderMessage(MessageContract message, bool isCurrentUserMessage)
+    {
+    }
 }

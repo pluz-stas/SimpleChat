@@ -1,0 +1,18 @@
+﻿.messageRow{
+    display: flex;
+    flex-direction: row;
+}
+
+.imMessageWrap,.smbdMessageWrap{
+    display: flex;
+    flex-direction: row;
+    border-radius: 7px;
+}
+
+.imMessageWrap{
+    background-color: #0c5460;
+}
+
+.smbdMessageWrap{
+    background-color: #1b6ec2;
+}

@@ -7,9 +7,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Services;
-using SimpleChat.Client.Shared;
 using SimpleChat.Shared.Contracts.Message;
 using SimpleChat.Shared.Contracts.Chat;
+using static System.String;
+
 
 namespace SimpleChat.Client.Pages
 {
@@ -21,6 +22,7 @@ namespace SimpleChat.Client.Pages
         
         private HubConnection hubConnection;
         private List<MessageContract> messages = new List<MessageContract>();
+        private List<List<MessageContract>> messagesGroups = new List<List<MessageContract>>();
         private string userInput;
         private string messageInput;
         private ChatContract chat;
@@ -35,6 +37,7 @@ namespace SimpleChat.Client.Pages
 
         [Parameter]
         public int ChatId { get; set; }
+        public string UserId { get; set; }
 
         public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
 
@@ -61,6 +64,9 @@ namespace SimpleChat.Client.Pages
             chat = loadChatTask.Result;
 
             messages = chat.Messages.ToList();
+            messages.Reverse();
+            
+            UserId = await LocalStorageService.GetStringAsync(UserIdKeyName);
         }
 
         private async Task Send()
@@ -81,6 +87,35 @@ namespace SimpleChat.Client.Pages
             await Http.PostAsync($"api/messages/{ChatId}", message);
 
             messageInput = string.Empty;
+        }
+
+        private async Task SetMessageGroups()
+        {
+            List<MessageContract> messageGroup = null;
+            foreach (var message in messages)
+            {
+                var userId = message.User.UserId;
+                if (!IsNullOrEmpty(userId))
+                {
+                    if (messageGroup != null)
+                    {
+                        if (messageGroup.Last().User.UserId == userId)
+                        {
+                            messageGroup.Add(message);
+                            continue;
+                        }
+                    }
+                }
+                messageGroup.Add(message);
+                messageGroup.Clear();
+
+            }
+        }
+        
+        private async Task GetHistoryMessages()
+        {
+            var historyMessages = await Http.GetAsync<IEnumerable<MessageContract>>($"api/messages?chatId={ChatId}&Skip={messages.Count}&Top=5");
+            messages.InsertRange(0, historyMessages.Reverse());
         }
 
         public void Dispose() => _ = hubConnection.DisposeAsync();
