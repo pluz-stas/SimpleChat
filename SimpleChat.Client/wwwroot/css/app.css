@@ -13,6 +13,7 @@ html, body {
     --theme-my-message-background: #ff87a2;
     --theme-body-background: white;
     --theme-text: black;
+    --theme-input-background: #f1f1f1;
     --theme-footer-background: #f2c8bb;
     --theme-header-background: #841c34;
     --theme-header-text: #99e9f1;
@@ -28,6 +29,7 @@ html, body {
     --theme-my-message-background: #075ab4;
     --theme-body-background: #171717;
     --theme-text: #e1e1e1;
+    --theme-input-background: #707070;
     --theme-footer-background: black;
     --theme-header-background: black;
     --theme-header-text: white;

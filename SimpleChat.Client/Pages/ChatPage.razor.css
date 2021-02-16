@@ -1,4 +1,26 @@
-﻿.messageRow {
+﻿.chatWrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.messagesWrapper{
+    overflow: scroll;
+    margin-top: auto;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.messagesWrapper::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.messagesWrapper {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.messageRow {
     display: flex;
     flex-direction: row;
     margin: 8px 0 8px;
@@ -59,3 +81,38 @@
     border-radius: 10px;
     margin: 5px 0;
 }
+
+.sendFieldPanel{
+    display: flex;
+    flex-direction: row;
+}
+
+.sendFieldPanel button{
+    color: #707070;
+}
+
+.attachFile{
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.attachFile input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.inputWrap{
+    width: 100%;
+}
+
+.textArea{
+    width: 100%;
+    border-radius: 5px;
+    background: var(--theme-input-background);
+    border: none;
+}
+

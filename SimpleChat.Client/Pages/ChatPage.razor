@@ -1,83 +1,76 @@
 ﻿@page "/chat/{chatId:int}"
-@using SimpleChat.Shared.Contracts.Message
-@using System.Text.Encodings.Web
 
 @if (chat != null)
 {
-    <h2>@chat.Name</h2>
-    <div class="form-group">
-        <label>
-            User:
-            <input @bind="userInput"/>
-        </label>
-    </div>
-    <div class="form-group">
-        <label>
-            Message:
-            <input @bind="messageInput" size="50"/>
-        </label>
-    </div>
-    <button @onclick="Send" disabled="@(!IsConnected)">Send</button>
-    <hr>
+    <div class="chatWrapper">
+        <h2>@chat.Name</h2>
+        <button @onclick="GetHistoryMessages">get</button>
 
-    <button @onclick="GetHistoryMessages">get</button>
-
-    <div class="messagesWrapper" style="height: 200px; overflow: scroll">
-        @for (var i = 0; i < messages.Count; i++)
-        {
-            var message = messages[i];
-            var previousMessage = i > 0 ? messages[i - 1] : null;
-            var uid = message.User.UserId;
-            
-            bool isCurrentUserMessage = false;
-            bool isDateSplit = false;
-            bool isDefaultAvatar = true;
-            
-            if (uid != null)
+        <div class="messagesWrapper" id="messagesList">
+            @for (var i = 0; i < messages.Count; i++)
             {
-                var previousMessageUid = previousMessage?.User.UserId;
-                var nextMessageUid = i + 1 < messages.Count ? messages[i + 1].User.UserId : null;
+                var message = messages[i];
+                var previousMessage = i > 0 ? messages[i - 1] : null;
+                var uid = message.User.UserId;
+                    
+                bool isCurrentUserMessage = false;
+                bool isDateSplit = false;
+                bool isDefaultAvatar = true;
 
-                if (uid == UserId)
-                    isCurrentUserMessage = true;
-
-                if (uid == previousMessageUid)
-                    message.User.UserName = null;
-
-                if (uid == nextMessageUid)
+                if (uid != null)
                 {
-                    isDefaultAvatar = false;
-                    message.User.UserImg = null;
-                }
-            }
-            if (previousMessage?.CreatedDate != null && message.CreatedDate != null)
-            {
-                isDateSplit = previousMessage.CreatedDate.Value.ToLocalTime().Day != message.CreatedDate.Value.ToLocalTime().Day ? true : false;
-            }
-            <div class=@(isDateSplit ? "dateSplit": "d-none")>
-                @message.CreatedDate.Value.ToShortDateString()
-            </div>
-            <div class="messageRow">
-                <div class="messageUserAvatarWrap">
-                    <img class="messageUserAvatar" src=@(message.User.UserImg ?? (isDefaultAvatar ? DefaultAvatar : ""))
-                         style=@(!isDefaultAvatar && message.User.UserImg == null ? "display: none": "")>
-                </div>
-                <div class=@(isCurrentUserMessage ? "imMessageWrap" : "smbdMessageWrap")>
-                    <div class="textColumn">
-                        <div class="messageUserName">@message.User.UserName</div >
-                        <div class="messageContent">@message.Content</div>
-                    </div>
-                </div>
-                <div class="messageMetaWrap">
-                    <div class="messageMeta">@message.CreatedDate.Value.ToLocalTime().ToShortTimeString()</div>
-                </div>
+                    var previousMessageUid = previousMessage?.User.UserId;
+                    var nextMessageUid = i + 1 < messages.Count ? messages[i + 1].User.UserId : null;
 
+                    if (uid == UserId)
+                        isCurrentUserMessage = true;
+
+                    if (uid == previousMessageUid)
+                        message.User.UserName = null;
+
+                    if (uid == nextMessageUid)
+                    {
+                        isDefaultAvatar = false;
+                        message.User.UserImg = null;
+                    }
+                }
+                if (previousMessage?.CreatedDate != null && message.CreatedDate != null)
+                {
+                    isDateSplit = previousMessage.CreatedDate.Value.ToLocalTime().Day != message.CreatedDate.Value.ToLocalTime().Day ? true : false;
+                }
+                <div class=@(isDateSplit ? "dateSplit" : "d-none")>
+                    @message.CreatedDate.Value.ToShortDateString()
+                </div>
+                <div class="messageRow">
+                    <div class="messageUserAvatarWrap">
+                        <img class="messageUserAvatar" src=@(message.User.UserImg ?? (isDefaultAvatar ? DefaultAvatar : ""))
+                             style=@(!isDefaultAvatar && message.User.UserImg == null ? "display: none" : "")>
+                    </div>
+                    <div class=@(isCurrentUserMessage ? "imMessageWrap" : "smbdMessageWrap")>
+                        <div class="textColumn">
+                            <div class="messageUserName">@message.User.UserName</div >
+                            <div class="messageContent">@message.Content</div>
+                        </div>
+                    </div>
+                    <div class="messageMetaWrap">
+                        <div class="messageMeta">@message.CreatedDate.Value.ToLocalTime().ToShortTimeString()</div>
+                    </div>
+
+                </div>
+            }
+        </div>
+        <div class="sendFieldPanel">
+            <div class="attachFile">
+                <button class="oi oi-paperclip"></button>
+                <input type="file">
+                <i class=""></i>
             </div>
-        }
+            <div class="inputWrap">
+                <input @bind="messageInput" placeholder="Message text" class="textArea"/>
+            </div>
+            <div>
+                <button @onclick="Send" disabled="@(!IsConnected)" class="oi oi-arrow-right"></button>
+            </div>
+        </div>
     </div>
-}
-@{
-    void RenderMessage(MessageContract message, bool isCurrentUserMessage)
-    {
-    }
 }

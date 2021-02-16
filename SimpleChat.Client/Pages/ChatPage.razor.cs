@@ -89,29 +89,6 @@ namespace SimpleChat.Client.Pages
 
             messageInput = string.Empty;
         }
-
-        private async Task SetMessageGroups()
-        {
-            List<MessageContract> messageGroup = null;
-            foreach (var message in messages)
-            {
-                var userId = message.User.UserId;
-                if (!IsNullOrEmpty(userId))
-                {
-                    if (messageGroup != null)
-                    {
-                        if (messageGroup.Last().User.UserId == userId)
-                        {
-                            messageGroup.Add(message);
-                            continue;
-                        }
-                    }
-                }
-                messageGroup.Add(message);
-                messageGroup.Clear();
-
-            }
-        }
         
         private async Task GetHistoryMessages()
         {
