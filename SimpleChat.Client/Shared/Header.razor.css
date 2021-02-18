@@ -3,6 +3,25 @@
     color: var(--theme-header-text);
 }
 
+.culture-selector {
+    z-index: 100;
+    position: absolute;
+    right: 15px;
+    background-color: var(--theme-header-button);
+    border-radius: 5px;
+    border: 2px solid var(--theme-header-background);
+}
+
+.culture-selector > ul {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+}
+
+.culture-selector > ul > li {
+    all: unset;
+}
+
 a, .btn-link {
     color: var(--theme-header-text);
 }
