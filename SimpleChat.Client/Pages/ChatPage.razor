@@ -8,7 +8,7 @@
         <h2>@chat.Name</h2>
         <button @onclick="GetHistoryMessages">get</button>
         
-        <MessagesScroller Messages=@messages></MessagesScroller>
+        <MessagesScroller Chat=@chat></MessagesScroller>
         
         <div class="sendFieldPanel">
             <div class="attachFile">
@@ -20,7 +20,7 @@
                 <input @bind="messageInput" placeholder="Message text" class="textArea"/>
             </div>
             <div>
-                <button @onclick="Send" disabled="@(!IsConnected)" class="oi oi-arrow-right"></button>
+                <button @onclick="Send" class="oi oi-arrow-right"></button>
             </div>
         </div>
     </div>

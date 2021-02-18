@@ -1,8 +1,8 @@
 ﻿<div class="messagesWrapper" id="messagesList">
-    @for (var i = 0; i < Messages.Count; i++)
+    @for (var i = 0; i < messages.Count; i++)
     {
-        var message = Messages[i];
-        var previousMessage = i > 0 ? Messages[i - 1] : null;
+        var message = messages[i];
+        var previousMessage = i > 0 ? messages[i - 1] : null;
         var uid = message.User.UserId;
 
         bool isCurrentUserMessage = false;
@@ -12,7 +12,7 @@
         if (uid != null)
         {
             var previousMessageUid = previousMessage?.User.UserId;
-            var nextMessageUid = i + 1 < Messages.Count ? Messages[i + 1].User.UserId : null;
+            var nextMessageUid = i + 1 < messages.Count ? messages[i + 1].User.UserId : null;
 
             if (uid == UserId)
                 isCurrentUserMessage = true;

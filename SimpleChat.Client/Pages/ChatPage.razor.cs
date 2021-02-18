@@ -15,19 +15,15 @@ using static System.String;
 
 namespace SimpleChat.Client.Pages
 {
-    public partial class ChatPage : IDisposable
+    public partial class ChatPage
     {
         private const string UserNameKeyName = "UserName";
         private const string UserImgKeyName = "UserImgUrl";
         private const string UserIdKeyName = "UserId";
         
-        private HubConnection hubConnection;
         private List<MessageContract> messages = new List<MessageContract>();
         private string messageInput;
         private ChatContract chat;
-
-        [Inject]
-        private NavigationManager NavigationManager { get; set; }
 
         [Inject]
         private IHttpClientService Http { get; set; }
@@ -36,36 +32,10 @@ namespace SimpleChat.Client.Pages
 
         [Parameter]
         public int ChatId { get; set; }
-        public string UserId { get; set; }
-
-        public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
 
         protected override async Task OnParametersSetAsync()
         {
-            hubConnection = new HubConnectionBuilder()
-                .WithUrl(NavigationManager.ToAbsoluteUri(HubConstants.ChatUri))
-                .Build();
-
-            hubConnection.On<MessageContract>(HubConstants.ReceiveMessage, mes =>
-            {
-                if (mes.Chat.Id == ChatId)
-                {
-                    messages.Add(mes);
-                    StateHasChanged();
-                }
-            });
-
-            var hubConnectionTask = hubConnection.StartAsync();
-            var loadChatTask = Http.GetAsync<ChatContract>($"api/chats/{ChatId}");
-
-            await Task.WhenAll(hubConnectionTask.ContinueWith(_ => hubConnection.InvokeAsync(HubConstants.Enter, ChatId)), loadChatTask);
-
-            chat = loadChatTask.Result;
-
-            messages = chat.Messages.ToList();
-            messages.Reverse();
-            
-            UserId = await LocalStorageService.GetStringAsync(UserIdKeyName);
+            chat = await Http.GetAsync<ChatContract>($"api/chats/{ChatId}");
         }
 
         private async Task Send()
@@ -93,7 +63,5 @@ namespace SimpleChat.Client.Pages
             var historyMessages = await Http.GetAsync<IEnumerable<MessageContract>>($"api/messages?chatId={ChatId}&Skip={messages.Count}&Top=5");
             messages.InsertRange(0, historyMessages.Reverse());
         }
-
-        public void Dispose() => _ = hubConnection.DisposeAsync();
     }
 }

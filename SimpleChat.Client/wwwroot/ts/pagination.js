@@ -1,9 +1,9 @@
-function addPaginationEvent(dotnetHelper) {
+function addPaginationEvent(event) {
     var listElm = document.querySelector('#messagesList');
     listElm.scrollTop = listElm.clientHeight;
     listElm.addEventListener('scroll', function () {
         if (listElm.scrollHeight - listElm.scrollTop >= listElm.scrollHeight) {
-            dotnetHelper.invokeMethodAsync('SayHello');
+            event.invokeMethodAsync("GetHistoryMessages");
         }
     });
 }
