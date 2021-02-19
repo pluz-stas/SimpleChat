@@ -2,8 +2,17 @@
 {
     public static class AppConstants
     {
-        public const string BlazorCulture = nameof(BlazorCulture);
-        public const string Theme = nameof(Theme);
-        public const string DefaultCulture = "en-US";
+        public static class LocalStorageConstants
+        {
+            public const string BlazorCulture = nameof(BlazorCulture);
+            public const string Theme = nameof(Theme);
+        }
+
+        public static class CultureConstants
+        {
+            public const string Culture = nameof(Culture);
+            public const string Available = nameof(Available);
+            public const string Default = nameof(Default);
+        }
     }
 }

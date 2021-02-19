@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
 using SimpleChat.Client.Infrastructure;
+using SimpleChat.Client.Infrastructure.Settings;
 using SimpleChat.Client.Resources;
 using SimpleChat.Client.Resources.Constants;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SimpleChat.Client.Shared
@@ -14,12 +18,10 @@ namespace SimpleChat.Client.Shared
         private Themes theme;
         private CultureInfo culture = CultureInfo.CurrentCulture;
         private bool isCultureMenuOpen = false;
+        private IEnumerable<CultureInfo> cultures;
 
-        private readonly CultureInfo[] cultures =
-        {
-            new CultureInfo(AppConstants.DefaultCulture),
-            new CultureInfo("ru-RU")
-        };
+        [Inject]
+        private IOptions<CulturesConfiguration> Options { get; set; }
 
         [Inject]
         private IJSRuntime JsRuntime { get; set; }
@@ -32,7 +34,9 @@ namespace SimpleChat.Client.Shared
 
         protected override async Task OnInitializedAsync()
         {
-            theme = Enum.TryParse<Themes>(await Storage.GetStringAsync(AppConstants.Theme), out var storageTheme) ?
+            cultures = Options.Value.Cultures.Select(x => new CultureInfo(x));
+
+            theme = Enum.TryParse<Themes>(await Storage.GetStringAsync(AppConstants.LocalStorageConstants.Theme), out var storageTheme) ?
                 storageTheme : Themes.Light;
 
             await JsRuntime.InvokeVoidAsync(JsFunctions.SwitchTheme, theme.ToString());
@@ -47,7 +51,7 @@ namespace SimpleChat.Client.Shared
                 _ => Themes.Dark
             };
 
-            await Storage.SetStringAsync(AppConstants.Theme, theme.ToString());
+            await Storage.SetStringAsync(AppConstants.LocalStorageConstants.Theme, theme.ToString());
             await JsRuntime.InvokeVoidAsync(JsFunctions.SwitchTheme, theme.ToString());
         }
 
@@ -64,7 +68,7 @@ namespace SimpleChat.Client.Shared
 
             if (!CultureInfo.CurrentCulture.Name.Equals(culture.Name))
             {
-                await Storage.SetStringAsync(AppConstants.BlazorCulture, culture.Name);
+                await Storage.SetStringAsync(AppConstants.LocalStorageConstants.BlazorCulture, culture.Name);
 
                 NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
             }

@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Infrastructure.Extensions;
@@ -21,6 +22,7 @@ namespace SimpleChat.Client
             builder.Services.AddScoped<IHttpClientService, HttpClientService>();
             builder.Services.AddSingleton<ErrorStateService>();
             builder.Services.AddLocalization();
+            builder.Services.ConfigureAppsettingsOptions(builder.Configuration);
 
             var host = builder.Build();
 
