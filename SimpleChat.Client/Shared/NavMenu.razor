@@ -4,7 +4,7 @@
     <ul class="list-group">
         @foreach (var chat in chats)
         {
-            <ChatCard Chat="@chat" />
+            <ChatCard OnChatSelecting="@OnChatSelecting" Chat="@chat" />
         }
     </ul>
 </nav>

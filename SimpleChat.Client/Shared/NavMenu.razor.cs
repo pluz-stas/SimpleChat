@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using SimpleChat.Shared.Contracts;
 using SimpleChat.Shared.Contracts.Chat;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +17,9 @@ namespace SimpleChat.Client.Shared
 
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> InputAttributes { get; set; }
+
+        [Parameter]
+        public EventCallback OnChatSelecting { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

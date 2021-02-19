@@ -7,9 +7,9 @@
     z-index: 100;
     position: absolute;
     right: 15px;
-    background-color: var(--theme-header-button);
+    background-color: var(--theme-header-background);
     border-radius: 5px;
-    border: 2px solid var(--theme-header-background);
+    border: 2px solid var(--theme-header-button);
 }
 
 .culture-selector > ul {
@@ -28,6 +28,11 @@ a, .btn-link {
 
 button {
     color: var(--theme-header-button);
+}
+
+button > img {
+    all: unset;
+    vertical-align: text-top;
 }
 
 .navbar-brand-container {
