@@ -1,17 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.SignalR.Client;
-using SimpleChat.Shared.Hub;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.JSInterop;
 using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Services;
 using SimpleChat.Shared.Contracts.Message;
 using SimpleChat.Shared.Contracts.Chat;
-using static System.String;
-
 
 namespace SimpleChat.Client.Pages
 {

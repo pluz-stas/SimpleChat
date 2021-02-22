@@ -22,7 +22,6 @@ namespace SimpleChat.Client.Components
         private HubConnection hubConnection;
         private List<MessageContract> messages = new List<MessageContract>();
         private DotNetObjectReference<ChatComponent> objRef;
-        private string userId;
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
