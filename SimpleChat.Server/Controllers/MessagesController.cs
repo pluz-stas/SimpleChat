@@ -74,10 +74,10 @@ namespace SimpleChat.Server.Controllers
         /// <response code="400">If the item is null</response>   
         /// <response code="500">There are any server problems.</response>
         [HttpPost("{chatId}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Post(int chatId, [FromBody] CreateMessageContract contract)
+        public async Task<IActionResult> Post(int chatId, [FromBody] CreateMessageContract contract)
         {
             var messageModel = contract.ToModel();
             messageModel.Chat.Id = chatId;
@@ -90,7 +90,7 @@ namespace SimpleChat.Server.Controllers
 
             await Task.WhenAll(sendHubMessageTask, writeMessageToDbTask);
 
-            return NoContent();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>

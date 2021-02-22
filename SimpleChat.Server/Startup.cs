@@ -58,17 +58,20 @@ namespace SimpleChat.Server
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IMessageService, MessageService>();
 
-            services.AddControllersWithViews(options => options.Filters.Add(typeof(HttpExceptionFilter)))
-                .ConfigureApiBehaviorOptions(options =>
-                {
-                    options.InvalidModelStateResponseFactory = context =>
-                        throw new ArgumentException(context.ModelState.Values
-                            .First(x => x.Errors?.Any() == true).Errors
-                            .FirstOrDefault(x => !string.IsNullOrEmpty(x.ErrorMessage)).ErrorMessage);
-                })
-                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(HttpExceptionFilter));
+                options.SuppressAsyncSuffixInActionNames = false;
+            })
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                    throw new ArgumentException(context.ModelState.Values
+                        .First(x => x.Errors?.Any() == true).Errors
+                        .FirstOrDefault(x => !string.IsNullOrEmpty(x.ErrorMessage)).ErrorMessage);
+            })
+            .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddRazorPages();
             services.AddSignalR();
             services.AddResponseCompression(opts =>
             {
@@ -100,7 +103,6 @@ namespace SimpleChat.Server
             }
             else
             {
-                app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -120,9 +122,8 @@ namespace SimpleChat.Server
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ChatHub>(HubConstants.ChatUri);
-                endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>(HubConstants.ChatUri);
                 endpoints.MapFallbackToFile("index.html");
             });
         }
