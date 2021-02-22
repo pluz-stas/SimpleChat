@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
     <RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
     <UseBlazorWebAssembly>true</UseBlazorWebAssembly>
@@ -31,6 +32,24 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\ts\js-local-storage.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\ResourceFiles\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\ResourceFiles\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ResourceFiles\Resource.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

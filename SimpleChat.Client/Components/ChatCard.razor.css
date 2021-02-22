@@ -5,3 +5,7 @@
 .list-group:not(:first-child) {
     margin-top: 5px;
 }
+
+.list-group:hover {
+    transform: scale(1.01);
+}
