@@ -12,7 +12,7 @@ using SimpleChat.Shared.Hub;
 
 namespace SimpleChat.Client.Components
 {
-    public partial class MessagesScroller : IDisposable
+    public partial class ChatComponent : IDisposable
     {
         private const string UserIdKeyName = "UserId";
         private const string DefaultAvatar = "images/defaultAvatar.jpg";
@@ -21,7 +21,8 @@ namespace SimpleChat.Client.Components
         private string userId;
         private HubConnection hubConnection;
         private List<MessageContract> messages = new List<MessageContract>();
-        private DotNetObjectReference<MessagesScroller> objRef;
+        private DotNetObjectReference<ChatComponent> objRef;
+        private string userId;
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
@@ -80,6 +81,37 @@ namespace SimpleChat.Client.Components
             StateHasChanged();
         }
 
+
+        private void PreRenderMessage(MessageContract message, MessageContract previousMessage, MessageContract nextMessage,
+            string uid, out bool isDefaultAvatar, out bool isCurrentUserMessage, out bool isDateSplit)
+        {
+            isCurrentUserMessage = false;
+            isDateSplit = false;
+            isDefaultAvatar = true;
+            
+            if (uid != null)
+            {
+                var previousMessageUid = previousMessage?.User.UserId;
+                var nextMessageUid = nextMessage?.User.UserId;
+
+                if (uid == userId)
+                    isCurrentUserMessage = true;
+
+                if (uid == previousMessageUid)
+                    message.User.UserName = null;
+
+                if (uid == nextMessageUid)
+                {
+                    isDefaultAvatar = false;
+                    message.User.UserImg = null;
+                }
+            }
+            if (previousMessage != null)
+            {
+                isDateSplit = previousMessage.CreatedDate.ToLocalTime().Day != message.CreatedDate.ToLocalTime().Day;
+            }
+        }
+        
         public void Dispose()
         {
             objRef?.Dispose();

@@ -3,6 +3,7 @@
     {
         var message = messages[i];
         var previousMessage = i > 0 ? messages[i - 1] : null;
+        var nextMessage = i + 1 < messages.Count ? messages[i + 1] : null;
         var uid = message.User.UserId;
 
         bool isCurrentUserMessage = false;
@@ -31,12 +32,12 @@
             isDateSplit = previousMessage.CreatedDate.ToLocalTime().Day != message.CreatedDate.ToLocalTime().Day;
         }
         <div class=@(isDateSplit ? "dateSplit" : "d-none")>
-                @message.CreatedDate.ToShortDateString()
+            @message.CreatedDate.ToShortDateString()
         </div>
         <div class="messageRow">
             <div class="messageUserAvatarWrap">
-                <img class="messageUserAvatar" src=@(message.User.UserImg ?? (isDefaultAvatar ? DefaultAvatar : ""))
-                     style=@(!isDefaultAvatar && message.User.UserImg == null ? "display: none" : "")>
+                <img class="messageUserAvatar" src=@(message.User.UserImg ?? (isDefaultAvatar ? DefaultAvatar : null))
+                     style=@(!isDefaultAvatar && message.User.UserImg == null ? "display: none" : null)>
             </div>
             <div class=@(isCurrentUserMessage ? "imMessageWrap" : "smbdMessageWrap")>
                 <div class="textColumn">
