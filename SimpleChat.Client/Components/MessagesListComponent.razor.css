@@ -1,4 +1,4 @@
-﻿.messagesWrapper{
+﻿#messagesList{
     overflow: scroll;
     margin-top: auto;
 }
