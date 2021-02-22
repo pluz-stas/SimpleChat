@@ -18,7 +18,7 @@ namespace SimpleChat.Client.Components
         private const string DefaultAvatar = "images/defaultAvatar.jpg";
         private const int DefaultMessagesTop = 20;
 
-        private string UserId { get; set; }
+        private string userId;
         private HubConnection hubConnection;
         private List<MessageContract> messages = new List<MessageContract>();
         private DotNetObjectReference<MessagesScroller> objRef;
@@ -40,7 +40,7 @@ namespace SimpleChat.Client.Components
         
         protected override async Task OnInitializedAsync()
         {
-            UserId = await LocalStorageService.GetStringAsync(UserIdKeyName);
+            userId = await LocalStorageService.GetStringAsync(UserIdKeyName);
 
             hubConnection = new HubConnectionBuilder()
                 .WithUrl(NavigationManager.ToAbsoluteUri(HubConstants.ChatUri))
@@ -61,7 +61,7 @@ namespace SimpleChat.Client.Components
         protected override async Task OnParametersSetAsync()
         {
             await hubConnection.InvokeAsync(HubConstants.Enter, ChatId);
-            messages = (await GetMessagesAsync()).ToList();
+            messages = (await GetMessagesAsync(0)).ToList();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -76,7 +76,7 @@ namespace SimpleChat.Client.Components
         [JSInvokable]
         public async Task UpdateMessagesHistoryAsync()
         {
-            messages.AddRange(await GetMessagesAsync());
+            messages.AddRange(await GetMessagesAsync(messages.Count));
             StateHasChanged();
         }
 
@@ -86,7 +86,7 @@ namespace SimpleChat.Client.Components
             hubConnection.DisposeAsync();
         }
 
-        private async Task<IEnumerable<MessageContract>> GetMessagesAsync() =>
-            await Http.GetAsync<IEnumerable<MessageContract>>($"api/messages?chatId={ChatId}&Skip={messages.Count}&Top={DefaultMessagesTop}");
+        private async Task<IEnumerable<MessageContract>> GetMessagesAsync(int skip) =>
+            await Http.GetAsync<IEnumerable<MessageContract>>($"api/messages?chatId={ChatId}&Skip={skip}&Top={DefaultMessagesTop}");
     }
 }

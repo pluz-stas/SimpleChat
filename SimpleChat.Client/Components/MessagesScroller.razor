@@ -14,7 +14,7 @@
             var previousMessageUid = previousMessage?.User.UserId;
             var nextMessageUid = i + 1 < messages.Count ? messages[i + 1].User.UserId : null;
 
-            if (uid == UserId)
+            if (uid == userId)
                 isCurrentUserMessage = true;
 
             if (uid == previousMessageUid)
