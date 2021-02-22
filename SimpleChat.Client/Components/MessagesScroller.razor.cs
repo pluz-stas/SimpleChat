@@ -71,7 +71,8 @@ namespace SimpleChat.Client.Components
             var hubConnectionTask = hubConnection.StartAsync();
             var loadChatTask = Http.GetAsync<ChatContract>($"api/chats/{Chat.Id}");
 
-            await Task.WhenAll(hubConnectionTask.ContinueWith(_ => hubConnection.InvokeAsync(HubConstants.Enter, Chat.Id)), loadChatTask);
+            await Task.WhenAll(hubConnectionTask.ContinueWith(_ =>
+                hubConnection.InvokeAsync(HubConstants.Enter, Chat.Id)), loadChatTask);
 
             messages = Chat.Messages.ToList();
             messages.Reverse();
@@ -80,6 +81,36 @@ namespace SimpleChat.Client.Components
             
             objRef = DotNetObjectReference.Create(this);
             await JsRuntime.InvokeAsync<string>("addPaginationEvent", objRef);
+        }
+
+        private void PreRenderMessage(MessageContract message, MessageContract previousMessage, MessageContract nextMessage,
+            string uid, out bool isDefaultAvatar, out bool isCurrentUserMessage, out bool isDateSplit)
+        {
+            isCurrentUserMessage = false;
+            isDateSplit = false;
+            isDefaultAvatar = true;
+            
+            if (uid != null)
+            {
+                var previousMessageUid = previousMessage?.User.UserId;
+                var nextMessageUid = nextMessage?.User.UserId;
+
+                if (uid == UserId)
+                    isCurrentUserMessage = true;
+
+                if (uid == previousMessageUid)
+                    message.User.UserName = null;
+
+                if (uid == nextMessageUid)
+                {
+                    isDefaultAvatar = false;
+                    message.User.UserImg = null;
+                }
+            }
+            if (previousMessage != null)
+            {
+                isDateSplit = previousMessage.CreatedDate.ToLocalTime().Day != message.CreatedDate.ToLocalTime().Day;
+            }
         }
         
         public void Dispose()

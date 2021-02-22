@@ -3,35 +3,13 @@
     {
         var message = messages[i];
         var previousMessage = i > 0 ? messages[i - 1] : null;
+        var nextMessage = i + 1 < messages.Count ? messages[i + 1] : null;
         var uid = message.User.UserId;
 
-        bool isCurrentUserMessage = false;
-        bool isDateSplit = false;
-        bool isDefaultAvatar = true;
-
-        if (uid != null)
-        {
-            var previousMessageUid = previousMessage?.User.UserId;
-            var nextMessageUid = i + 1 < messages.Count ? messages[i + 1].User.UserId : null;
-
-            if (uid == UserId)
-                isCurrentUserMessage = true;
-
-            if (uid == previousMessageUid)
-                message.User.UserName = null;
-
-            if (uid == nextMessageUid)
-            {
-                isDefaultAvatar = false;
-                message.User.UserImg = null;
-            }
-        }
-        if (previousMessage != null)
-        {
-            isDateSplit = previousMessage.CreatedDate.ToLocalTime().Day != message.CreatedDate.ToLocalTime().Day;
-        }
+        PreRenderMessage(message, previousMessage, nextMessage, uid, out bool isDefaultAvatar, out bool isCurrentUserMessage, out bool isDateSplit);
+        
         <div class=@(isDateSplit ? "dateSplit" : "d-none")>
-                @message.CreatedDate.ToShortDateString()
+            @message.CreatedDate.ToShortDateString()
         </div>
         <div class="messageRow">
             <div class="messageUserAvatarWrap">
