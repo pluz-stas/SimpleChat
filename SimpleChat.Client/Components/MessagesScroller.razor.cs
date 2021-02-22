@@ -21,67 +21,65 @@ namespace SimpleChat.Client.Components
         
         private HubConnection hubConnection;
         private List<MessageContract> messages = new List<MessageContract>();
-        
         private DotNetObjectReference<MessagesScroller> objRef;
+
         [Inject]
         private NavigationManager NavigationManager { get; set; }
         
         [Inject]
         private IHttpClientService Http { get; set; }
+
         [Inject]
         private IJSRuntime JsRuntime { get; set; }
+
         [Inject]
         private ILocalStorageService LocalStorageService { get; set; }
         
         [Parameter]
-        public ChatContract Chat { get; set; }
-        
-        private string UserId { get; set; }
-
-        [JSInvokable]
-        public async Task GetHistoryMessages()
-        {
-            var historyMessages =
-                await Http.GetAsync<IEnumerable<MessageContract>>(
-                    $"api/messages?chatId={Chat.Id}&Skip={messages.Count}&Top={DefaultMessagesTop}");
-            messages.InsertRange(0, historyMessages.Reverse());
-            StateHasChanged();
-        }
+        public int ChatId { get; set; }
         
         protected override async Task OnInitializedAsync()
         {
             UserId = await LocalStorageService.GetStringAsync(UserIdKeyName);
-        }
-        
-        protected override async Task OnParametersSetAsync()
-        {
+
             hubConnection = new HubConnectionBuilder()
                 .WithUrl(NavigationManager.ToAbsoluteUri(HubConstants.ChatUri))
                 .Build();
 
             hubConnection.On<MessageContract>(HubConstants.ReceiveMessage, mes =>
             {
-                if (mes.Chat.Id == Chat.Id)
+                if (mes.Chat.Id == ChatId)
                 {
-                    messages.Add(mes);
+                    messages.Insert(0, mes);
                     StateHasChanged();
                 }
             });
 
-            var hubConnectionTask = hubConnection.StartAsync();
-            var loadChatTask = Http.GetAsync<ChatContract>($"api/chats/{Chat.Id}");
-
-            await Task.WhenAll(hubConnectionTask.ContinueWith(_ =>
-                hubConnection.InvokeAsync(HubConstants.Enter, Chat.Id)), loadChatTask);
-
-            messages = Chat.Messages.ToList();
-            messages.Reverse();
-            
-            UserId = await LocalStorageService.GetStringAsync(UserIdKeyName);
-            
-            objRef = DotNetObjectReference.Create(this);
-            await JsRuntime.InvokeAsync<string>("addPaginationEvent", objRef);
+            await hubConnection.StartAsync();
         }
+        
+        protected override async Task OnParametersSetAsync()
+        {
+            await hubConnection.InvokeAsync(HubConstants.Enter, ChatId);
+            messages = (await GetMessagesAsync()).ToList();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                objRef = DotNetObjectReference.Create(this);
+                await JsRuntime.InvokeVoidAsync("addPaginationEvent", objRef);
+            }
+        }
+
+        [JSInvokable]
+        public async Task UpdateMessagesHistoryAsync()
+        {
+            messages.AddRange(await GetMessagesAsync());
+            StateHasChanged();
+        }
+
 
         private void PreRenderMessage(MessageContract message, MessageContract previousMessage, MessageContract nextMessage,
             string uid, out bool isDefaultAvatar, out bool isCurrentUserMessage, out bool isDateSplit)
@@ -118,5 +116,8 @@ namespace SimpleChat.Client.Components
             objRef?.Dispose();
             hubConnection.DisposeAsync();
         }
+
+        private async Task<IEnumerable<MessageContract>> GetMessagesAsync() =>
+            await Http.GetAsync<IEnumerable<MessageContract>>($"api/messages?chatId={ChatId}&Skip={messages.Count}&Top={DefaultMessagesTop}");
     }
 }
