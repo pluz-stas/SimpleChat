@@ -6,14 +6,11 @@
 {
     <div class="chatWrapper">
         <h2>@chat.Name</h2>
-        
-        <MessagesScroller ChatId=@ChatId />
-        
+        <ChatComponent ChatId=@ChatId></ChatComponent>
         <div class="sendFieldPanel">
             <div class="attachFile">
                 <button class="oi oi-paperclip"></button>
                 <input type="file">
-                <i class=""></i>
             </div>
             <div class="inputWrap">
                 <input @bind="messageInput" placeholder="Message text" class="textArea"/>

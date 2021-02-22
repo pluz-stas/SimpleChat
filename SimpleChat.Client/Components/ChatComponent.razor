@@ -13,8 +13,8 @@
         </div>
         <div class="messageRow">
             <div class="messageUserAvatarWrap">
-                <img class="messageUserAvatar" src=@(message.User.UserImg ?? (isDefaultAvatar ? DefaultAvatar : ""))
-                     style=@(!isDefaultAvatar && message.User.UserImg == null ? "display: none" : "")>
+                <img class="messageUserAvatar" src=@(message.User.UserImg ?? (isDefaultAvatar ? DefaultAvatar : null))
+                     style=@(!isDefaultAvatar && message.User.UserImg == null ? "display: none" : null)>
             </div>
             <div class=@(isCurrentUserMessage ? "imMessageWrap" : "smbdMessageWrap")>
                 <div class="textColumn">

@@ -7,13 +7,12 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Services;
-using SimpleChat.Shared.Contracts.Chat;
 using SimpleChat.Shared.Contracts.Message;
 using SimpleChat.Shared.Hub;
 
 namespace SimpleChat.Client.Components
 {
-    public partial class MessagesScroller : IDisposable
+    public partial class ChatComponent : IDisposable
     {
         private const string UserIdKeyName = "UserId";
         private const string DefaultAvatar = "images/defaultAvatar.jpg";
@@ -21,7 +20,8 @@ namespace SimpleChat.Client.Components
         
         private HubConnection hubConnection;
         private List<MessageContract> messages = new List<MessageContract>();
-        private DotNetObjectReference<MessagesScroller> objRef;
+        private DotNetObjectReference<ChatComponent> objRef;
+        private string userId;
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
@@ -40,7 +40,7 @@ namespace SimpleChat.Client.Components
         
         protected override async Task OnInitializedAsync()
         {
-            UserId = await LocalStorageService.GetStringAsync(UserIdKeyName);
+            userId = await LocalStorageService.GetStringAsync(UserIdKeyName);
 
             hubConnection = new HubConnectionBuilder()
                 .WithUrl(NavigationManager.ToAbsoluteUri(HubConstants.ChatUri))
@@ -93,7 +93,7 @@ namespace SimpleChat.Client.Components
                 var previousMessageUid = previousMessage?.User.UserId;
                 var nextMessageUid = nextMessage?.User.UserId;
 
-                if (uid == UserId)
+                if (uid == userId)
                     isCurrentUserMessage = true;
 
                 if (uid == previousMessageUid)
