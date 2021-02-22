@@ -1,5 +1,5 @@
 ﻿<div class="messagesWrapper" id="messagesList">
-    @for (var i = 0; i < messages.Count; i++)
+    @for (var i = messages.Count - 1; i >= 0; i--)
     {
         var message = messages[i];
         var previousMessage = i > 0 ? messages[i - 1] : null;
@@ -41,7 +41,7 @@
             <div class=@(isCurrentUserMessage ? "imMessageWrap" : "smbdMessageWrap")>
                 <div class="textColumn">
                     <div class="messageUserName">@message.User.UserName</div >
-                    <div class="messageContent">@message.Content</div>
+        <div class="messageContent">@message.Content</div>
                 </div>
             </div>
             <div class="messageMetaWrap">
@@ -50,7 +50,3 @@
         </div>
     }
 </div>
-
-@code {
-
-}

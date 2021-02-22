@@ -30,7 +30,7 @@ namespace SimpleChat.Dal.Repository
 
         public async Task<IEnumerable<Message>> GetByChatAsync(int chatId, int skip, int top) =>
             await dbContext.Messages.AsNoTracking()
-                .Where(x => x.ChatId == chatId).OrderBy(x => x.Id).Reverse()
+                .Where(x => x.ChatId == chatId).OrderByDescending(x => x.CreatedDate)
                 .Skip(skip).Take(top).ToListAsync();
     }
 }

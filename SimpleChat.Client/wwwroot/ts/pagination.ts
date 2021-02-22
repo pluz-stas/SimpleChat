@@ -5,7 +5,7 @@ function addPaginationEvent(event) {
     listElm.scrollTop = listElm.clientHeight
     listElm.addEventListener('scroll', function() {
     if (listElm.scrollHeight - listElm.scrollTop >= listElm.scrollHeight) {
-        event.invokeMethodAsync("GetHistoryMessages");
+        event.invokeMethodAsync("UpdateMessagesHistoryAsync");
     }
 });
 }

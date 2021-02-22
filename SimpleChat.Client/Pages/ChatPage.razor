@@ -6,9 +6,8 @@
 {
     <div class="chatWrapper">
         <h2>@chat.Name</h2>
-        <button @onclick="GetHistoryMessages">get</button>
         
-        <MessagesScroller Chat=@chat></MessagesScroller>
+        <MessagesScroller ChatId=@ChatId />
         
         <div class="sendFieldPanel">
             <div class="attachFile">
