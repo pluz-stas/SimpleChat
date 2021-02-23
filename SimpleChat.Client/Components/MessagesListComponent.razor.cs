@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SimpleChat.Client.Infrastructure;
+using SimpleChat.Client.Resources.Constants;
 using SimpleChat.Client.Services;
 using SimpleChat.Shared.Contracts.Message;
 using SimpleChat.Shared.Hub;
@@ -15,7 +16,6 @@ namespace SimpleChat.Client.Components
 {
     public partial class MessagesListComponent : IDisposable
     {
-        private const string UserIdKeyName = "UserId";
         private const string DefaultAvatar = "images/defaultAvatar.jpg";
         private const int DefaultMessagesTop = 20;
 
@@ -36,7 +36,7 @@ namespace SimpleChat.Client.Components
 
         protected override async Task OnInitializedAsync()
         {
-            userId = await LocalStorageService.GetStringAsync(UserIdKeyName);
+            userId = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserIdKeyName);
 
             hubConnection = new HubConnectionBuilder()
                 .WithUrl(NavigationManager.ToAbsoluteUri(HubConstants.ChatUri))
@@ -78,44 +78,36 @@ namespace SimpleChat.Client.Components
 
         private bool IsDateSplit(List<MessageContract> messages, int messageId)
         {
-            var previousMessage = messageId > 0 ? messages[messageId - 1] : null;
+            var previousMessage = messageId + 1 < messages.Count ? messages[messageId + 1] : null;
 
             if (previousMessage != null)
-            {
                 return previousMessage.CreatedDate.ToLocalTime().Day !=
                        messages[messageId].CreatedDate.ToLocalTime().Day;
-            }
 
             return false;
         }
 
         private bool IsUserName(List<MessageContract> messages, int messageId, string uid)
         {
-            var previousMessage = messageId > 0 ? messages[messageId - 1] : null;
+            var previousMessage = messageId + 1 < messages.Count ? messages[messageId + 1] : null;
             var previousMessageUid = previousMessage?.User.UserId;
 
-            if (uid == previousMessageUid)
-                return false;
-            return true;
+            return uid != previousMessageUid || previousMessageUid == null;
         }
 
 
         private bool IsDefaultAvatar(List<MessageContract> messages, int messageId, string uid)
         {
-            var nextMessage = messageId + 1 < messages.Count ? messages[messageId + 1] : null;
+            var nextMessage = messageId > 0 ? messages[messageId - 1] : null;
             var nextMessageUid = nextMessage?.User.UserId;
-            if (!IsNullOrEmpty(messages[messageId].User.UserImg))
-            {
-                if (uid == nextMessageUid)
-                {
-                    messages[messageId].User.UserImg = null;
-                    return false;
-                }
-
+            if (IsNullOrEmpty(messages[messageId].User.UserImg) && uid == null)
+                return true;
+            if (uid != nextMessageUid) 
                 return false;
-            }
+            
+            messages[messageId].User.UserImg = null;
+            return false;
 
-            return true;
         }
 
         public void Dispose()

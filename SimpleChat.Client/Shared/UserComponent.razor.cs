@@ -4,16 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using SimpleChat.Client.Infrastructure;
+using SimpleChat.Client.Resources.Constants;
 using static System.String;
 
 namespace SimpleChat.Client.Shared
 {
     public partial class UserComponent
     {
-        private const string UserNameKeyName = "UserName";
-        private const string UserImgKeyName = "UserImgUrl";
-        private const string UserIdKeyName = "UserId";
-        
         private bool isUserNameInputOpen;
         private bool isUserImgInputOpen;
         
@@ -29,13 +26,13 @@ namespace SimpleChat.Client.Shared
         
         protected override async Task OnInitializedAsync()
         {
-            string localStorageId = await LocalStorageService.GetStringAsync(UserIdKeyName);
+            string localStorageId = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserIdKeyName);
             if (IsNullOrEmpty(localStorageId))
-                await LocalStorageService.SetStringAsync(UserIdKeyName, Guid.NewGuid().ToString());
+                await LocalStorageService.SetStringAsync(LocalStorageAttributes.UserIdKeyName, Guid.NewGuid().ToString());
             
-            string localStorageName = await LocalStorageService.GetStringAsync(UserNameKeyName);
+            string localStorageName = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserNameKeyName);
             UserName = IsNullOrWhiteSpace(localStorageName) ? "anon" : localStorageName;
-            UserImg = await LocalStorageService.GetStringAsync(UserImgKeyName);
+            UserImg = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserImgKeyName);
             await base.OnInitializedAsync();
         }
         
@@ -43,14 +40,14 @@ namespace SimpleChat.Client.Shared
         {
             if (!IsNullOrWhiteSpace(UserName))
             {
-                await LocalStorageService.SetStringAsync(UserNameKeyName, UserName);
+                await LocalStorageService.SetStringAsync(LocalStorageAttributes.UserNameKeyName, UserName);
             }
         }       
         
         private async Task SetImgAsync()
         {
             if (!IsNullOrWhiteSpace(UserImg))
-                await LocalStorageService.SetStringAsync(UserImgKeyName, UserImg);
+                await LocalStorageService.SetStringAsync(LocalStorageAttributes.UserImgKeyName, UserImg);
         }
         
         private async Task ToggleEditUserNameInputAsync()
