@@ -3,10 +3,18 @@
         <div class="navbar-brand-container">
             <a class="navbar-brand mb-0 h1" href="">SimpleChat</a>
         </div>
-        
+
         <div class="ml-auto">
             <button @onclick="@SwitchTheme"><span class="oi @GetThemeIcon()" /></button>
-            <button>eng</button>
+            <button type="button" @onclick="() => isCultureMenuOpen = !isCultureMenuOpen"><img src="@GetCultureIcon(culture)" alt="@culture.Name" /></button>
+            <div class="culture-selector" style="@(isCultureMenuOpen ? null : "display: none")">
+                <ul>
+                    @foreach (var culture in cultures)
+                    {
+                        <li><button @onclick="async () => await SelectCulture(culture)"><img src="@GetCultureIcon(culture)" alt="@culture.Name" /></button></li>
+                    }
+                </ul>
+            </div>
         </div>
     </nav>
 </header>

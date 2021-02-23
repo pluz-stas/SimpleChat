@@ -9,7 +9,7 @@
             <button @onclick="@ToggleChats" class="ml-auto section-toggler">
                 <span class="oi @(isChatSidebarOpen ? "oi-arrow-circle-left" : "oi-arrow-circle-right")" />
             </button>
-            <NavMenu class="@(isChatSidebarOpen ? null : "collapse")" />
+            <NavMenu OnChatSelecting="@(() => isChatSidebarOpen = false)" class="@(isChatSidebarOpen ? null : "collapse")" />
         </section>
         <section id="central-section" class="p-4 @(isChatSidebarOpen || isUserSidebarOpen ? "hiden" : null)">
             @Body

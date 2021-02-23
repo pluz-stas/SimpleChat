@@ -2,8 +2,10 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleChat.Client.Infrastructure;
+using SimpleChat.Client.Infrastructure.Extensions;
 using SimpleChat.Client.Services;
 
 namespace SimpleChat.Client
@@ -19,9 +21,14 @@ namespace SimpleChat.Client
             builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
             builder.Services.AddScoped<IHttpClientService, HttpClientService>();
             builder.Services.AddSingleton<ErrorStateService>();
-            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+            builder.Services.AddLocalization();
+            builder.Services.ConfigureAppsettingsOptions(builder.Configuration);
 
-            await builder.Build().RunAsync();
+            var host = builder.Build();
+
+            await host.SetDefaultCulture();
+
+            await host.RunAsync();
         }
     }
 }

@@ -1,3 +1,4 @@
 ﻿@page "/"
+@inject IStringLocalizer<Resource> localizer
 
-<h1>Really the simplest chat ever</h1>
+<h1>@localizer[Resource.Tagline]</h1>

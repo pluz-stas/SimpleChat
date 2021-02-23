@@ -7,5 +7,8 @@ namespace SimpleChat.Client.Components
     {
         [Parameter]
         public ChatContract Chat { get; set; }
+
+        [Parameter]
+        public EventCallback OnChatSelecting { get; set; }
     }
 }
