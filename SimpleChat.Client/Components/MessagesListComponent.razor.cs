@@ -16,10 +16,8 @@ namespace SimpleChat.Client.Components
 {
     public partial class MessagesListComponent : IDisposable
     {
-        private const string DefaultAvatar = "images/defaultAvatar.jpg";
         private const int DefaultMessagesTop = 20;
 
-        private string userId;
         private HubConnection hubConnection;
         private List<MessageContract> messages = new List<MessageContract>();
         private DotNetObjectReference<MessagesListComponent> objRef;
@@ -30,14 +28,10 @@ namespace SimpleChat.Client.Components
 
         [Inject] private IJSRuntime JsRuntime { get; set; }
 
-        [Inject] private ILocalStorageService LocalStorageService { get; set; }
-
         [Parameter] public int ChatId { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            userId = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserIdKeyName);
-
             hubConnection = new HubConnectionBuilder()
                 .WithUrl(NavigationManager.ToAbsoluteUri(HubConstants.ChatUri))
                 .Build();

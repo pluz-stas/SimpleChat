@@ -11,20 +11,6 @@
         <div class=@(IsDateSplit(messages, i) ? "dateSplit" : "d-none")>
             @message.CreatedDate.ToShortDateString()
         </div>
-        <div class="messageRow">
-            <div class="messageUserAvatarWrap">
-                <img class="messageUserAvatar" src=@(isDefaultAvatar ? DefaultAvatar : message.User.UserImg)
-                     style=@(!isDefaultAvatar && message.User.UserImg == null ? "display: none" : null)>
-            </div>
-            <div class=@(uid == userId ? "imMessageWrap" : "smbdMessageWrap")>
-                <div class="textColumn">
-                    <div class="messageUserName">@(isUserName ? message.User.UserName : null)</div >
-        <div class="messageContent">@message.Content</div>
-                </div>
-            </div>
-            <div class="messageMetaWrap">
-                <div class="messageMeta">@message.CreatedDate.ToLocalTime().ToShortTimeString()</div>
-            </div>
-        </div>
+        <MessageComponent Message=@message IsUserName=@isUserName IsDefaultAvatar=@isDefaultAvatar></MessageComponent>
     }
 </div>
