@@ -1,7 +1,6 @@
 function addPaginationEvent(dotNetObject) {
-    var listElm = document.querySelector('#messagesList');
+    var listElm = document.getElementById('messagesList');
     listElm.scrollTop = listElm.clientHeight;
-    console.log(typeof (dotNetObject));
     listElm.addEventListener('scroll', function () {
         if (listElm.scrollHeight - listElm.scrollTop >= listElm.scrollHeight) {
             dotNetObject.invokeMethodAsync("UpdateMessagesHistoryAsync");
