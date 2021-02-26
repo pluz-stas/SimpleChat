@@ -1,0 +1,16 @@
+﻿@using SimpleChat.Shared.Contracts.Message
+<div id="messagesList">
+    @for (var i = messages.Count - 1; i >= 0; i--)
+    {
+        var message = messages[i];
+        var uid = message.User.UserId;
+
+        bool isDefaultAvatar = uid == null || IsDefaultAvatar(messages, i, uid);
+        bool isUserName = uid == null || IsUserName(messages, i, uid);
+
+        <div class=@(IsDateSplit(messages, i) ? "dateSplit" : "d-none")>
+            @message.CreatedDate.ToShortDateString()
+        </div>
+        <MessageComponent Message=@message IsUserName=@isUserName IsDefaultAvatar=@isDefaultAvatar></MessageComponent>
+    }
+</div>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 using SimpleChat.Client.Infrastructure;
+using SimpleChat.Client.Resources.Constants;
 using SimpleChat.Client.Services;
 using SimpleChat.Shared.Contracts.Message;
 using SimpleChat.Shared.Contracts.Chat;
@@ -9,10 +10,6 @@ namespace SimpleChat.Client.Pages
 {
     public partial class ChatPage
     {
-        private const string UserNameKeyName = "UserName";
-        private const string UserImgKeyName = "UserImgUrl";
-        private const string UserIdKeyName = "UserId";
-        
         private string messageInput;
         private ChatContract chat;
 
@@ -33,9 +30,9 @@ namespace SimpleChat.Client.Pages
         {
             var user = new ShortUserInfoContract
             {
-                UserName = await LocalStorageService.GetStringAsync(UserNameKeyName),
-                UserImg = await LocalStorageService.GetStringAsync(UserImgKeyName),
-                UserId = await LocalStorageService.GetStringAsync(UserIdKeyName)
+                UserName = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserNameKeyName),
+                UserImg = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserImgKeyName),
+                UserId = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserIdKeyName)
             };
                 
             var message = new CreateMessageContract

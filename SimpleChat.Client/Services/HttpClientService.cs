@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
-
+using SimpleChat.Client.Resources.ResourceFiles;
 
 namespace SimpleChat.Client.Services
 {
@@ -22,25 +22,23 @@ namespace SimpleChat.Client.Services
 
         public async Task<T> GetAsync<T>(string uri)
         {
-            HttpResponseMessage response;
-
             try
             {
-                response = await _client.GetAsync(uri);
+                var response = await _client.GetAsync(uri);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+                }
+
+                await GetError(response);
+
+                return default;
             }
             catch
             {
                 throw;
             }
-
-            if (response.IsSuccessStatusCode)
-            {
-                return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
-            }
-
-            await GetError(response);
-
-            return default;
         }
 
         public async Task PostAsync<T>(string uri, T value)
@@ -72,10 +70,10 @@ namespace SimpleChat.Client.Services
             }
             catch
             {
-                message = "Something went wrong..";
+                message = Resource.ErrorMessage;
             }
 
-            _errorState.SetError("Error", message);
+            _errorState.SetError(Resource.Error, message);
             _navigationManager.NavigateTo(_navigationManager.BaseUri);
         }
     }

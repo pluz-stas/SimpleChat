@@ -1,11 +1,11 @@
 ﻿
-function addPaginationEvent(event) {
+function addPaginationEvent(dotNetObject) {
     let listElm = document.querySelector('#messagesList');
-
-    listElm.scrollTop = listElm.clientHeight
+    listElm.scrollTop = listElm.clientHeight;
+    console.log(typeof(dotNetObject));
     listElm.addEventListener('scroll', function() {
     if (listElm.scrollHeight - listElm.scrollTop >= listElm.scrollHeight) {
-        event.invokeMethodAsync("UpdateMessagesHistoryAsync");
+        dotNetObject.invokeMethodAsync("UpdateMessagesHistoryAsync");
     }
 });
 }

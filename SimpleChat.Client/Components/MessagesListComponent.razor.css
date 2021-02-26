@@ -1,15 +1,15 @@
-﻿.messagesWrapper{
+﻿#messagesList{
     overflow: scroll;
     margin-top: auto;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-.messagesWrapper::-webkit-scrollbar {
+#messagesList::-webkit-scrollbar {
     display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.messagesWrapper {
+#messagesList {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }

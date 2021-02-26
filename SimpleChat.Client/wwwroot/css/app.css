@@ -38,6 +38,11 @@ html, body {
     --theme-link-color: white;
 }
 
+.central-spin {
+    position: absolute;
+    top: 45%;
+}
+
 a, .btn-link {
     color: var(--theme-link-color);
 }

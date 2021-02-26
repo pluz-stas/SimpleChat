@@ -41,7 +41,7 @@ namespace SimpleChat.Server.Controllers
         /// </summary>
         /// <param name="chatId">Chat id</param>
         /// <param name="pagination">Presents data for pagination.</param>
-        /// <returns><see cref="IEnumerable{T}"/>Collection of messages.</returns>
+        /// <returns><see cref="IEnumerable{MessageContract}"/>Collection of messages.</returns>
         /// <response code="200">Returns messages.</response>
         /// <response code="500">There are any server problems.</response>
         [HttpGet]
