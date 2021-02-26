@@ -12,13 +12,17 @@ namespace SimpleChat.Client.Components
 
         private string userId;
         
-        [Inject] private ILocalStorageService LocalStorageService { get; set; }
+        [Inject]
+        private ILocalStorageService LocalStorageService { get; set; }
         
-        [Parameter] public MessageContract Message { get; set; }
+        [Parameter]
+        public MessageContract Message { get; set; }
         
-        [Parameter] public bool IsDefaultAvatar { get; set; }
+        [Parameter]
+        public bool DisplayAvatar { get; set; }
         
-        [Parameter] public bool IsUserName { get; set; }
+        [Parameter]
+        public bool DisplayUserName { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

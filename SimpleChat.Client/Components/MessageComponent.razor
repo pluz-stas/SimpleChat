@@ -1,15 +1,16 @@
-﻿<h3>MessageComponent</h3>
-
-
-
-<div class="messageRow">
+﻿<div class="messageRow">
     <div class="messageUserAvatarWrap">
-        <img class="messageUserAvatar" src=@(IsDefaultAvatar ? DefaultAvatar : Message.User.UserImg)
-             style=@(!IsDefaultAvatar && Message.User.UserImg == null ? "display: none" : null)>
+        @if (DisplayAvatar)
+        {
+            <img class="messageUserAvatar" src=@(Message.User.UserImg ?? DefaultAvatar)>
+        }
     </div>
     <div class=@(Message.User.UserId == userId ? "imMessageWrap" : "smbdMessageWrap")>
         <div class="textColumn">
-            <div class="messageUserName">@(IsUserName ? Message.User.UserName : null)</div >
+            @if (DisplayUserName)
+            {
+                <div class="messageUserName">@Message.User.UserName</div>
+            }
             <div class="messageContent">@Message.Content</div>
         </div>
     </div>
@@ -17,7 +18,3 @@
         <div class="messageMeta">@Message.CreatedDate.ToLocalTime().ToShortTimeString()</div>
     </div>
 </div>
-
-@code {
-
-}

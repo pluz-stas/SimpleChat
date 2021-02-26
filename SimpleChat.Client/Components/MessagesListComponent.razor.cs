@@ -70,38 +70,11 @@ namespace SimpleChat.Client.Components
             StateHasChanged();
         }
 
-        private bool IsDateSplit(List<MessageContract> messages, int messageId)
+        private bool IsDateSplit(int messageIndex)
         {
-            var previousMessage = messageId + 1 < messages.Count ? messages[messageId + 1] : null;
+            var previousMessage = messageIndex + 1 < messages.Count ? messages[messageIndex + 1] : null;
 
-            if (previousMessage != null)
-                return previousMessage.CreatedDate.ToLocalTime().Day !=
-                       messages[messageId].CreatedDate.ToLocalTime().Day;
-
-            return false;
-        }
-
-        private bool IsUserName(List<MessageContract> messages, int messageId, string uid)
-        {
-            var previousMessage = messageId + 1 < messages.Count ? messages[messageId + 1] : null;
-            var previousMessageUid = previousMessage?.User.UserId;
-
-            return uid != previousMessageUid || previousMessageUid == null;
-        }
-
-
-        private bool IsDefaultAvatar(List<MessageContract> messages, int messageId, string uid)
-        {
-            var nextMessage = messageId > 0 ? messages[messageId - 1] : null;
-            var nextMessageUid = nextMessage?.User.UserId;
-            if (IsNullOrEmpty(messages[messageId].User.UserImg) && uid == null)
-                return true;
-            if (uid != nextMessageUid) 
-                return false;
-            
-            messages[messageId].User.UserImg = null;
-            return false;
-
+            return previousMessage != null && previousMessage.CreatedDate.ToLocalTime().Day != messages[messageIndex].CreatedDate.ToLocalTime().Day;
         }
 
         public void Dispose()
@@ -113,5 +86,17 @@ namespace SimpleChat.Client.Components
         private async Task<IEnumerable<MessageContract>> GetMessagesAsync(int skip) =>
             await Http.GetAsync<IEnumerable<MessageContract>>(
                 $"api/messages?chatId={ChatId}&Skip={skip}&Top={DefaultMessagesTop}");
+
+        private bool ShouldDisplayAvatar(int messageIndex)
+        {
+            var message = messages[messageIndex];
+            return !(messageIndex > 0 && messages[messageIndex - 1].User.UserId == message.User.UserId && message.User.UserId != null);
+        }
+
+        private bool ShouldDisplayName(int messageIndex)
+        {
+            var message = messages[messageIndex];
+            return !(messageIndex + 1 < messages.Count && messages[messageIndex + 1].User.UserId == message.User.UserId && message.User.UserId != null);
+        }
     }
 }

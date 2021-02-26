@@ -1,0 +1,51 @@
+﻿.imMessageWrap, .smbdMessageWrap {
+    display: flex;
+    padding: 7px 10px;
+    flex-direction: row;
+    border-radius: 7px;
+}
+
+.imMessageWrap {
+    background-color: var(--theme-my-message-background);
+}
+
+.smbdMessageWrap {
+    background-color: var(--theme-smbd-message-background);
+}
+
+.messageUserAvatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.messageUserAvatarWrap {
+    display: block;
+    width: 46px;
+    height: 46px;
+    padding: 5px;
+}
+
+.messageUserName {
+    opacity: 0.8;
+}
+
+.messageMetaWrap {
+    display: block;
+    position: relative;
+    padding: 4px;
+}
+
+.messageMeta {
+    font-size: 12px;
+    position: absolute;
+    bottom: 0px;
+    opacity: 0.8;
+}
+
+.messageRow {
+    display: flex;
+    flex-direction: row;
+    margin: 8px 0 8px;
+}
