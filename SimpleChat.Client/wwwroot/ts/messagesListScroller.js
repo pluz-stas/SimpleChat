@@ -1,6 +1,6 @@
 var showScrollButtonHeight = 968;
 function addPaginationEvent(dotNetObject) {
-    var listElm = document.getElementById('messagesList');
+    var listElm = document.getElementById('messages-list');
     listElm.addEventListener('scroll', function () {
         if (listElm.scrollHeight - listElm.scrollTop >= listElm.scrollHeight) {
             dotNetObject.invokeMethodAsync("UpdateMessagesHistoryAsync");
@@ -8,8 +8,8 @@ function addPaginationEvent(dotNetObject) {
     });
 }
 function addScrollButtonEvent(dotNetObject) {
-    var listElm = document.getElementById('messagesList');
-    var buttonElm = document.getElementById('scrollButton');
+    var listElm = document.getElementById('messages-list');
+    var buttonElm = document.getElementById('scroll-button');
     listElm.addEventListener('scroll', function () {
         if (listElm.scrollHeight - listElm.scrollTop >= showScrollButtonHeight) {
             buttonElm.style.display = "block";
@@ -20,7 +20,7 @@ function addScrollButtonEvent(dotNetObject) {
     });
 }
 function scrollToBottom() {
-    var listElm = document.getElementById('messagesList');
+    var listElm = document.getElementById('messages-list');
     listElm.scrollTop = listElm.scrollHeight;
 }
 //# sourceMappingURL=messagesListScroller.js.map

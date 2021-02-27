@@ -1,20 +1,20 @@
-﻿<div class="messageRow">
-    <div class="messageUserAvatarWrap">
+﻿<div class="message-row">
+    <div class="message-user-avatar-wrap">
         @if (DisplayAvatar)
         {
-            <img class="messageUserAvatar" src=@(Message.User.UserImg ?? DefaultAvatar)>
+            <img class="message-user-avatar" src=@(Message.User.UserImg ?? DefaultAvatar)>
         }
     </div>
-    <div class=@(Message.User.UserId == userId ? "imMessageWrap" : "smbdMessageWrap")>
+    <div class=@(Message.User.UserId == userId ? "im-message-wrap" : "smbd-message-wrap")>
         <div class="textColumn">
             @if (DisplayUserName)
             {
-                <div class="messageUserName">@Message.User.UserName</div>
+                <div class="message-user-name">@Message.User.UserName</div>
             }
             <div class="messageContent">@Message.Content</div>
         </div>
     </div>
-    <div class="messageMetaWrap">
-        <div class="messageMeta">@Message.CreatedDate.ToLocalTime().ToShortTimeString()</div>
+    <div class="message-meta-wrap">
+        <div class="message-meta">@Message.CreatedDate.ToLocalTime().ToShortTimeString()</div>
     </div>
 </div>

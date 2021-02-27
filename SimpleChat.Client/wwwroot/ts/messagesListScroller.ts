@@ -1,7 +1,7 @@
 ﻿const showScrollButtonHeight = 968;
 
 function addPaginationEvent(dotNetObject) {
-    let listElm = document.getElementById('messagesList');
+    let listElm = document.getElementById('messages-list');
     listElm.addEventListener('scroll', function() {
         if (listElm.scrollHeight - listElm.scrollTop >= listElm.scrollHeight) {
             dotNetObject.invokeMethodAsync("UpdateMessagesHistoryAsync");
@@ -10,8 +10,8 @@ function addPaginationEvent(dotNetObject) {
 }
 
 function addScrollButtonEvent(dotNetObject) {
-    let listElm = document.getElementById('messagesList');
-    let buttonElm = document.getElementById('scrollButton');
+    let listElm = document.getElementById('messages-list');
+    let buttonElm = document.getElementById('scroll-button');
     listElm.addEventListener('scroll', function() {
         if (listElm.scrollHeight - listElm.scrollTop >= showScrollButtonHeight) {
             buttonElm.style.display = "block"
@@ -23,6 +23,6 @@ function addScrollButtonEvent(dotNetObject) {
 }
 
 function scrollToBottom() {
-    let listElm = document.getElementById('messagesList');
+    let listElm = document.getElementById('messages-list');
     listElm.scrollTop = listElm.scrollHeight;
 }

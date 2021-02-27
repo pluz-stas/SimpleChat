@@ -1,25 +1,25 @@
-﻿.chatWrapper{
+﻿.chat-wrapper{
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
-.sendFieldPanel{
+.send-field-panel{
     display: flex;
     flex-direction: row;
 }
 
-.sendFieldPanel button{
+.send-field-panel button{
     color: #707070;
 }
 
-.attachFile{
+.attach-file{
     position: relative;
     overflow: hidden;
     display: inline-block;
 }
 
-.attachFile input[type=file] {
+.attach-file input[type=file] {
     font-size: 100px;
     position: absolute;
     left: 0;
@@ -27,11 +27,11 @@
     opacity: 0;
 }
 
-.inputWrap{
+.input-wrap{
     width: 100%;
 }
 
-.textArea{
+.text-area{
     width: 100%;
     border-radius: 5px;
     background: var(--theme-input-background);
