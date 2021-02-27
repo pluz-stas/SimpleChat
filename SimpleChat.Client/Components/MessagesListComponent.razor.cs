@@ -40,7 +40,7 @@ namespace SimpleChat.Client.Components
             {
                 if (mes.Chat.Id == ChatId)
                 {
-                    messages.Insert(0, mes); 
+                    messages.Insert(0, mes);
                     StateHasChanged();
                     ScrollToBottom();
                 }
@@ -88,17 +88,11 @@ namespace SimpleChat.Client.Components
             await Http.GetAsync<IEnumerable<MessageContract>>(
                 $"api/messages?chatId={ChatId}&Skip={skip}&Top={DefaultMessagesTop}");
 
-        private bool ShouldDisplayAvatar(int messageIndex)
-        {
-            var message = messages[messageIndex];
-            return !(messageIndex > 0 && messages[messageIndex - 1].User.UserId == message.User.UserId && message.User.UserId != null);
-        }
+        private bool ShouldDisplayAvatar(MessageContract message, int messageIndex) =>
+            !(messageIndex > 0 && messages[messageIndex - 1].User.UserId == message.User.UserId && message.User.UserId != null);
 
-        private bool ShouldDisplayName(int messageIndex)
-        {
-            var message = messages[messageIndex];
-            return !(messageIndex + 1 < messages.Count && messages[messageIndex + 1].User.UserId == message.User.UserId && message.User.UserId != null);
-        }
+        private bool ShouldDisplayName(MessageContract message, int messageIndex) =>
+            !(messageIndex + 1 < messages.Count && messages[messageIndex + 1].User.UserId == message.User.UserId && message.User.UserId != null);
         
         public void Dispose()
         {

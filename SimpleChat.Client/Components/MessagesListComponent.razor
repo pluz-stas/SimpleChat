@@ -10,7 +10,7 @@
             </div>
         }
 
-        <MessageComponent Message=@message DisplayUserName=@ShouldDisplayName(i) DisplayAvatar=@ShouldDisplayAvatar(i)></MessageComponent>
+        <MessageComponent Message=@message DisplayUserName=@ShouldDisplayName(message, i) DisplayAvatar=@ShouldDisplayAvatar(message, i)></MessageComponent>
     }
     <button @onclick="ScrollToBottom" id="scrollButton" class="oi oi-chevron-bottom"></button>
 </div>
