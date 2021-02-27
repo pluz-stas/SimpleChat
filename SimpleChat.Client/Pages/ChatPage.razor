@@ -7,7 +7,7 @@
     <div class="chatWrapper">
         <h2>@chat.Name</h2>
         <MessagesListComponent ChatId=@ChatId></MessagesListComponent>
-        <div class="sendFieldPanel">
+        <form class="sendFieldPanel" @onsubmit=Send>
             <div class="attachFile">
                 <button class="oi oi-paperclip"></button>
                 <input type="file">
@@ -16,8 +16,8 @@
                 <input @bind="messageInput" placeholder="Message text" class="textArea"/>
             </div>
             <div>
-                <button @onclick="Send" class="oi oi-arrow-right"></button>
+                <button type="submit" class="oi oi-arrow-right"></button>
             </div>
-        </div>
+        </form>
     </div>
 }

@@ -40,8 +40,9 @@ namespace SimpleChat.Client.Components
             {
                 if (mes.Chat.Id == ChatId)
                 {
-                    messages.Insert(0, mes);
+                    messages.Insert(0, mes); 
                     StateHasChanged();
+                    ScrollToBottom();
                 }
             });
 
@@ -60,6 +61,7 @@ namespace SimpleChat.Client.Components
             {
                 objRef = DotNetObjectReference.Create(this);
                 await JsRuntime.InvokeVoidAsync("addPaginationEvent", objRef);
+                await JsRuntime.InvokeVoidAsync("addScrollButtonEvent");
             }
         }
 
@@ -77,10 +79,9 @@ namespace SimpleChat.Client.Components
             return previousMessage != null && previousMessage.CreatedDate.ToLocalTime().Day != messages[messageIndex].CreatedDate.ToLocalTime().Day;
         }
 
-        public void Dispose()
+        private void ScrollToBottom()
         {
-            objRef?.Dispose();
-            hubConnection.DisposeAsync();
+            JsRuntime.InvokeVoidAsync("scrollToBottom");
         }
 
         private async Task<IEnumerable<MessageContract>> GetMessagesAsync(int skip) =>
@@ -97,6 +98,12 @@ namespace SimpleChat.Client.Components
         {
             var message = messages[messageIndex];
             return !(messageIndex + 1 < messages.Count && messages[messageIndex + 1].User.UserId == message.User.UserId && message.User.UserId != null);
+        }
+        
+        public void Dispose()
+        {
+            objRef?.Dispose();
+            hubConnection.DisposeAsync();
         }
     }
 }
