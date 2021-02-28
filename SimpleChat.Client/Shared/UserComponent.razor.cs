@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Resources.Constants;
-using static System.String;
 
 namespace SimpleChat.Client.Shared
 {
@@ -27,18 +26,18 @@ namespace SimpleChat.Client.Shared
         protected override async Task OnInitializedAsync()
         {
             string localStorageId = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserIdKeyName);
-            if (IsNullOrEmpty(localStorageId))
+            if (string.IsNullOrEmpty(localStorageId))
                 await LocalStorageService.SetStringAsync(LocalStorageAttributes.UserIdKeyName, Guid.NewGuid().ToString());
             
             string localStorageName = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserNameKeyName);
-            UserName = IsNullOrWhiteSpace(localStorageName) ? "anon" : localStorageName;
+            UserName = string.IsNullOrWhiteSpace(localStorageName) ? "anon" : localStorageName;
             UserImg = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserImgKeyName);
             await base.OnInitializedAsync();
         }
         
         private async Task SetNameAsync()
         {
-            if (!IsNullOrWhiteSpace(UserName))
+            if (!string.IsNullOrWhiteSpace(UserName))
             {
                 await LocalStorageService.SetStringAsync(LocalStorageAttributes.UserNameKeyName, UserName);
             }
@@ -46,7 +45,7 @@ namespace SimpleChat.Client.Shared
         
         private async Task SetImgAsync()
         {
-            if (!IsNullOrWhiteSpace(UserImg))
+            if (!string.IsNullOrWhiteSpace(UserImg))
                 await LocalStorageService.SetStringAsync(LocalStorageAttributes.UserImgKeyName, UserImg);
         }
         

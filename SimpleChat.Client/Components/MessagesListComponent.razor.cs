@@ -10,7 +10,6 @@ using SimpleChat.Client.Resources.Constants;
 using SimpleChat.Client.Services;
 using SimpleChat.Shared.Contracts.Message;
 using SimpleChat.Shared.Hub;
-using static System.String;
 
 namespace SimpleChat.Client.Components
 {

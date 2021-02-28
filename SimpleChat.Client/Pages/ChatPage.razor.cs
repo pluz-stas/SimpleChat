@@ -28,11 +28,17 @@ namespace SimpleChat.Client.Pages
 
         private async Task Send()
         {
+            var userNameTask = LocalStorageService.GetStringAsync(LocalStorageAttributes.UserNameKeyName);
+            var userImgTask = LocalStorageService.GetStringAsync(LocalStorageAttributes.UserImgKeyName);
+            var userIdTask = LocalStorageService.GetStringAsync(LocalStorageAttributes.UserIdKeyName);
+
+            await Task.WhenAll(userNameTask, userIdTask, userImgTask);
+            
             var user = new ShortUserInfoContract
             {
-                UserName = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserNameKeyName),
-                UserImg = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserImgKeyName),
-                UserId = await LocalStorageService.GetStringAsync(LocalStorageAttributes.UserIdKeyName)
+                UserId = userIdTask.Result,
+                UserName = userNameTask.Result,
+                UserImg = userImgTask.Result,
             };
                 
             var message = new CreateMessageContract
