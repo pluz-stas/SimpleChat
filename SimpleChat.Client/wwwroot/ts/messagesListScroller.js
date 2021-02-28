@@ -1,26 +1,24 @@
 var showScrollButtonHeight = 968;
+var messagesListId = 'messages-list';
+var scrollProp = 'scroll';
 function addPaginationEvent(dotNetObject) {
-    var listElm = document.getElementById('messages-list');
-    listElm.addEventListener('scroll', function () {
+    var listElm = document.getElementById(messagesListId);
+    listElm.addEventListener(scrollProp, function () {
         if (listElm.scrollHeight - listElm.scrollTop >= listElm.scrollHeight) {
-            dotNetObject.invokeMethodAsync("UpdateMessagesHistoryAsync");
+            dotNetObject.invokeMethodAsync("UpdateMessagesHistoryAsync", listElm.scrollHeight);
         }
     });
 }
-function addScrollButtonEvent(dotNetObject) {
-    var listElm = document.getElementById('messages-list');
+function addScrollButtonEvent() {
+    var listElm = document.getElementById(messagesListId);
     var buttonElm = document.getElementById('scroll-button');
-    listElm.addEventListener('scroll', function () {
-        if (listElm.scrollHeight - listElm.scrollTop >= showScrollButtonHeight) {
-            buttonElm.style.display = "block";
-        }
-        else {
-            buttonElm.style.display = "none";
-        }
+    listElm.addEventListener(scrollProp, function () {
+        buttonElm.style.display = listElm.scrollHeight - listElm.scrollTop >= showScrollButtonHeight ? "block" : "none";
     });
 }
-function scrollToBottom() {
-    var listElm = document.getElementById('messages-list');
-    listElm.scrollTop = listElm.scrollHeight;
+function scrollToHeight(height) {
+    var listElm = document.getElementById(messagesListId);
+    var scrollValue = height > 0 ? listElm.scrollHeight - height : listElm.scrollHeight;
+    listElm.scrollTop = scrollValue;
 }
 //# sourceMappingURL=messagesListScroller.js.map

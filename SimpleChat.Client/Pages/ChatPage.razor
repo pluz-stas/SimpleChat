@@ -7,7 +7,7 @@
     <div class="chat-wrapper">
         <h2>@chat.Name</h2>
         <MessagesListComponent ChatId=@ChatId></MessagesListComponent>
-        <form class="send-field-panel" @onsubmit=Send>
+        <form class="send-field-panel" @onsubmit=SendAsync>
             <div class="attach-file">
                 <button class="oi oi-paperclip"></button>
                 <input type="file">

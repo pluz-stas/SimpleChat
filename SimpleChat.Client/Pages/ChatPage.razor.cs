@@ -26,7 +26,7 @@ namespace SimpleChat.Client.Pages
             chat = await Http.GetAsync<ChatContract>($"api/chats/{ChatId}");
         }
 
-        private async Task Send()
+        private async Task SendAsync()
         {
             var userNameTask = LocalStorageService.GetStringAsync(LocalStorageAttributes.UserNameKeyName);
             var userImgTask = LocalStorageService.GetStringAsync(LocalStorageAttributes.UserImgKeyName);
