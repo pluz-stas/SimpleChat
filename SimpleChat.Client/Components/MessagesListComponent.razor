@@ -1,0 +1,16 @@
+﻿<div id="messages-list">
+    @for (var i = messages.Count - 1; i >= 0; i--)
+    {
+        var message = messages[i];
+
+        @if (IsDateSplit(i))
+        {
+            <div class="date-split">
+                @message.CreatedDate.ToShortDateString()
+            </div>
+        }
+
+        <MessageComponent Message=@message DisplayUserName=@ShouldDisplayName(message, i) DisplayAvatar=@ShouldDisplayAvatar(message, i)></MessageComponent>
+    }
+    <button @onclick="ScrollToBottom" id="scroll-button" class="oi oi-chevron-bottom"></button>
+</div>

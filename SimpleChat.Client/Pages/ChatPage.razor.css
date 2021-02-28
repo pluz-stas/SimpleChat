@@ -1,0 +1,40 @@
+﻿.chat-wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.send-field-panel{
+    display: flex;
+    flex-direction: row;
+}
+
+.send-field-panel button{
+    color: #707070;
+}
+
+.attach-file{
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.attach-file input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.input-wrap{
+    width: 100%;
+}
+
+.text-area{
+    width: 100%;
+    border-radius: 5px;
+    background: var(--theme-input-background);
+    border: none;
+}
+

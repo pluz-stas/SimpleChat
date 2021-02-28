@@ -20,13 +20,18 @@ namespace SimpleChat.Server.Extensions
             if (model == null)
                 throw new ArgumentNullException(nameof(MessageModel));
 
+            var user = new ShortUserInfoContract()
+            {
+                UserName = model.UserName
+            };
+            
             return new MessageContract
             {
                 Id = model.Id,
                 Content = model.Content,
                 IsRead = model.IsRead,
                 CreatedDate = model.CreatedDate,
-                UserName = model.UserName,
+                User = user,
                 Chat = model.Chat?.ToShortInfoContract()
             };
         }
@@ -45,7 +50,7 @@ namespace SimpleChat.Server.Extensions
             {
                 Content = contract.Content,
                 CreatedDate = DateTime.UtcNow,
-                UserName = contract.UserName,
+                UserName = contract.User.UserName,
                 Chat = new ChatModel()
             };
         }

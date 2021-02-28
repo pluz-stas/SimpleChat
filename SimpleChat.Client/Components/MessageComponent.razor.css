@@ -1,0 +1,51 @@
+﻿.im-message-wrap, .smbd-message-wrap {
+    display: flex;
+    padding: 7px 10px;
+    flex-direction: row;
+    border-radius: 7px;
+}
+
+.im-message-wrap {
+    background-color: var(--theme-my-message-background);
+}
+
+.smbd-message-wrap {
+    background-color: var(--theme-smbd-message-background);
+}
+
+.message-user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.message-user-avatar-wrap {
+    display: block;
+    width: 46px;
+    height: 46px;
+    padding: 5px;
+}
+
+.message-user-name {
+    opacity: 0.8;
+}
+
+.message-meta-wrap {
+    display: block;
+    position: relative;
+    padding: 4px;
+}
+
+.message-meta {
+    font-size: 12px;
+    position: absolute;
+    bottom: 0px;
+    opacity: 0.8;
+}
+
+.message-row {
+    display: flex;
+    flex-direction: row;
+    margin: 8px 0 8px;
+}

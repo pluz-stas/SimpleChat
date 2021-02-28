@@ -76,7 +76,7 @@ namespace SimpleChat.Server.Controllers
 
             chatModel.Id = await chatService.CreateAsync(chatModel);
 
-            return CreatedAtAction("Get", new { id = chatModel.Id }, chatModel.ToContract());
+            return CreatedAtAction(nameof(GetAsync), new { id = chatModel.Id }, chatModel.ToContract());
         }
 
         /// <summary>

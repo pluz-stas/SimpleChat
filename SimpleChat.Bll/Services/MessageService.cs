@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using SimpleChat.Bll.Interfaces;
 using SimpleChat.Bll.Models;
 using SimpleChat.Dal.Entities;
@@ -43,5 +45,9 @@ namespace SimpleChat.Bll.Services
 
             await _repository.UpdateAsync(messageEntity);
         }
+
+        public async Task<IEnumerable<MessageModel>> GetByChatAsync(int chatId, int skip, int top)  =>
+            (await ((IMessageRepository)_repository).GetByChatAsync(chatId, skip, top)).Select(x => _mapper.Map<Message, MessageModel>(x));
+
     }
 }
