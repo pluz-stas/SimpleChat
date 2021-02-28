@@ -84,7 +84,13 @@ button:focus {
     color: red;
 }
 
+.block-button {
+    background-color: transparent;
+}
 
+    .block-button:hover {
+        background-color: var(--theme-block-background);
+    }
 
 .collapse {
     display: none;

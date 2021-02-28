@@ -1,6 +1,6 @@
 ﻿<div class="list-group">
-    <a class="list-group-item d-flex justify-content-between align-items-center" @onclick="OnChatSelecting" href="chat/@Chat.Id">
+    <button type="button" class="chat-card-item d-flex justify-content-between align-items-center block-button" @onclick="SelectChat">
         @Chat.Name
         <span class="badge badge-primary badge-pill">@Chat.Messages.Count()</span>
-    </a>
+    </button>
 </div>

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>ОшибОчка</value>
   </data>
@@ -125,6 +128,9 @@
   </data>
   <data name="Footer" xml:space="preserve">
     <value>Тупа футер</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
   </data>
   <data name="Tagline" xml:space="preserve">
     <value>Простейший в мире чат</value>

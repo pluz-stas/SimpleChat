@@ -1,0 +1,49 @@
+﻿@inject IStringLocalizer<Resource> localizer
+
+<div class="modal-background" role="dialog" aria-modal="true">
+    <section class="user-modal d-flex flex-column">
+        <div class="modal-head">
+            <h5>@localizer[Resource.Settings]</h5>
+        </div>
+        <div class="d-flex justify-content-between mt-1">
+            <div>
+                <img src="@GetCultureIcon(culture)" alt="@culture.Name" />
+            </div>
+            <div class="d-flex flex-column">
+                <button class="ml-auto" @onclick="@SwitchTheme"><span class="oi @GetThemeIcon()" /></button>
+                @if (!isCultureMenuOpen)
+                {
+                    <button type="button" @onclick="() => isCultureMenuOpen = true">
+                        <img src="@GetCultureIcon(culture)" alt="@culture.Name" />
+                    </button>
+                }
+                else
+                {
+                    <div class="culture-selector">
+                        <ul>
+                            @foreach (var culture in cultures)
+                            {
+                                <li>
+                                    <button @onclick="async () => await SelectCultureAsync(culture)">
+                                        <img src="@GetCultureIcon(culture)" alt="@culture.Name" />
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="input-container">
+            <div class="@(isUserNameInputOpen ? "d-none" : "user-data")">@UserName</div>
+            <input class="@(isUserNameInputOpen ? "user-data" : "d-none")" @bind="UserName">
+            <button class="button" @onclick="@ToggleEditUserNameInputAsync">@(isUserNameInputOpen ? "OK" : "edit")</button>
+        </div>
+        <div class="input-container">
+            <div class="@(isUserImgInputOpen ? "d-none" : "user-data")">@UserImg</div>
+            <input class="@(isUserImgInputOpen ? "user-data" : "d-none")" @bind="UserImg">
+            <button class="button" @onclick="@ToggleEditUserImgInputAsync">@(isUserImgInputOpen ? "OK" : "edit")</button>
+        </div>
+        <button class="block-button mt-auto close-modal" type="button" @onclick="OnClose">@localizer[Resource.Close]</button>
+    </section>
+</div>

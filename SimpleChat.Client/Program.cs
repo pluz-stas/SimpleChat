@@ -26,7 +26,7 @@ namespace SimpleChat.Client
 
             var host = builder.Build();
 
-            await host.SetDefaultCulture();
+            await host.SetDefaultOptions();
 
             await host.RunAsync();
         }

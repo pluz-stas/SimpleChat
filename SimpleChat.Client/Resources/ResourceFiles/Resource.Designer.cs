@@ -61,6 +61,15 @@ namespace SimpleChat.Client.Resources.ResourceFiles {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Close.
+        /// </summary>
+        internal static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Error.
         /// </summary>
         internal static string Error {
@@ -84,6 +93,15 @@ namespace SimpleChat.Client.Resources.ResourceFiles {
         internal static string Footer {
             get {
                 return ResourceManager.GetString("Footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Settings.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
         
