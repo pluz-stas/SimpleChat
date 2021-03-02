@@ -4,6 +4,11 @@
     height: 100%;
 }
 
+.chat-wrapper > h2 {
+    text-align: end;
+    margin-right: 10px;
+}
+
 .send-field-panel{
     display: flex;
     flex-direction: row;

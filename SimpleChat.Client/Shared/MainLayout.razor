@@ -12,7 +12,7 @@
             </button>
             <NavMenu OnChatSelecting="() => isChatSidebarOpen = false" class="@(isChatSidebarOpen ? null : "collapse")" />
         </section>
-        <section id="central-section" class="p-4 @(isChatSidebarOpen ? "hiden" : null)">
+        <section id="central-section" class="p-2 @(isChatSidebarOpen ? "hiden" : null)">
             @Body
         </section>
     </main>

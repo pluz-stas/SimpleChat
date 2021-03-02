@@ -5,11 +5,11 @@
         <div class="modal-head">
             <h5>@localizer[Resource.Settings]</h5>
         </div>
-        <div class="d-flex justify-content-between mt-1">
+        <div class="d-flex justify-content-between p-2 pic-block">
             <div>
-                <img src="@GetCultureIcon(culture)" alt="@culture.Name" />
+                <img class="profile-pic" src="images/defaultAvatar.jpg" alt="Profile picture" />
             </div>
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column justify-content-around">
                 <button class="ml-auto" @onclick="@SwitchTheme"><span class="oi @GetThemeIcon()" /></button>
                 @if (!isCultureMenuOpen)
                 {
@@ -34,16 +34,16 @@
                 }
             </div>
         </div>
-        <div class="input-container">
+        <div class="p-2">
             <div class="@(isUserNameInputOpen ? "d-none" : "user-data")">@UserName</div>
             <input class="@(isUserNameInputOpen ? "user-data" : "d-none")" @bind="UserName">
             <button class="button" @onclick="@ToggleEditUserNameInputAsync">@(isUserNameInputOpen ? "OK" : "edit")</button>
         </div>
-        <div class="input-container">
+        @*<div class="input-container">
             <div class="@(isUserImgInputOpen ? "d-none" : "user-data")">@UserImg</div>
             <input class="@(isUserImgInputOpen ? "user-data" : "d-none")" @bind="UserImg">
             <button class="button" @onclick="@ToggleEditUserImgInputAsync">@(isUserImgInputOpen ? "OK" : "edit")</button>
-        </div>
+        </div>*@
         <button class="block-button mt-auto close-modal" type="button" @onclick="OnClose">@localizer[Resource.Close]</button>
     </section>
 </div>

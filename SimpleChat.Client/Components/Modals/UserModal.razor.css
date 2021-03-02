@@ -11,24 +11,29 @@
     padding: 70px 10px;
 }
 
+.oi {
+    font-size: 1.5rem;
+}
+
 .user-modal {
     max-width: 500px;
     width: 50vw;
     height: 50vh;
     background-color: var(--theme-user-background);
-    padding: 0 10px;
+}
+
+.pic-block {
+    background-color: var(--theme-my-message-background);
 }
 
 .modal-head {
     background-color: var(--theme-body-background);
     text-align: end;
-    margin: 0 -10px;
     padding: 8px 10px 0;
 }
 
 .close-modal {
     padding: 5px;
-    margin: 0 -10px;
 }
 
 .culture-selector {
@@ -48,6 +53,13 @@
 button > img {
     all: unset;
     vertical-align: text-top;
+}
+
+.profile-pic {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 @media (max-width: 768px) {

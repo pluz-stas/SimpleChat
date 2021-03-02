@@ -11,6 +11,7 @@ namespace SimpleChat.Client.Shared
     public partial class NavMenu
     {
         private List<ChatContract> chats = new List<ChatContract>();
+        private int selectedChatId;
 
         [Inject]
         private HttpClient Http { get; set; }
@@ -29,6 +30,12 @@ namespace SimpleChat.Client.Shared
             {
                 chats.AddRange(publicChats);
             }
+        }
+
+        private async Task ChatSelected(int chatId)
+        {
+            selectedChatId = chatId;
+            await OnChatSelecting.InvokeAsync();
         }
     }
 }

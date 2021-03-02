@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Resources.Constants;
+using System;
 
 namespace SimpleChat.Client.Shared
 {
