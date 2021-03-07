@@ -10,7 +10,7 @@
             <button @onclick="(() => isChatSidebarOpen = !isChatSidebarOpen)" class="ml-auto section-toggler">
                 <span class="oi @(isChatSidebarOpen ? "oi-arrow-circle-left" : "oi-arrow-circle-right")" />
             </button>
-            <NavMenu OnChatSelecting="() => isChatSidebarOpen = false" class="@(isChatSidebarOpen ? null : "collapse")" />
+            <NavMenu OnCreateChatModalClick="@(() => isCreateChatModalOpen = true)" OnChatSelecting="() => isChatSidebarOpen = false" class="@(isChatSidebarOpen ? null : "collapse")" />
         </section>
         <section id="central-section" class="p-2 @(isChatSidebarOpen ? "hiden" : null)">
             @Body
@@ -19,6 +19,10 @@
     @if (isUserModalOpen)
     {
         <UserModal OnClose="@(() => isUserModalOpen = false)" />
+    }
+    @if (isCreateChatModalOpen)
+    {
+        <CreateChatModal OnClose="@(() => isCreateChatModalOpen = false)" />
     }
     <Footer />
     <CustomError></CustomError>

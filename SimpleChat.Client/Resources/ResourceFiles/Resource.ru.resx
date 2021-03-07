@@ -135,4 +135,7 @@
   <data name="Tagline" xml:space="preserve">
     <value>Простейший в мире чат</value>
   </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
 </root>
