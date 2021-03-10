@@ -9,31 +9,23 @@ using Microsoft.AspNetCore.Mvc;
 using SimpleChat.Client.Services;
 using SimpleChat.Shared.Contracts.Chat;
 
-namespace SimpleChat.Client.Components.Modals
+namespace SimpleChat.Client.Components.Modals.Chat
 {
-    public partial class CreateChatModal
+    public partial class EditChatModal
     {
-        private bool isPublic;
-        private string chatName;
-        private byte[] photo;
-
         [Inject] 
         private IHttpClientService Http { get; set; }
 
         [Parameter] 
         public EventCallback OnClose { get; set; }
+        
+        [Parameter] 
+        public ChatContract Chat { get; set; }
 
 
-        private async Task SendAsync()
+        private async Task EditAsync()
         {
-            var chat = new CreateChatContract
-            {
-                IsPublic = isPublic,
-                Name = chatName,
-                Photo = photo,
-            };
-
-            await Http.PostAsync($"api/chats/", chat);
+            await Http.PutAsync($"api/chats/{Chat.Id}", Chat);
             OnClose.InvokeAsync();
         }
 
@@ -46,7 +38,7 @@ namespace SimpleChat.Client.Components.Modals
                     new StreamReader(e.File.OpenReadStream(maxFileSize));
                 var ms = new MemoryStream();
                 await reader.BaseStream.CopyToAsync(ms);
-                photo = ms.ToArray();
+                Chat.Photo = ms.ToArray();
                 StateHasChanged();
             }
             catch
@@ -57,9 +49,9 @@ namespace SimpleChat.Client.Components.Modals
 
         private string GetImg()
         {
-            if (photo != null)
+            if (Chat.Photo != null)
             {
-                var base64 = Convert.ToBase64String(photo);
+                var base64 = Convert.ToBase64String(Chat.Photo);
                 return $"data:image/jpeg;base64,{base64}";
             }
 

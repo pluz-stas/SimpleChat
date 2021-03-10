@@ -1,0 +1,38 @@
+﻿@inject IStringLocalizer<Resource> localizer
+
+<div class="modal-background" role="dialog" aria-modal="true">
+    <section class="chat-modal">
+        <div class="modal-head">
+            <h5>@localizer[Resource.Settings]</h5>
+        </div>
+        
+        <div class="d-flex flex-row">
+
+            <div class="attach-pic">
+                @if (photo == null)
+                {
+                    <button class="oi oi-camera-slr attach-button"></button>
+                }
+                else
+                {
+                    <img class="chat-pic" src="@GetImg()" alt="Chat picture"/>
+                }
+                <div class="hidden-input">
+                    <InputFile OnChange="@LoadFile" accept="image/jpeg"/>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column p-3">
+                <input class="input-name" @bind="chatName" type="text" placeholder="Chat name">
+                <div class="d-flex flex-row">
+                    <input @bind="isPublic" type="checkbox">
+                    <div>is public</div>
+                </div>
+            </div>
+        </div>
+        <div class="control-wrap">
+            <button class="block-button mt-auto control-modal" type="button" @onclick="CreateAsync">@localizer[Resource.Create]</button>
+            <button class="block-button mt-auto control-modal" type="button" @onclick="OnClose">@localizer[Resource.Close]</button>
+        </div>
+    </section>
+</div>

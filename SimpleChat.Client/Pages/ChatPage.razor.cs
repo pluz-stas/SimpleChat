@@ -12,6 +12,8 @@ namespace SimpleChat.Client.Pages
     {
         private string messageInput;
         private ChatContract chat;
+        private bool isEditChatModalOpen;
+
 
         [Inject]
         private IHttpClientService Http { get; set; }

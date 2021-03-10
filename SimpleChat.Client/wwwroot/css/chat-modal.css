@@ -11,10 +11,6 @@
     padding: 70px 10px;
 }
 
-.oi {
-    font-size: 1.5rem;
-}
-
 .attach-button{
     display: block;
     margin-right: auto;
@@ -27,6 +23,7 @@
     overflow: hidden;
     display: inline-block;
     width: 90px;
+    margin: 5px;
     height: 90px;
     border-radius: 50%;
     background-color: #1b6ec2;
@@ -47,10 +44,6 @@
     width: 300px;
     height: 180px;
     background-color: var(--theme-user-background);
-}
-
-.pic-block {
-    background-color: var(--theme-my-message-background);
 }
 
 .modal-head {

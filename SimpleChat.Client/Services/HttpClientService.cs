@@ -60,6 +60,25 @@ namespace SimpleChat.Client.Services
             }
         }
 
+        public async Task PutAsync<T>(string uri, T value)
+        {
+            HttpResponseMessage response;
+
+            try
+            {
+                response = await _client.PutAsJsonAsync(uri, value);
+            }
+            catch
+            {
+                throw;
+            }
+
+            if (!response.IsSuccessStatusCode)
+            {
+                await GetError(response);
+            }
+        }
+
         private async Task GetError(HttpResponseMessage response)
         {
             string message;

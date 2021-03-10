@@ -61,4 +61,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\chat-modal.css" />
+  </ItemGroup>
+
 </Project>
