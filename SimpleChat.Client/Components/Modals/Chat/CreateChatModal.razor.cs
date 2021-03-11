@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Xml;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Mvc;
 using SimpleChat.Client.Services;
 using SimpleChat.Shared.Contracts.Chat;
 
