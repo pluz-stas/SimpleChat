@@ -10,7 +10,7 @@
         <div class="d-flex flex-row">
 
             <div class="attach-pic">
-                @if (Chat.Photo == null)
+                @if (Chat.Photo.Length == 0)
                 {
                     <button class="oi oi-camera-slr attach-button"></button>
                 }
