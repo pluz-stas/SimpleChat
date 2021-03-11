@@ -24,7 +24,7 @@
             </div>
 
             <div class="d-flex flex-column p-3">
-                <input class="input-name" @bind="Chat.Name" type="text" placeholder="Chat name">
+                <input class="input-name" @bind="Chat.Name" type="text">
                 <div class="d-flex flex-row">
                     <input @bind="Chat.IsPublic" type="checkbox">
                     <div>is public</div>
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="control-wrap">
-            <button class="block-button mt-auto control-modal" type="button" @onclick="EditAsync">@localizer[Resource.Create]</button>
+            <button class="block-button mt-auto control-modal" type="button" @onclick="EditAsync">@localizer[Resource.Edit]</button>
             <button class="block-button mt-auto control-modal" type="button" @onclick="OnClose">@localizer[Resource.Close]</button>
         </div>
     </section>

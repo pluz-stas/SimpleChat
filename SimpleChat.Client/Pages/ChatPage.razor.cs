@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Resources.Constants;
@@ -53,5 +55,29 @@ namespace SimpleChat.Client.Pages
 
             messageInput = string.Empty;
         }
+        
+        string GetAvatarName(string str)
+        {
+            var acronym = new string(str.Split(new [] {' '}, 
+                StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]).ToArray()).ToUpper();
+            if (acronym.Length > 2)
+            {
+                acronym = acronym.Substring(0, acronym.Length - (acronym.Length - 2));
+            }
+            
+            return acronym;
+        }
+
+        private string GetImg()
+        {
+            if (chat.Photo != null)
+            {
+                var base64 = Convert.ToBase64String(chat.Photo);
+                return $"data:image/jpeg;base64,{base64}";
+            }
+
+            return null;
+        }
+
     }
 }
