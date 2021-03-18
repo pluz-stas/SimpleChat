@@ -141,4 +141,16 @@
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="IsPublic" xml:space="preserve">
+    <value>is public</value>
+  </data>
+  <data name="ChatSettings" xml:space="preserve">
+    <value>Chat settings</value>
+  </data>
+  <data name="RequestError" xml:space="preserve">
+    <value>Error during request</value>
+  </data>
+  <data name="LoadFileError" xml:space="preserve">
+    <value>Error during loading file</value>
+  </data>
 </root>

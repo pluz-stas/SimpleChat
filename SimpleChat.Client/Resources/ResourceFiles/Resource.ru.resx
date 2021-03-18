@@ -141,4 +141,16 @@
   <data name="Edit" xml:space="preserve">
     <value>Изменить</value>
   </data>
+  <data name="IsPublic" xml:space="preserve">
+    <value>публичный</value>
+  </data>
+  <data name="ChatSettings" xml:space="preserve">
+    <value>Настройки чата</value>
+  </data>
+  <data name="RequestError" xml:space="preserve">
+    <value>Ошибка запроса</value>
+  </data>
+  <data name="LoadFileError" xml:space="preserve">
+    <value>Ошибка во время загрузки файла</value>
+  </data>
 </root>

@@ -61,6 +61,15 @@ namespace SimpleChat.Client.Resources.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chat settings.
+        /// </summary>
+        internal static string ChatSettings {
+            get {
+                return ResourceManager.GetString("ChatSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string Close {
@@ -111,6 +120,33 @@ namespace SimpleChat.Client.Resources.ResourceFiles {
         internal static string Footer {
             get {
                 return ResourceManager.GetString("Footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to is public.
+        /// </summary>
+        internal static string IsPublic {
+            get {
+                return ResourceManager.GetString("IsPublic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error during loading file.
+        /// </summary>
+        internal static string LoadFileError {
+            get {
+                return ResourceManager.GetString("LoadFileError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error during request.
+        /// </summary>
+        internal static string RequestError {
+            get {
+                return ResourceManager.GetString("RequestError", resourceCulture);
             }
         }
         

@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using SimpleChat.Client.Resources.ResourceFiles;
 
@@ -37,6 +38,7 @@ namespace SimpleChat.Client.Services
             }
             catch
             {
+                _errorState.SetError(Resource.Error, Resource.RequestError);
                 throw;
             }
         }
@@ -51,6 +53,7 @@ namespace SimpleChat.Client.Services
             }
             catch
             {
+                _errorState.SetError(Resource.Error, Resource.RequestError);
                 throw;
             }
 
@@ -70,6 +73,7 @@ namespace SimpleChat.Client.Services
             }
             catch
             {
+                _errorState.SetError(Resource.Error, Resource.RequestError);
                 throw;
             }
 
@@ -88,7 +92,8 @@ namespace SimpleChat.Client.Services
                 message = await response.Content.ReadAsStringAsync();
             }
             catch
-            {
+            {                
+                _errorState.SetError(Resource.Error, Resource.RequestError);
                 message = Resource.ErrorMessage;
             }
 

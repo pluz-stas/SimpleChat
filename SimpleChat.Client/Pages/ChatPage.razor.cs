@@ -56,7 +56,7 @@ namespace SimpleChat.Client.Pages
             messageInput = string.Empty;
         }
         
-        string GetAvatarName(string str)
+        private string GetAvatarName(string str)
         {
             var acronym = new string(str.Split(new [] {' '}, 
                 StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]).ToArray()).ToUpper();
@@ -67,17 +67,5 @@ namespace SimpleChat.Client.Pages
             
             return acronym;
         }
-
-        private string GetImg()
-        {
-            if (chat.Photo != null)
-            {
-                var base64 = Convert.ToBase64String(chat.Photo);
-                return $"data:image/jpeg;base64,{base64}";
-            }
-
-            return null;
-        }
-
     }
 }
