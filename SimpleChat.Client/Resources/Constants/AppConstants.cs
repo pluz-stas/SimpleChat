@@ -14,10 +14,5 @@
             public const string Available = nameof(Available);
             public const string Default = nameof(Default);
         }
-
-        public static class FileConstants
-        {
-            public const long MaxFileSize = 1024 * 1024;
-        }
     }
 }

@@ -55,8 +55,8 @@
 }
 
 .chat-pic{
-    width: 90px;
     height: 90px;
+    overflow: hidden;
 }
 
 .default-avatar{

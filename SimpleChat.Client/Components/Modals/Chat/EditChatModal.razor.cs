@@ -21,34 +21,22 @@ namespace SimpleChat.Client.Components.Modals.Chat
         [Inject]
         private ErrorStateService ErrorState { get; set; }
         
+        [Inject]
+        private LoadFileService LoadFileService { get; set; }
+        
         [Parameter] 
         public EventCallback OnClose { get; set; }
 
         [Parameter] 
         public ChatContract Chat { get; set; }
 
-
+        
         private async Task EditAsync()
         {
             await Http.PutAsync($"api/chats/{Chat.Id}", Chat);
             OnClose.InvokeAsync();
         }
 
-        private async Task LoadFile(InputFileChangeEventArgs e)
-        {
-            try
-            {
-                using var reader =
-                    new StreamReader(e.File.OpenReadStream(AppConstants.FileConstants.MaxFileSize));
-                var ms = new MemoryStream();
-                await reader.BaseStream.CopyToAsync(ms);
-                Chat.Photo = ms.ToArray();
-            }
-            catch
-            {
-                ErrorState.SetError(Resource.Error, Resource.LoadFileError);
-                throw;
-            }
-        }
+        private async Task LoadPhoto(InputFileChangeEventArgs e) => Chat.Photo = await LoadFileService.LoadFile(e);
     }
 }
