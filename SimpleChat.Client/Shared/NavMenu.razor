@@ -1,10 +1,18 @@
 ﻿@using SimpleChat.Client.Components
+@inject IStringLocalizer<Resource> localizer
+
 
 <nav @attributes="@InputAttributes">
+    <div class="ml-auto">
+        <button type="button" @onclick="OnCreateChatModalClick">
+            <span class="oi oi-plus"></span>
+            <span>@localizer[Resource.Create]</span>
+        </button>
+    </div>
     <ul class="list-group">
         @foreach (var chat in chats)
         {
-            <ChatCard OnChatSelecting="@ChatSelected" IsSelected="chat.Id == selectedChatId" Chat="@chat" />
+            <ChatCard OnChatSelecting="@ChatSelected" IsSelected="chat.Id == selectedChatId" Chat="@chat"/>
         }
     </ul>
 </nav>

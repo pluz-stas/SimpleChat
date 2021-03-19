@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Resources.Constants;
@@ -12,6 +14,8 @@ namespace SimpleChat.Client.Pages
     {
         private string messageInput;
         private ChatContract chat;
+        private bool isEditChatModalOpen;
+
 
         [Inject]
         private IHttpClientService Http { get; set; }
@@ -50,6 +54,18 @@ namespace SimpleChat.Client.Pages
             await Http.PostAsync($"api/messages/{ChatId}", message);
 
             messageInput = string.Empty;
+        }
+        
+        private string GetAvatarName(string str)
+        {
+            var acronym = new string(str.Split(new [] {' '}, 
+                StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]).ToArray()).ToUpper();
+            if (acronym.Length > 2)
+            {
+                acronym = acronym.Substring(0, acronym.Length - (acronym.Length - 2));
+            }
+            
+            return acronym;
         }
     }
 }

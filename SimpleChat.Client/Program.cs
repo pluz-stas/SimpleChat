@@ -21,6 +21,7 @@ namespace SimpleChat.Client
             builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
             builder.Services.AddScoped<IHttpClientService, HttpClientService>();
             builder.Services.AddSingleton<ErrorStateService>();
+            builder.Services.AddSingleton<LoadFileService>();
             builder.Services.AddLocalization();
             builder.Services.ConfigureAppsettingsOptions(builder.Configuration);
 

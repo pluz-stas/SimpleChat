@@ -4,5 +4,6 @@
     {
         private bool isChatSidebarOpen;
         private bool isUserModalOpen;
+        private bool isCreateChatModalOpen;
     }
 }

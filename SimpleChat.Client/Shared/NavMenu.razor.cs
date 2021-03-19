@@ -21,6 +21,9 @@ namespace SimpleChat.Client.Shared
 
         [Parameter]
         public EventCallback OnChatSelecting { get; set; }
+        
+        [Parameter]
+        public EventCallback OnCreateChatModalClick { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

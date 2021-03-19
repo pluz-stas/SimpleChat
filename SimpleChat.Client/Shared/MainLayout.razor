@@ -1,25 +1,30 @@
 ﻿@inherits LayoutComponentBase
 @using SimpleChat.Client.Components
 @using SimpleChat.Client.Components.Modals
+@using SimpleChat.Client.Components.Modals.Chat
 
 
 <div id="page">
-    <Header OnUserModalClick="@(() => isUserModalOpen = true)" />
+    <Header OnUserModalClick="@(() => isUserModalOpen = true)"/>
     <main role="main">
         <section id="chats-section" class="@(isChatSidebarOpen ? "open" : null)">
             <button @onclick="(() => isChatSidebarOpen = !isChatSidebarOpen)" class="ml-auto section-toggler">
-                <span class="oi @(isChatSidebarOpen ? "oi-arrow-circle-left" : "oi-arrow-circle-right")" />
+                <span class="oi @(isChatSidebarOpen ? "oi-arrow-circle-left" : "oi-arrow-circle-right")"/>
             </button>
-            <NavMenu OnChatSelecting="() => isChatSidebarOpen = false" class="@(isChatSidebarOpen ? null : "collapse")" />
+            <NavMenu OnCreateChatModalClick="@(() => isCreateChatModalOpen = true)" OnChatSelecting="() => isChatSidebarOpen = false" class="@(isChatSidebarOpen ? null : "collapse")"/>
         </section>
-        <section id="central-section" class="p-2 @(isChatSidebarOpen ? "hiden" : null)">
+        <section id="central-section" class="@(isChatSidebarOpen ? "hiden" : null)">
             @Body
         </section>
     </main>
     @if (isUserModalOpen)
     {
-        <UserModal OnClose="@(() => isUserModalOpen = false)" />
+        <UserModal OnClose="@(() => isUserModalOpen = false)"/>
     }
-    <Footer />
+    @if (isCreateChatModalOpen)
+    {
+        <CreateChatModal OnClose="@(() => isCreateChatModalOpen = false)"/>
+    }
+    <Footer/>
     <CustomError></CustomError>
 </div>
