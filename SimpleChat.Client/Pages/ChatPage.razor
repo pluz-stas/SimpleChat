@@ -1,0 +1,23 @@
+﻿@page "/chat/{chatId:int}"
+@using SimpleChat.Client.Components
+
+
+@if (chat != null)
+{
+    <div class="chat-wrapper">
+        <h2>@chat.Name</h2>
+        <MessagesListComponent ChatId=@ChatId></MessagesListComponent>
+        <form class="send-field-panel" @onsubmit=Send>
+            <div class="attach-file">
+                <button class="oi oi-paperclip"></button>
+                <input type="file">
+            </div>
+            <div class="input-wrap">
+                <input @bind="messageInput" placeholder="Message text" class="text-area"/>
+            </div>
+            <div>
+                <button type="submit" class="oi oi-arrow-right"></button>
+            </div>
+        </form>
+    </div>
+}

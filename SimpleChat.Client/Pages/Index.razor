@@ -1,7 +1,4 @@
 ﻿@page "/"
+@inject IStringLocalizer<Resource> localizer
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+<h1>@localizer[Resource.Tagline]</h1>

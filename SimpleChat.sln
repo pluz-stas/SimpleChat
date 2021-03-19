@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleChat.Bll", "SimpleCha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleChat.Shared", "SimpleChat.Shared\SimpleChat.Shared.csproj", "{836FD93A-E5C3-4803-A248-90488DD77844}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleChat.Server", "SimpleChat.Server\SimpleChat.Server.csproj", "{C3057439-7233-44BF-8A36-45936BAF7A10}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleChat.Client", "SimpleChat.Client\SimpleChat.Client.csproj", "{600D7D27-5E38-446B-A3A2-A602DE843CF1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleChat.Server", "SimpleChat.Server\SimpleChat.Server.csproj", "{7FC4254D-9CB5-45A5-8201-27CFA5A271CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +31,14 @@ Global
 		{836FD93A-E5C3-4803-A248-90488DD77844}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{836FD93A-E5C3-4803-A248-90488DD77844}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{836FD93A-E5C3-4803-A248-90488DD77844}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3057439-7233-44BF-8A36-45936BAF7A10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3057439-7233-44BF-8A36-45936BAF7A10}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3057439-7233-44BF-8A36-45936BAF7A10}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3057439-7233-44BF-8A36-45936BAF7A10}.Release|Any CPU.Build.0 = Release|Any CPU
 		{600D7D27-5E38-446B-A3A2-A602DE843CF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{600D7D27-5E38-446B-A3A2-A602DE843CF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{600D7D27-5E38-446B-A3A2-A602DE843CF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{600D7D27-5E38-446B-A3A2-A602DE843CF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FC4254D-9CB5-45A5-8201-27CFA5A271CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FC4254D-9CB5-45A5-8201-27CFA5A271CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FC4254D-9CB5-45A5-8201-27CFA5A271CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FC4254D-9CB5-45A5-8201-27CFA5A271CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

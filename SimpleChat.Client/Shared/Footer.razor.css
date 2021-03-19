@@ -1,0 +1,11 @@
+﻿footer {
+    display: none;
+    background-color: var(--theme-footer-background);
+}
+
+@media (min-width: 768px) {
+
+    footer {
+        display: block;
+    }
+}

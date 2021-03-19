@@ -1,15 +1,26 @@
 ﻿@inherits LayoutComponentBase
+@using SimpleChat.Client.Components
 
-<div class="sidebar">
-    <NavMenu />
-</div>
 
-<div class="main">
-    <div class="top-row px-4">
-        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-    </div>
-
-    <div class="content px-4">
-        @Body
-    </div>
+<div id="page">
+    <Header/>
+    <main role="main">
+        <section id="chats-section" class="@(isChatSidebarOpen ? "open" : null)">
+            <button @onclick="@ToggleChats" class="ml-auto section-toggler">
+                <span class="oi @(isChatSidebarOpen ? "oi-arrow-circle-left" : "oi-arrow-circle-right")" />
+            </button>
+            <NavMenu OnChatSelecting="@(() => isChatSidebarOpen = false)" class="@(isChatSidebarOpen ? null : "collapse")" />
+        </section>
+        <section id="central-section" class="p-4 @(isChatSidebarOpen || isUserSidebarOpen ? "hiden" : null)">
+            @Body
+        </section>
+        <section id="user-section" class="@(isUserSidebarOpen ? "open" : null)">
+            <button @onclick="@ToggleUser" class="mr-auto section-toggler">
+                <span class="oi @(isUserSidebarOpen ? "oi-arrow-circle-right" : "oi-arrow-circle-left")" />
+            </button>
+            <UserComponent class="@(isUserSidebarOpen ? null : "collapse")" />
+        </section>
+    </main>
+    <Footer />
+    <CustomError></CustomError>
 </div>

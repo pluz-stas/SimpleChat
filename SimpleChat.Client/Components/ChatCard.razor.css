@@ -1,0 +1,11 @@
+﻿.list-group-item {
+    background-color: var(--theme-block-background);
+}
+
+.list-group:not(:first-child) {
+    margin-top: 5px;
+}
+
+.list-group:hover {
+    transform: scale(1.01);
+}
