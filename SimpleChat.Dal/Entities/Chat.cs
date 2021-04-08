@@ -7,6 +7,7 @@ namespace SimpleChat.Dal.Entities
     {
         public int Id { get; set; }
         public byte[] Photo { get; set; }
+        public string PasswordHash { get; set; }
         public string Name { get; set; }
         public bool IsPublic { get; set; } = true;
 
