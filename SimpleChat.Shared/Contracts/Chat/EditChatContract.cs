@@ -11,5 +11,8 @@ namespace SimpleChat.Shared.Contracts.Chat
         [Required]
         [MaxLength(30)]
         public string Name { get; set; }
+        
+        [MaxLength(16)]
+        public string Password { get; set; }
     }
 }

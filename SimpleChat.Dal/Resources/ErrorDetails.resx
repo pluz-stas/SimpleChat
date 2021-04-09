@@ -135,4 +135,7 @@
   <data name="IncorrectChatPasswordFormat" xml:space="preserve">
     <value>Incorrect password format</value>
   </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Invalid password</value>
+  </data>
 </root>

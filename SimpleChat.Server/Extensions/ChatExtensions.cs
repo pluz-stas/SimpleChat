@@ -85,7 +85,8 @@ namespace SimpleChat.Server.Extensions
                 Id = contract.Id,
                 IsPublic = contract.IsPublic,
                 Name = contract.Name,
-                Photo = contract.Photo
+                Photo = contract.Photo,
+                Password = contract.Password
             };
         }
     }

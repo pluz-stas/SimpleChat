@@ -6,13 +6,14 @@ using SimpleChat.Dal.Entities;
 using SimpleChat.Dal.Interfaces;
 using System.Threading.Tasks;
 using SimpleChat.Dal.Resources;
+using SimpleChat.Shared.Exceptions;
 
 
 namespace SimpleChat.Bll.Services
 {
     public class ChatService : AbstractService<ChatModel, Chat>, IChatService
     {
-        private IPasswordService _passwordService;
+        private readonly IPasswordService _passwordService;
         public ChatService(IChatRepository repository, IMapper mapper, IPasswordService passwordService) : base(repository, mapper)
         {
             _passwordService = passwordService;
@@ -29,6 +30,26 @@ namespace SimpleChat.Bll.Services
                     throw new ArgumentException(string.Format(ErrorDetails.IncorrectChatPasswordFormat));
 
             return await _repository.CreateAsync(chatEntity);
+        }
+        
+        public override async Task UpdateAsync(ChatModel model)
+        {
+            var chatEntity = await _repository.GetByIdAsync(model.Id);
+
+            if (chatEntity == null)
+            {
+                throw new NotFoundException(string.Format(ErrorDetails.ChatDoesNotExist, model.Id));
+            }
+
+            if (!string.IsNullOrEmpty(chatEntity.PasswordHash))
+            {
+                if (string.IsNullOrEmpty(model.Password) || !_passwordService.Verify(chatEntity.PasswordHash, model.Password))
+                {
+                    throw new ArgumentException(string.Format(ErrorDetails.InvalidPassword));
+                }
+            }
+
+            await _repository.UpdateAsync(_mapper.Map<Chat>(model));
         }
     }
 }
