@@ -65,7 +65,8 @@ namespace SimpleChat.Server.Extensions
             {
                 IsPublic = contract.IsPublic,
                 Name = contract.Name,
-                Photo = contract.Photo
+                Photo = contract.Photo,
+                Password = contract.Password
             };
         }
 

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
+using System.Text.RegularExpressions;
 using SimpleChat.Bll.Interfaces;
 
 namespace SimpleChat.Bll.Services
@@ -50,6 +49,15 @@ namespace SimpleChat.Bll.Services
             var verified = keyToCheck.SequenceEqual(key);
 
             return verified;
+        }
+        
+        public bool Validate(string password)
+        {
+            var hasNumber = new Regex(@"[0-9]+");
+            var hasUpperChar = new Regex(@"[A-Z]+");
+            var hasMinimum8Chars = new Regex(@".{8,}");
+
+            return hasNumber.IsMatch(password) && hasUpperChar.IsMatch(password) && hasMinimum8Chars.IsMatch(password);
         }
     }
 }

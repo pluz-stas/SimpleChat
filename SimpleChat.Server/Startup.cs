@@ -57,6 +57,7 @@ namespace SimpleChat.Server
 
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IPasswordService, PasswordService>();
 
             services.AddControllers(options =>
             {

@@ -132,4 +132,7 @@
   <data name="ResourceDoesNotExist" xml:space="preserve">
     <value>{0} with Id {1} does not exist</value>
   </data>
+  <data name="IncorrectChatPasswordFormat" xml:space="preserve">
+    <value>Incorrect password format</value>
+  </data>
 </root>
