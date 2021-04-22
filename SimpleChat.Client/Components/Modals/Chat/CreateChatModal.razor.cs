@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using SimpleChat.Client.Resources.Constants;
-using SimpleChat.Client.Resources.ResourceFiles;
 using SimpleChat.Client.Services;
+using SimpleChat.Client.Services.Interfaces;
 using SimpleChat.Shared.Contracts.Chat;
 
 namespace SimpleChat.Client.Components.Modals.Chat
@@ -42,7 +36,7 @@ namespace SimpleChat.Client.Components.Modals.Chat
             };
 
             await Http.PostAsync($"api/chats/", chat);
-            OnClose.InvokeAsync();
+            await OnClose.InvokeAsync();
         }
 
         private async Task LoadPhoto(InputFileChangeEventArgs e) => photo = await LoadFileService.LoadFile(e);
