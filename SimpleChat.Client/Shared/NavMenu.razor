@@ -12,7 +12,7 @@
     <ul class="list-group">
         @foreach (var chat in chats)
         {
-            <ChatCard OnChatSelecting="@ChatSelected" IsSelected="chat.Id == selectedChatId" Chat="@chat"/>
+            <ChatCard IsSelected="chat.Id == ChatTracker.SelectedChatId" Chat="@chat" />
         }
     </ul>
 </nav>

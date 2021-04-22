@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
-using SimpleChat.Client.Services;
+using SimpleChat.Client.Services.Interfaces;
 using SimpleChat.Shared.Contracts.Message;
 using SimpleChat.Shared.Hub;
 
@@ -87,7 +87,8 @@ namespace SimpleChat.Client.Components
         {
             var previousMessage = messageIndex + 1 < messages.Count ? messages[messageIndex + 1] : null;
 
-            return previousMessage != null && previousMessage.CreatedDate.ToLocalTime().Day != messages[messageIndex].CreatedDate.ToLocalTime().Day;
+            return previousMessage != null && 
+                previousMessage.CreatedDate.ToLocalTime().Day != messages[messageIndex].CreatedDate.ToLocalTime().Day;
         }
 
         private async Task ScrollToAsync(int scrollerHeight)

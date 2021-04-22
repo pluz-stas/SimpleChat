@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
-using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Infrastructure.Settings;
 using SimpleChat.Client.Resources;
 using SimpleChat.Client.Resources.Constants;
+using SimpleChat.Client.Services;
+using SimpleChat.Client.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,70 +16,20 @@ namespace SimpleChat.Client.Components.Modals
 {
     public partial class UserModal
     {
-        private const string UserNameKeyName = "UserName";
-        private const string UserImgKeyName = "UserImgUrl";
-
         private bool isUserNameInputOpen;
-        private bool isUserImgInputOpen;
+        private bool isUserImgModalOpen;
+        private bool isCultureMenuOpen;
+        private Themes theme;
+        private CultureInfo culture = CultureInfo.CurrentCulture;
+        private IEnumerable<CultureInfo> cultures;
+        private string userName;
+        private string userImg;
 
-        private string UserName { get; set; }
-        private string UserImg { get; set; }
-        
         [Inject]
-        private ILocalStorageService LocalStorageService { get; set; }
+        private UserDataStorageService UserStorage { get; set; }
 
         [Parameter]
         public EventCallback OnClose { get; set; }
-
-        protected override async Task OnInitializedAsync()
-        {
-            string localStorageName = await LocalStorageService.GetStringAsync(UserNameKeyName);
-            UserName = string.IsNullOrWhiteSpace(localStorageName) ? "anon" : localStorageName;
-            UserImg = await LocalStorageService.GetStringAsync(UserImgKeyName);
-
-            cultures = Options.Value.Cultures.Select(x => new CultureInfo(x));
-
-            Enum.TryParse(await Storage.GetStringAsync(AppConstants.LocalStorageConstants.Theme), out theme);
-        }
-
-        private async Task SetNameAsync()
-        {
-            if (!string.IsNullOrWhiteSpace(UserName))
-            {
-                await LocalStorageService.SetStringAsync(UserNameKeyName, UserName);
-            }
-        }
-
-        private async Task SetImgAsync()
-        {
-            if (!string.IsNullOrWhiteSpace(UserImg))
-                await LocalStorageService.SetStringAsync(UserImgKeyName, UserImg);
-        }
-
-        private async Task ToggleEditUserNameInputAsync()
-        {
-            if (isUserNameInputOpen)
-            {
-                await SetNameAsync();
-            }
-            isUserNameInputOpen = !isUserNameInputOpen;
-            isUserImgInputOpen = !isUserImgInputOpen && isUserImgInputOpen;
-        }
-
-        private async Task ToggleEditUserImgInputAsync()
-        {
-            if (isUserImgInputOpen)
-            {
-                await SetImgAsync();
-            }
-            isUserImgInputOpen = !isUserImgInputOpen;
-            isUserNameInputOpen = isUserNameInputOpen && !isUserNameInputOpen;
-        }
-
-        private Themes theme;
-        private CultureInfo culture = CultureInfo.CurrentCulture;
-        private bool isCultureMenuOpen = false;
-        private IEnumerable<CultureInfo> cultures;
 
         [Inject]
         private IOptions<CulturesConfiguration> Options { get; set; }
@@ -92,8 +43,58 @@ namespace SimpleChat.Client.Components.Modals
         [Inject]
         private NavigationManager NavManager { get; set; }
 
-        [Parameter]
-        public EventCallback OnUserModalClick { get; set; }
+        protected override async Task OnInitializedAsync()
+        {
+            userName = UserStorage.UserName;
+            userImg = UserStorage.UserPic;
+
+            cultures = Options.Value.Cultures.Select(x => new CultureInfo(x));
+
+            Enum.TryParse(await Storage.GetStringAsync(AppConstants.LocalStorageConstants.Theme), out theme);
+        }
+
+        private string GetUserNameStatus()
+        {
+            if (IsUserNameValid())
+            {
+                return "green";
+            }
+            else
+            {
+                return "red";
+            }
+        }
+
+        private void ResetUserName()
+        {
+            userName = "kek";
+        }
+
+        private bool IsUserNameValid() => !string.IsNullOrWhiteSpace(userName) && userName.Length < 30;
+
+        private async Task SetNameAsync() => await UserStorage.SetUserNameAsync(userName);
+
+        private async Task SetImgAsync() => await UserStorage.SetUserPicAsync(userImg);
+
+        private async Task ToggleEditUserNameInputAsync()
+        {
+            if (isUserNameInputOpen)
+            {
+                await SetNameAsync();
+            }
+            isUserNameInputOpen = false;
+            //isUserImgInputOpen = !isUserImgInputOpen && isUserImgInputOpen;
+        }
+
+        private async Task ToggleEditUserImgInputAsync()
+        {
+            if (isUserImgModalOpen)
+            {
+                await SetImgAsync();
+            }
+            isUserImgModalOpen = !isUserImgModalOpen;
+            isUserNameInputOpen = isUserNameInputOpen && !isUserNameInputOpen;
+        }
 
         private async Task SwitchTheme()
         {

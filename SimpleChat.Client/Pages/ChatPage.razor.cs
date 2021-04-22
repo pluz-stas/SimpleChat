@@ -2,11 +2,11 @@
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
-using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Resources.Constants;
-using SimpleChat.Client.Services;
 using SimpleChat.Shared.Contracts.Message;
 using SimpleChat.Shared.Contracts.Chat;
+using SimpleChat.Client.Services.Interfaces;
+using SimpleChat.Client.Services;
 
 namespace SimpleChat.Client.Pages
 {
@@ -19,8 +19,12 @@ namespace SimpleChat.Client.Pages
 
         [Inject]
         private IHttpClientService Http { get; set; }
+
         [Inject]
         private ILocalStorageService LocalStorageService { get; set; }
+
+        [Inject]
+        private ChatTracker ChatTracker { get; set; }
 
         [Parameter]
         public int ChatId { get; set; }
@@ -28,6 +32,7 @@ namespace SimpleChat.Client.Pages
         protected override async Task OnParametersSetAsync()
         {
             chat = await Http.GetAsync<ChatContract>($"api/chats/{ChatId}");
+            ChatTracker.SelectChat(ChatId);
         }
 
         private async Task SendAsync()

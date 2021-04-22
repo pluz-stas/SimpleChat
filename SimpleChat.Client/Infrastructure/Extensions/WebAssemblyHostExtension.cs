@@ -6,6 +6,7 @@ using Microsoft.JSInterop;
 using SimpleChat.Client.Infrastructure.Settings;
 using SimpleChat.Client.Resources;
 using SimpleChat.Client.Resources.Constants;
+using SimpleChat.Client.Services.Interfaces;
 using System;
 using System.Globalization;
 using System.Linq;

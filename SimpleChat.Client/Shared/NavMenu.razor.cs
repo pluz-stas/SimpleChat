@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using SimpleChat.Client.Services;
 using SimpleChat.Shared.Contracts.Chat;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -8,13 +10,15 @@ using System.Threading.Tasks;
 
 namespace SimpleChat.Client.Shared
 {
-    public partial class NavMenu
+    public partial class NavMenu : IDisposable
     {
         private List<ChatContract> chats = new List<ChatContract>();
-        private int selectedChatId;
 
         [Inject]
         private HttpClient Http { get; set; }
+
+        [Inject]
+        private ChatTracker ChatTracker { get; set; }
 
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> InputAttributes { get; set; }
@@ -33,12 +37,13 @@ namespace SimpleChat.Client.Shared
             {
                 chats.AddRange(publicChats);
             }
+
+            ChatTracker.ChatSelected = () => StateHasChanged();
         }
 
-        private async Task ChatSelected(int chatId)
+        public void Dispose()
         {
-            selectedChatId = chatId;
-            await OnChatSelecting.InvokeAsync();
+            ChatTracker.ChatSelected = null;
         }
     }
 }

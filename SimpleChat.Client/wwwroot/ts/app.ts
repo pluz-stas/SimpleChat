@@ -5,6 +5,5 @@ const switchTheme = (theme: string): void => {
 };
 
 function test(arg): void {
-    console.log('here');
     console.log(arg);
 }

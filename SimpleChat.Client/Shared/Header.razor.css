@@ -7,10 +7,6 @@ a {
     color: var(--theme-header-text);
 }
 
-button {
-    color: var(--theme-header-button);
-}
-
 .navbar-brand-container {
     text-align: center;
     flex: auto;
@@ -20,6 +16,17 @@ button {
 .navbar-brand {
     font-size: 1.1rem;
     margin-right: 0;
+}
+
+.profile-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-pic:hover{
+    transform: scale(1.1);
 }
 
 @media (min-width: 768px) {

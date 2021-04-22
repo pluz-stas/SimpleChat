@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\ts\js-local-storage.ts" />
-    <TypeScriptCompile Include="wwwroot\ts\messagesListScroller.ts" />
   </ItemGroup>
 
   <ItemGroup>

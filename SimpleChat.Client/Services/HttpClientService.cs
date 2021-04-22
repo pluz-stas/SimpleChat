@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using SimpleChat.Client.Resources.ResourceFiles;
+using SimpleChat.Client.Services.Interfaces;
 
 namespace SimpleChat.Client.Services
 {

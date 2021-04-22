@@ -6,12 +6,12 @@
         }
     </div>
     <div class=@(Message.User.UserId == userId ? "im-message-wrap" : "smbd-message-wrap")>
-        <div class="textColumn">
+        <div>
             @if (DisplayUserName)
             {
                 <div class="message-user-name">@Message.User.UserName</div>
             }
-            <div class="messageContent">@Message.Content</div>
+            <div class="message-content">@Message.Content</div>
         </div>
     </div>
     <div class="message-meta-wrap">

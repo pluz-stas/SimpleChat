@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Resources.Constants;
+using SimpleChat.Client.Services.Interfaces;
 using SimpleChat.Shared.Contracts.Message;
 
 namespace SimpleChat.Client.Components
