@@ -16,14 +16,12 @@ namespace SimpleChat.Client.Components.Modals
 {
     public partial class UserModal
     {
-        private bool isUserNameInputOpen;
         private bool isUserImgModalOpen;
         private bool isCultureMenuOpen;
         private Themes theme;
         private CultureInfo culture = CultureInfo.CurrentCulture;
         private IEnumerable<CultureInfo> cultures;
         private string userName;
-        private string userImg;
 
         [Inject]
         private UserDataStorageService UserStorage { get; set; }
@@ -46,7 +44,6 @@ namespace SimpleChat.Client.Components.Modals
         protected override async Task OnInitializedAsync()
         {
             userName = UserStorage.UserName;
-            userImg = UserStorage.UserPic;
 
             cultures = Options.Value.Cultures.Select(x => new CultureInfo(x));
 
@@ -65,36 +62,9 @@ namespace SimpleChat.Client.Components.Modals
             }
         }
 
-        private void ResetUserName()
-        {
-            userName = "kek";
-        }
-
         private bool IsUserNameValid() => !string.IsNullOrWhiteSpace(userName) && userName.Length < 30;
 
         private async Task SetNameAsync() => await UserStorage.SetUserNameAsync(userName);
-
-        private async Task SetImgAsync() => await UserStorage.SetUserPicAsync(userImg);
-
-        private async Task ToggleEditUserNameInputAsync()
-        {
-            if (isUserNameInputOpen)
-            {
-                await SetNameAsync();
-            }
-            isUserNameInputOpen = false;
-            //isUserImgInputOpen = !isUserImgInputOpen && isUserImgInputOpen;
-        }
-
-        private async Task ToggleEditUserImgInputAsync()
-        {
-            if (isUserImgModalOpen)
-            {
-                await SetImgAsync();
-            }
-            isUserImgModalOpen = !isUserImgModalOpen;
-            isUserNameInputOpen = isUserNameInputOpen && !isUserNameInputOpen;
-        }
 
         private async Task SwitchTheme()
         {
@@ -128,6 +98,6 @@ namespace SimpleChat.Client.Components.Modals
             }
         }
 
-        private string GetCultureIcon(CultureInfo culture) => $"/cultures/{culture.Name}.png";
+        private static string GetCultureIcon(CultureInfo culture) => $"/cultures/{culture.Name}.png";
     }
 }

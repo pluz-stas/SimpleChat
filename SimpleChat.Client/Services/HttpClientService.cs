@@ -2,7 +2,6 @@
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using SimpleChat.Client.Resources.ResourceFiles;
 using SimpleChat.Client.Services.Interfaces;
@@ -44,23 +43,22 @@ namespace SimpleChat.Client.Services
             }
         }
 
-        public async Task PostAsync<T>(string uri, T value)
+        public async Task<HttpResponseMessage> PostAsync<T>(string uri, T value)
         {
-            HttpResponseMessage response;
-
             try
             {
-                response = await _client.PostAsJsonAsync(uri, value);
+                HttpResponseMessage response = await _client.PostAsJsonAsync(uri, value);
+                if (!response.IsSuccessStatusCode)
+                {
+                    await GetError(response);
+                }
+
+                return response;
             }
             catch
             {
                 _errorState.SetError(Resource.Error, Resource.RequestError);
                 throw;
-            }
-
-            if (!response.IsSuccessStatusCode)
-            {
-                await GetError(response);
             }
         }
 

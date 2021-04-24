@@ -153,4 +153,7 @@
   <data name="LoadFileError" xml:space="preserve">
     <value>Error during loading file</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
 </root>

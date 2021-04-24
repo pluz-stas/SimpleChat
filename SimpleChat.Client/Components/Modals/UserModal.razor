@@ -37,23 +37,12 @@
             </div>
         </div>
         <div class="p-2">
-            @*<div class="d-flex username-block">
-                    @if (!isUserNameInputOpen)
-                    {
-                        <label for="username-input">Username</label>
-                    }
-                    <input id="username-input" class="outline-@GetUserNameStatus()" readonly=@(!isUserNameInputOpen) @bind:event="oninput" @onchange="ResetUserName" @onclick="() => isUserNameInputOpen = true" @bind="userName">
-                    @if (isUserNameInputOpen)
-                    {
-                        <button type="button" disabled="@IsUserNameValid()" @onclick="@ToggleEditUserNameInputAsync">Save</button>
-                    }
-                </div>*@
+            <div class="d-flex username-block">
+                <label for="username-input">@localizer[Resource.Username]</label>
+                <input id="username-input" class="outline-@GetUserNameStatus()" @bind:event="oninput" @bind="userName">
+                <button type="button" disabled="@(!IsUserNameValid())" @onclick="@SetNameAsync">Save</button>
+            </div>
         </div>
-        @*<div class="input-container">
-                <div class="@(isUserImgInputOpen ? "d-none" : "user-data")">@UserImg</div>
-                <input class="@(isUserImgInputOpen ? "user-data" : "d-none")" @bind="UserImg">
-                <button class="button" @onclick="@ToggleEditUserImgInputAsync">@(isUserImgInputOpen ? "OK" : "edit")</button>
-            </div>*@
         <button class="block-button mt-auto close-modal" type="button" @onclick="OnClose">@localizer[Resource.Close]</button>
     </section>
 

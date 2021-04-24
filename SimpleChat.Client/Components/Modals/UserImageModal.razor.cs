@@ -46,55 +46,7 @@ namespace SimpleChat.Client.Components.Modals
 
         private Task GetAvatarsAsync()
         {
-            avatars = new List<string>
-            {
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop1.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop2.jpg",
-                "images/Avatars/Beebop2.jpg",
-            };
+            avatars = new List<string>(); // here should be call on server to get pics.
 
             CalculateCount();
 

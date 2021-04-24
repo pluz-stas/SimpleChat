@@ -153,4 +153,7 @@
   <data name="LoadFileError" xml:space="preserve">
     <value>Ошибка во время загрузки файла</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
 </root>

@@ -13,17 +13,8 @@ namespace SimpleChat.Client.Components
         public ChatContract Chat { get; set; }
 
         [Parameter]
-        public EventCallback<int> OnChatSelecting { get; set; }
-
-        [Parameter]
         public bool IsSelected { get; set; }
 
-        private Task SelectChat()
-        {
-            OnChatSelecting.InvokeAsync(Chat.Id);
-            NavigationManager.NavigateTo($"chat/{Chat.Id}");
-            
-            return Task.CompletedTask;
-        }
+        private void SelectChat() => NavigationManager.NavigateTo($"chat/{Chat.Id}");
     }
 }
