@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
-using SimpleChat.Client.Infrastructure;
 using SimpleChat.Client.Resources.Constants;
-using SimpleChat.Client.Services;
 using SimpleChat.Shared.Contracts.Message;
 using SimpleChat.Shared.Contracts.Chat;
+using SimpleChat.Client.Services.Interfaces;
+using SimpleChat.Client.Services;
 
 namespace SimpleChat.Client.Pages
 {
@@ -12,11 +14,17 @@ namespace SimpleChat.Client.Pages
     {
         private string messageInput;
         private ChatContract chat;
+        private bool isEditChatModalOpen;
+
 
         [Inject]
         private IHttpClientService Http { get; set; }
+
         [Inject]
         private ILocalStorageService LocalStorageService { get; set; }
+
+        [Inject]
+        private ChatTracker ChatTracker { get; set; }
 
         [Parameter]
         public int ChatId { get; set; }
@@ -24,9 +32,10 @@ namespace SimpleChat.Client.Pages
         protected override async Task OnParametersSetAsync()
         {
             chat = await Http.GetAsync<ChatContract>($"api/chats/{ChatId}");
+            ChatTracker.SelectChat(ChatId);
         }
 
-        private async Task Send()
+        private async Task SendAsync()
         {
             var userNameTask = LocalStorageService.GetStringAsync(LocalStorageAttributes.UserNameKeyName);
             var userImgTask = LocalStorageService.GetStringAsync(LocalStorageAttributes.UserImgKeyName);
@@ -50,6 +59,18 @@ namespace SimpleChat.Client.Pages
             await Http.PostAsync($"api/messages/{ChatId}", message);
 
             messageInput = string.Empty;
+        }
+        
+        private string GetAvatarName(string str)
+        {
+            var acronym = new string(str.Split(new [] {' '}, 
+                StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]).ToArray()).ToUpper();
+            if (acronym.Length > 2)
+            {
+                acronym = acronym.Substring(0, acronym.Length - (acronym.Length - 2));
+            }
+            
+            return acronym;
         }
     }
 }

@@ -1,0 +1,53 @@
+﻿@inject IStringLocalizer<Resource> localizer
+
+<div class="modal-background" role="dialog" aria-modal="true">
+    <section class="user-modal d-flex flex-column">
+        <div class="modal-head">
+            <h5>@localizer[Resource.Settings]</h5>
+        </div>
+        <div class="d-flex justify-content-between p-2 pic-block">
+            <div>
+                <button type="button" @onclick="(() => isUserImgModalOpen = true)">
+                    <img class="profile-pic" src="@UserStorage.UserPic" alt="Profile picture" />
+                </button>
+            </div>
+            <div class="d-flex flex-column justify-content-around">
+                <button class="ml-auto" @onclick="@SwitchTheme"><span class="oi @GetThemeIcon()" /></button>
+                @if (!isCultureMenuOpen)
+                {
+                    <button type="button" @onclick="() => isCultureMenuOpen = true">
+                        <img src="@GetCultureIcon(culture)" alt="@culture.Name" />
+                    </button>
+                }
+                else
+                {
+                    <div class="culture-selector">
+                        <ul>
+                            @foreach (var culture in cultures)
+                            {
+                                <li>
+                                    <button @onclick="async () => await SelectCultureAsync(culture)">
+                                        <img src="@GetCultureIcon(culture)" alt="@culture.Name" />
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="p-2">
+            <div class="d-flex username-block">
+                <label for="username-input">@localizer[Resource.Username]</label>
+                <input id="username-input" class="outline-@GetUserNameStatus()" @bind:event="oninput" @bind="userName">
+                <button type="button" disabled="@(!IsUserNameValid())" @onclick="@SetNameAsync">Save</button>
+            </div>
+        </div>
+        <button class="block-button mt-auto close-modal" type="button" @onclick="OnClose">@localizer[Resource.Close]</button>
+    </section>
+
+    @if (isUserImgModalOpen)
+    {
+        <UserImageModal OnImageModalClose="@(() => isUserImgModalOpen = false)" />
+    }
+</div>

@@ -34,12 +34,8 @@ namespace SimpleChat.Bll.Services
 
         public override async Task UpdateAsync(MessageModel model)
         {
-            var messageEntity = await _repository.GetByIdAsync(model.Id);
-
-            if (messageEntity == null)
-            {
+            var messageEntity = await _repository.GetByIdAsync(model.Id) ??
                 throw new NotFoundException(string.Format(ErrorDetails.MessageDoesNotExist, model.Id));
-            }
 
             messageEntity.Content = model.Content;
 
@@ -48,6 +44,5 @@ namespace SimpleChat.Bll.Services
 
         public async Task<IEnumerable<MessageModel>> GetByChatAsync(int chatId, int skip, int top)  =>
             (await ((IMessageRepository)_repository).GetByChatAsync(chatId, skip, top)).Select(x => _mapper.Map<Message, MessageModel>(x));
-
     }
 }

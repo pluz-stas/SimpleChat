@@ -1,8 +1,4 @@
-﻿nav {
-    margin: 5px;
-}
-
-@media (min-width: 768px) {
+﻿@media (min-width: 768px) {
 
     .collapse {
          display: block!important; 
