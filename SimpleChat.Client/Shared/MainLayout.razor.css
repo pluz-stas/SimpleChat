@@ -9,16 +9,8 @@
     flex: auto;
 }
 
-#user-section {
-    background-color: var(--theme-user-background);
-    margin: 5px 0 5px 2px;
-    border-radius: 10px 0 0 10px;
-}
-
 #chats-section {
     background-color: var(--theme-chats-background);
-    margin: 5px 2px 5px 0;
-    border-radius: 0 10px 10px 0;
 }
 
 .hiden {
@@ -42,12 +34,6 @@
         width: 25%;
         position: sticky;
         left: 0;
-    }
-
-    #user-section {
-        max-width: 500px;
-        position: sticky;
-        right: 0;
     }
 
     main {

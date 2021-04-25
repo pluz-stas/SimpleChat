@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 using SimpleChat.Client.Resources.ResourceFiles;
+using SimpleChat.Client.Services.Interfaces;
 
 namespace SimpleChat.Client.Services
 {
@@ -37,20 +38,41 @@ namespace SimpleChat.Client.Services
             }
             catch
             {
+                _errorState.SetError(Resource.Error, Resource.RequestError);
                 throw;
             }
         }
 
-        public async Task PostAsync<T>(string uri, T value)
+        public async Task<HttpResponseMessage> PostAsync<T>(string uri, T value)
+        {
+            try
+            {
+                HttpResponseMessage response = await _client.PostAsJsonAsync(uri, value);
+                if (!response.IsSuccessStatusCode)
+                {
+                    await GetError(response);
+                }
+
+                return response;
+            }
+            catch
+            {
+                _errorState.SetError(Resource.Error, Resource.RequestError);
+                throw;
+            }
+        }
+
+        public async Task PutAsync<T>(string uri, T value)
         {
             HttpResponseMessage response;
 
             try
             {
-                response = await _client.PostAsJsonAsync(uri, value);
+                response = await _client.PutAsJsonAsync(uri, value);
             }
             catch
             {
+                _errorState.SetError(Resource.Error, Resource.RequestError);
                 throw;
             }
 
@@ -69,7 +91,8 @@ namespace SimpleChat.Client.Services
                 message = await response.Content.ReadAsStringAsync();
             }
             catch
-            {
+            {                
+                _errorState.SetError(Resource.Error, Resource.RequestError);
                 message = Resource.ErrorMessage;
             }
 

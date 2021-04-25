@@ -61,6 +61,42 @@ namespace SimpleChat.Client.Resources.ResourceFiles {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Chat settings.
+        /// </summary>
+        internal static string ChatSettings {
+            get {
+                return ResourceManager.GetString("ChatSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Close.
+        /// </summary>
+        internal static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Create.
+        /// </summary>
+        internal static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Edit.
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Error.
         /// </summary>
         internal static string Error {
@@ -88,11 +124,56 @@ namespace SimpleChat.Client.Resources.ResourceFiles {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на is public.
+        /// </summary>
+        internal static string IsPublic {
+            get {
+                return ResourceManager.GetString("IsPublic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Error during loading file.
+        /// </summary>
+        internal static string LoadFileError {
+            get {
+                return ResourceManager.GetString("LoadFileError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Error during request.
+        /// </summary>
+        internal static string RequestError {
+            get {
+                return ResourceManager.GetString("RequestError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Settings.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Really the simplest chat ever.
         /// </summary>
         internal static string Tagline {
             get {
                 return ResourceManager.GetString("Tagline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Username.
+        /// </summary>
+        internal static string Username {
+            get {
+                return ResourceManager.GetString("Username", resourceCulture);
             }
         }
     }

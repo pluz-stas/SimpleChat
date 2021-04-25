@@ -8,6 +8,7 @@ html, body {
 
 :root[data-theme='Light'] {
     --theme-chats-background: #dcfbfe;
+    --theme-chat-header-background: #afecf2;
     --theme-user-background: #fadef5;
     --theme-smbd-message-background: #e6d1d6;
     --theme-my-message-background: #ff87a2;
@@ -19,12 +20,14 @@ html, body {
     --theme-header-text: #99e9f1;
     --theme-header-button: #fadef5;
     --theme-block-background: #add3cb;
+    --theme-block-selected-background: #afecf2;
     --theme-link-color: #1f3353;
 }
 
 :root[data-theme='Dark'] {
     --theme-chats-background: #2e2e2e;
-    --theme-user-background: #0c4889;
+    --theme-chat-header-background: #1f1f1f;
+    --theme-user-background: #2e2e2e;
     --theme-smbd-message-background: #575757;
     --theme-my-message-background: #075ab4;
     --theme-body-background: #171717;
@@ -35,6 +38,7 @@ html, body {
     --theme-header-text: white;
     --theme-header-button: white;
     --theme-block-background: #6b6d6e;
+    --theme-block-selected-background: #00000052;
     --theme-link-color: white;
 }
 
@@ -84,7 +88,17 @@ button:focus {
     color: red;
 }
 
+.block-button {
+    background-color: transparent;
+}
 
+    .block-button.selected {
+        background-color: var(--theme-block-selected-background);
+    }
+
+    .block-button:hover {
+        background-color: var(--theme-block-background);
+    }
 
 .collapse {
     display: none;

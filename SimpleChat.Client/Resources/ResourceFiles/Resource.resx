@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
@@ -126,7 +129,31 @@
   <data name="Footer" xml:space="preserve">
     <value>Just a footer</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="Tagline" xml:space="preserve">
     <value>Really the simplest chat ever</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="IsPublic" xml:space="preserve">
+    <value>is public</value>
+  </data>
+  <data name="ChatSettings" xml:space="preserve">
+    <value>Chat settings</value>
+  </data>
+  <data name="RequestError" xml:space="preserve">
+    <value>Error during request</value>
+  </data>
+  <data name="LoadFileError" xml:space="preserve">
+    <value>Error during loading file</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
   </data>
 </root>

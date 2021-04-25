@@ -3,36 +3,8 @@
     color: var(--theme-header-text);
 }
 
-.culture-selector {
-    z-index: 100;
-    position: absolute;
-    right: 15px;
-    background-color: var(--theme-header-background);
-    border-radius: 5px;
-    border: 2px solid var(--theme-header-button);
-}
-
-.culture-selector > ul {
-    all: unset;
-    display: flex;
-    flex-direction: column;
-}
-
-.culture-selector > ul > li {
-    all: unset;
-}
-
-a, .btn-link {
+a {
     color: var(--theme-header-text);
-}
-
-button {
-    color: var(--theme-header-button);
-}
-
-button > img {
-    all: unset;
-    vertical-align: text-top;
 }
 
 .navbar-brand-container {
@@ -44,6 +16,17 @@ button > img {
 .navbar-brand {
     font-size: 1.1rem;
     margin-right: 0;
+}
+
+.profile-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-pic:hover{
+    transform: scale(1.1);
 }
 
 @media (min-width: 768px) {

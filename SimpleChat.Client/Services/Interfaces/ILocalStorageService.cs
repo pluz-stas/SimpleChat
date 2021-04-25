@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace SimpleChat.Client.Infrastructure
+namespace SimpleChat.Client.Services.Interfaces
 {
     public interface ILocalStorageService
     {

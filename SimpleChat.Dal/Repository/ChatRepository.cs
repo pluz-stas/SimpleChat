@@ -4,7 +4,6 @@ using SimpleChat.Dal.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using SimpleChat.Shared.Exceptions;
 using SimpleChat.Dal.Resources;
@@ -37,10 +36,10 @@ namespace SimpleChat.Dal.Repository
                 .Where(x => x.IsPublic)
                 .CountAsync();
 
-        public override async Task<IEnumerable<Chat>> FilterAsync(Expression<Func<Chat, bool>> predicate) =>
+        public override async Task<IEnumerable<Chat>> FilterAsync(Predicate<Chat> predicate) =>
             await dbContext.Chats
                 .AsNoTracking()
                 .Include(x => x.Messages.OrderByDescending(m => m.CreatedDate).Take(1))
-                .Where(x => x.IsPublic).Where(predicate).ToListAsync();
+                .Where(x => x.IsPublic && predicate(x)).ToListAsync();
     }
 }

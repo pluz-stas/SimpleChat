@@ -1,0 +1,90 @@
+﻿.modal-background {
+    position: fixed;
+    z-index: 1500;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 70px 10px;
+}
+
+.oi {
+    font-size: 1.5rem;
+}
+
+.user-modal {
+    max-width: 500px;
+    width: 50vw;
+    height: fit-content;
+    background-color: var(--theme-user-background);
+}
+
+.username-block > label {
+    margin-right: 20px;
+}
+
+.username-block > input {
+    width: 100%
+}
+
+.username-block > button {
+    margin-left: 20px;
+}
+
+.outline-red{
+    outline-color: red;
+}
+
+.outline-green {
+    outline-color: green;
+}
+
+.pic-block {
+    background-color: var(--theme-my-message-background);
+}
+
+.modal-head {
+    background-color: var(--theme-body-background);
+    text-align: end;
+    padding: 8px 10px 0;
+}
+
+.close-modal {
+    padding: 5px;
+}
+
+.culture-selector {
+    border-radius: 5px;
+}
+
+    .culture-selector > ul {
+        all: unset;
+        display: flex;
+        flex-direction: row;
+    }
+
+        .culture-selector > ul > li {
+            all: unset;
+        }
+
+button > img {
+    all: unset;
+    vertical-align: text-top;
+}
+
+.profile-pic {
+    width: 6em;
+    height: 6em;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .user-modal {
+        width: 100%;
+        height: fit-content;
+    }
+}

@@ -12,5 +12,5 @@
 
         <MessageComponent Message=@message DisplayUserName=@ShouldDisplayName(message, i) DisplayAvatar=@ShouldDisplayAvatar(message, i)></MessageComponent>
     }
-    <button @onclick="ScrollToBottom" id="scroll-button" class="oi oi-chevron-bottom"></button>
+    <button @onclick="() => ScrollToAsync(int.MinValue)" id="scroll-button" class="oi oi-chevron-bottom"></button>
 </div>

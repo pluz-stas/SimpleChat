@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
-using SimpleChat.Client.Infrastructure;
-using SimpleChat.Client.Resources.Constants;
-using SimpleChat.Client.Services;
+using SimpleChat.Client.Services.Interfaces;
 using SimpleChat.Shared.Contracts.Message;
 using SimpleChat.Shared.Hub;
 
@@ -17,6 +15,7 @@ namespace SimpleChat.Client.Components
     {
         private const int DefaultMessagesTop = 20;
 
+        private bool isHistoryUpdating;
         private HubConnection hubConnection;
         private List<MessageContract> messages = new List<MessageContract>();
         private DotNetObjectReference<MessagesListComponent> objRef;
@@ -35,13 +34,13 @@ namespace SimpleChat.Client.Components
                 .WithUrl(NavigationManager.ToAbsoluteUri(HubConstants.ChatUri))
                 .Build();
 
-            hubConnection.On<MessageContract>(HubConstants.ReceiveMessage, mes =>
+            hubConnection.On<MessageContract>(HubConstants.ReceiveMessage, async mes =>
             {
                 if (mes.Chat.Id == ChatId)
                 {
                     messages.Insert(0, mes);
                     StateHasChanged();
-                    ScrollToBottom();
+                    await ScrollToAsync(int.MinValue);
                 }
             });
 
@@ -62,25 +61,39 @@ namespace SimpleChat.Client.Components
                 await JsRuntime.InvokeVoidAsync("addPaginationEvent", objRef);
                 await JsRuntime.InvokeVoidAsync("addScrollButtonEvent");
             }
+            else if (!firstRender && !isHistoryUpdating)
+            {
+                await ScrollToAsync(int.MinValue);
+            }
         }
 
         [JSInvokable]
-        public async Task UpdateMessagesHistoryAsync()
+        public async Task UpdateMessagesHistoryAsync(int currentHeight)
         {
-            messages.AddRange(await GetMessagesAsync(messages.Count));
-            StateHasChanged();
+            isHistoryUpdating = true;
+            var oldMessages = await GetMessagesAsync(messages.Count);
+            
+            if (oldMessages.Any())
+            {
+                messages.AddRange(oldMessages);
+                StateHasChanged();
+
+                await ScrollToAsync(currentHeight);
+            }
+            isHistoryUpdating = false;
         }
 
         private bool IsDateSplit(int messageIndex)
         {
             var previousMessage = messageIndex + 1 < messages.Count ? messages[messageIndex + 1] : null;
 
-            return previousMessage != null && previousMessage.CreatedDate.ToLocalTime().Day != messages[messageIndex].CreatedDate.ToLocalTime().Day;
+            return previousMessage != null && 
+                previousMessage.CreatedDate.ToLocalTime().Day != messages[messageIndex].CreatedDate.ToLocalTime().Day;
         }
 
-        private void ScrollToBottom()
+        private async Task ScrollToAsync(int scrollerHeight)
         {
-            JsRuntime.InvokeVoidAsync("scrollToBottom");
+            await JsRuntime.InvokeVoidAsync("scrollToHeight", scrollerHeight);
         }
 
         private async Task<IEnumerable<MessageContract>> GetMessagesAsync(int skip) =>
