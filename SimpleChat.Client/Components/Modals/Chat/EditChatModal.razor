@@ -5,34 +5,77 @@
         <div class="modal-head">
             <h5>@localizer[Resource.ChatSettings]</h5>
         </div>
-        
-        <div class="d-flex flex-row">
+        <EditForm Model="@Chat" OnValidSubmit="@EditAsync">
 
-            <div class="attach-pic">
-                @if (Chat.Photo.Length == 0)
-                {
-                    <button class="oi oi-camera-slr attach-button"></button>
-                }
-                else
-                {
-                    <img class="chat-pic" src="data:image/jpeg;base64,@Convert.ToBase64String(Chat.Photo)" alt="Chat picture"/>
-                }
-                <div class="hidden-input">
-                    <InputFile OnChange="@LoadPhoto" accept="image/jpeg"/>
+            <div class="d-flex flex-row">
+                <div>
+                    <div class="attach-pic">
+                        @if (Chat.Photo.Length == 0)
+                        {
+                            <button class="oi oi-camera-slr attach-button"></button>
+                        }
+                        else
+                        {
+                            <img class="chat-pic" src="data:image/jpeg;base64,@Convert.ToBase64String(Chat.Photo)" alt="Chat picture"/>
+                        }
+                        <div class="hidden-input">
+                            <InputFile OnChange="@LoadPhoto" accept="image/jpeg"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column p-3">
+                    <div class="input-field-wrap">
+                        <input class="input-field" @bind="Chat.Name" type="text">
+                    </div>
+                    <div class="checkbox-field-wrapper">
+                        <input @bind="Chat.IsPublic" type="checkbox">
+                        <div>@localizer[Resource.IsPublic]</div>
+                    </div>
+                    <div class="checkbox-field-wrapper">
+                        <input @bind="@isMasterPasswordNewState" type="checkbox">
+                        <div>@localizer[Resource.IsAdminPassword]</div>
+                    </div>
+                    <div class="checkbox-field-wrapper">
+                        <input @bind="@isChangeMasterPassword" type="checkbox">
+                        <div>@localizer[Resource.IsChangeAdminPassword]</div>
+                    </div>
                 </div>
             </div>
-
-            <div class="d-flex flex-column p-3">
-                <input class="input-name" @bind="Chat.Name" type="text">
-                <div class="d-flex flex-row">
-                    <input @bind="Chat.IsPublic" type="checkbox">
-                    <div>@localizer[Resource.IsPublic]</div>
-                </div>
+            <div class="d-flex flex-column p-4">
+                @if (isChangeMasterPassword || isMasterPasswordNewState && !Chat.IsMasterPassword)
+                {
+                    <label for="new-password">@localizer[Resource.NewAdminPassword]</label>
+                    <div class="input-field-wrap" style="@(isMasterPasswordNewState ? null : "opacity: 0.2")">
+                        @if (isMasterPasswordNewState)
+                        {
+                            <InputText id="new-password" class="input-field" @bind-Value="Chat.NewPassword" type="password" placeholder="@localizer[Resource.NewAdminPassword]"></InputText>
+                        }
+                        else
+                        {
+                            <input class="input-field" disabled>
+                        }
+                        <div class="tooltip-info">
+                            <i class="oi oi-info"></i>
+                            <span class="tooltip-text">@localizer[Resource.PasswordTooltip]</span>
+                        </div>
+                    </div>
+                }
+                @if (Chat.IsMasterPassword)
+                {
+                    <label for="password">@localizer[Resource.AdminPassword]</label>
+                    <div class="input-field-wrap">
+                        <input id="password" class="input-field" @bind="Chat.Password" type="password" placeholder="@localizer[Resource.AdminPassword]">
+                    </div>
+                }
+                <div class="invalid-field">@passwordResponse</div>
+                <DataAnnotationsValidator/>
+                <ValidationSummary/>
             </div>
-        </div>
-        <div class="control-wrap">
-            <button class="block-button mt-auto control-modal" type="button" @onclick="EditAsync">@localizer[Resource.Edit]</button>
-            <button class="block-button mt-auto control-modal" type="button" @onclick="OnClose">@localizer[Resource.Close]</button>
-        </div>
+            <div class="control-wrap">
+                <button class="block-button mt-auto control-modal" type="submit">@localizer[Resource.Edit]</button>
+                <button class="block-button mt-auto control-modal" type="button" @onclick="OnClose">@localizer[Resource.Close]</button>
+            </div>
+        </EditForm>
     </section>
 </div>

@@ -35,7 +35,7 @@ namespace SimpleChat.Bll.Services
         public override async Task UpdateAsync(ChatModel model)
         {
             var chatEntity = await _repository.GetByIdAsync(model.Id);
-
+            
             if (chatEntity == null)
             {
                 throw new NotFoundException(string.Format(ErrorDetails.ChatDoesNotExist, model.Id));
@@ -48,6 +48,17 @@ namespace SimpleChat.Bll.Services
                     throw new ArgumentException(string.Format(ErrorDetails.InvalidPassword));
                 }
             }
+
+            if (model.IsMasterPassword)
+            {
+                model.PasswordHash = chatEntity.PasswordHash;
+            }
+
+            if (!string.IsNullOrEmpty(model.NewPassword))
+                if (_passwordService.Validate(model.NewPassword))
+                    model.PasswordHash = _passwordService.Hash(model.NewPassword);
+                else
+                    throw new ArgumentException(string.Format(ErrorDetails.IncorrectChatPasswordFormat));
 
             await _repository.UpdateAsync(_mapper.Map<Chat>(model));
         }

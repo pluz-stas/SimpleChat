@@ -1,6 +1,8 @@
 ﻿@page "/chat/{chatId:int}"
 @using SimpleChat.Client.Components
 @using SimpleChat.Client.Components.Modals.Chat
+@using SimpleChat.Shared.Extensions
+
 
 
 @if (chat != null)
@@ -19,16 +21,13 @@
             </div>
             <div class="d-flex flex-column">
                 <h2 class="p-6">@chat.Name</h2>
-                @if (!chat.IsPublic)
-                {
-                    <button class="oi oi-pencil edit-button" @onclick="@(() => isEditChatModalOpen = true)"></button>
-                }
+                <button class="oi oi-pencil edit-button" @onclick="@(() => isEditChatModalOpen = true)"></button>
             </div>
         </div>
         <MessagesListComponent ChatId=@ChatId></MessagesListComponent>
         @if (isEditChatModalOpen)
         {
-            <EditChatModal Chat="@chat" OnClose="@(() => isEditChatModalOpen = false)"></EditChatModal>
+            <EditChatModal Chat="@chat.ToEditContract()" OnClose="@(() => isEditChatModalOpen = false)"></EditChatModal>
         }
         <form class="send-field-panel" @onsubmit=SendAsync>
             <div class="attach-file">
