@@ -104,9 +104,43 @@ button:focus {
     display: none;
 }
 
+.tooltip-info {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-info .tooltip-text {
+    visibility: hidden;
+    width: 320px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip-info:hover .tooltip-text {
+    visibility: visible;
+}
+
+.checkbox-field-wrapper{
+    display: flex;
+    flex-direction: row;
+    line-height: 0.9;
+    padding: 5pt;
+}
+
+.invalid-field{
+    color: tomato;
+}
+
 @media (min-width: 768px) {
 
     .collapse {
         display: block;
     }
 }
+

@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -62,7 +63,7 @@ namespace SimpleChat.Client.Services
             }
         }
 
-        public async Task PutAsync<T>(string uri, T value)
+        public async Task<HttpResponseMessage> PutAsync<T>(string uri, T value)
         {
             HttpResponseMessage response;
 
@@ -80,6 +81,8 @@ namespace SimpleChat.Client.Services
             {
                 await GetError(response);
             }
+
+            return response;
         }
 
         private async Task GetError(HttpResponseMessage response)
@@ -97,7 +100,6 @@ namespace SimpleChat.Client.Services
             }
 
             _errorState.SetError(Resource.Error, message);
-            _navigationManager.NavigateTo(_navigationManager.BaseUri);
         }
     }
 }

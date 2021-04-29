@@ -156,4 +156,22 @@
   <data name="Username" xml:space="preserve">
     <value>Имя пользователя</value>
   </data>
+  <data name="PasswordTooltip" xml:space="preserve">
+    <value>Пароль для изменения чата.  От 8 до 16 знаков верхнего и нежних регистров, как минимум одна цифра</value>
+  </data>
+  <data name="IsAdminPassword" xml:space="preserve">
+    <value>пароль админимтратора</value>
+  </data>
+  <data name="IsChangeAdminPassword" xml:space="preserve">
+    <value>сменить пароль</value>
+  </data>
+  <data name="NewAdminPassword" xml:space="preserve">
+    <value>Новый пароль</value>
+  </data>
+  <data name="AdminPassword" xml:space="preserve">
+    <value>Пароль администратора</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Неверный пароль</value>
+  </data>
 </root>

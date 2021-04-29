@@ -156,4 +156,22 @@
   <data name="Username" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="PasswordTooltip" xml:space="preserve">
+    <value>Password for chat editing. Your password must be between 8 and 16 characters. 2) Your password must contain at least one uppercase, or capital, letter (ex: A, B, etc.) 3) Your password must contain at least one lowercase letter. 4) Your password must contain at least one number digit</value>
+  </data>
+  <data name="IsAdminPassword" xml:space="preserve">
+    <value>is admin password</value>
+  </data>
+  <data name="IsChangeAdminPassword" xml:space="preserve">
+    <value>change password</value>
+  </data>
+  <data name="AdminPassword" xml:space="preserve">
+    <value>Admin password</value>
+  </data>
+  <data name="NewAdminPassword" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Invalid Password</value>
+  </data>
 </root>

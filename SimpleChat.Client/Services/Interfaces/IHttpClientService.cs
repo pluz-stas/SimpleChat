@@ -7,6 +7,6 @@ namespace SimpleChat.Client.Services.Interfaces
     {
         Task<T> GetAsync<T>(string uri);
         Task<HttpResponseMessage> PostAsync<T>(string uri, T model);
-        Task PutAsync<T>(string uri, T value);
+        Task<HttpResponseMessage> PutAsync<T>(string uri, T value);
     }
 }
