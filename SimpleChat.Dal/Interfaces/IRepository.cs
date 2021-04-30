@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SimpleChat.Dal.Interfaces
@@ -8,7 +9,7 @@ namespace SimpleChat.Dal.Interfaces
     {
         Task<IEnumerable<T>> GetAllAsync(int skip, int top);
         
-        Task<IEnumerable<T>> FilterAsync(Predicate<T> predicate);
+        Task<IEnumerable<T>> FilterAsync(Expression<Func<T, bool>> predicate);
 
         Task<int> CreateAsync(T model);
 

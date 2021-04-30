@@ -1,7 +1,9 @@
 ﻿@page "/chat/{chatId:int}"
+@page "/chat/getByLink/{inviteLink:guid}"
 @using SimpleChat.Client.Components
 @using SimpleChat.Client.Components.Modals.Chat
 @using SimpleChat.Shared.Extensions
+@inject IStringLocalizer<Resource> localizer
 
 
 
@@ -21,7 +23,16 @@
             </div>
             <div class="d-flex flex-column">
                 <h2 class="p-6">@chat.Name</h2>
-                <button class="oi oi-pencil edit-button" @onclick="@(() => isEditChatModalOpen = true)"></button>
+                <div class="d-flex flex-row">
+                    <button class="oi oi-pencil edit-button" @onclick="@(() => isEditChatModalOpen = true)"></button>
+                    @if (!chat.IsPublic)
+                    {
+                        <div class="tooltip-info">
+                            <a class="oi oi-link-intact"></a>
+                            <span class="tooltip-text">@localizer[Resource.InviteTooltip]</span>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
         <MessagesListComponent ChatId=@ChatId></MessagesListComponent>

@@ -28,11 +28,18 @@ namespace SimpleChat.Client.Pages
 
         [Parameter]
         public int ChatId { get; set; }
+        
+        [Parameter]
+        public Guid InviteLink { get; set; }
 
         protected override async Task OnParametersSetAsync()
         {
-            chat = await Http.GetAsync<ChatContract>($"api/chats/{ChatId}");
-            ChatTracker.SelectChat(ChatId);
+            if(InviteLink == Guid.Empty)
+                chat = await Http.GetAsync<ChatContract>($"api/chats/{ChatId}");
+            else
+                chat = await Http.GetAsync<ChatContract>($"api/chats/getbylink/{InviteLink}");
+            
+            ChatTracker.SelectChat(chat.Id);
         }
 
         private async Task SendAsync()

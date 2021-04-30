@@ -57,6 +57,21 @@ namespace SimpleChat.Server.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ChatContract> GetAsync(int id) => (await chatService.GetByIdAsync(id)).ToContract();
+        
+        /// <summary>
+        /// Gets chat by invite link.
+        /// </summary>
+        /// <param name="inviteLink">invite link</param>
+        /// <returns>Instance of <see cref="ChatContract"/>.</returns>
+        /// <response code="200">Returns chat.</response>       
+        /// <response code="404">A chat not found.</response>
+        /// <response code="500">There are any server problems.</response>
+        [HttpGet("getByLink/{inviteLink}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ChatContract> GetByInviteLinkAsync(string inviteLink) =>
+            (await chatService.GetByInviteLinkAsync(inviteLink)).ToContract();
 
         /// <summary>
         /// Creates a chat.

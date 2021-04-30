@@ -174,4 +174,7 @@
   <data name="InvalidPassword" xml:space="preserve">
     <value>Неверный пароль</value>
   </data>
+  <data name="InviteTooltip" xml:space="preserve">
+    <value>Вы можете скопировать адрес из адресной строки</value>
+  </data>
 </root>

@@ -142,6 +142,15 @@ namespace SimpleChat.Client.Resources.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can copy link from addres string.
+        /// </summary>
+        internal static string InviteTooltip {
+            get {
+                return ResourceManager.GetString("InviteTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to is admin password.
         /// </summary>
         internal static string IsAdminPassword {

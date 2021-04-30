@@ -98,8 +98,9 @@ namespace SimpleChat.Client.Services
                 _errorState.SetError(Resource.Error, Resource.RequestError);
                 message = Resource.ErrorMessage;
             }
-
+            
             _errorState.SetError(Resource.Error, message);
+            throw new Exception();
         }
     }
 }

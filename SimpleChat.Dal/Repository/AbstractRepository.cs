@@ -5,6 +5,7 @@ using SimpleChat.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SimpleChat.Dal.Repository
@@ -39,10 +40,10 @@ namespace SimpleChat.Dal.Repository
             await dbContext.SaveChangesAsync();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> FilterAsync(Predicate<TEntity> predicate) => 
+        public virtual async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate) => 
             await dbContext.Set<TEntity>()
                 .AsNoTracking()
-                .Where(x => predicate(x))
+                .Where(predicate)
                 .ToListAsync();
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(int skip, int top) => 

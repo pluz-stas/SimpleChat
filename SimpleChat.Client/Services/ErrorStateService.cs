@@ -22,6 +22,9 @@ namespace SimpleChat.Client.Services
             Title = null;
         }
 
-        private void NotifyStateChanged() => OnChange?.Invoke();
+        private void NotifyStateChanged()
+        {
+            OnChange?.Invoke();
+        }
     }
 }

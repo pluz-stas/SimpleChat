@@ -4,6 +4,7 @@ using SimpleChat.Dal.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using SimpleChat.Shared.Exceptions;
 using SimpleChat.Dal.Resources;
@@ -30,16 +31,23 @@ namespace SimpleChat.Dal.Repository
                 .Include(x => x.Messages.OrderByDescending(mes => mes.CreatedDate).Take(DefaultMessagesTop))
                 .FirstOrDefaultAsync(x => x.Id == id) ??
             throw new NotFoundException(string.Format(ErrorDetails.ResourceDoesNotExist, nameof(Chat), id));
+        
+        public async Task<Chat> GetByPrivateIdAsync(string privateId) =>
+            await dbContext.Chats
+                .AsNoTracking()
+                .Include(x => x.Messages.OrderByDescending(mes => mes.CreatedDate).Take(DefaultMessagesTop))
+                .FirstOrDefaultAsync(x => x.PrivateId == privateId) ??
+            throw new NotFoundException(string.Format(ErrorDetails.ResourceDoesNotExist, nameof(Chat), privateId));
 
         public override async Task<int> GetCountAsync() => 
             await dbContext.Chats
                 .Where(x => x.IsPublic)
                 .CountAsync();
 
-        public override async Task<IEnumerable<Chat>> FilterAsync(Predicate<Chat> predicate) =>
+        public override async Task<IEnumerable<Chat>> FilterAsync(Expression<Func<Chat, bool>> predicate) =>
             await dbContext.Chats
                 .AsNoTracking()
                 .Include(x => x.Messages.OrderByDescending(m => m.CreatedDate).Take(1))
-                .Where(x => x.IsPublic && predicate(x)).ToListAsync();
+                .Where(x => x.IsPublic).Where(predicate).ToListAsync();
     }
 }

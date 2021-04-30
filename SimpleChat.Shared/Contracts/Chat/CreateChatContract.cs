@@ -13,5 +13,6 @@ namespace SimpleChat.Shared.Contracts.Chat
         
         [MaxLength(16)]
         public string Password { get; set; }
+        public string InviteLink { get; set; }
     }
 }

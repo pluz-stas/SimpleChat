@@ -6,8 +6,10 @@ namespace SimpleChat.Dal.Entities
     public class Chat : IDbEntity
     {
         public int Id { get; set; }
+        public string PrivateId { get; set; }
         public byte[] Photo { get; set; }
         public string PasswordHash { get; set; }
+        public string InviteLinkHash { get; set; }
         public string Name { get; set; }
         public bool IsPublic { get; set; } = true;
 

@@ -13,6 +13,7 @@ namespace SimpleChat.Shared.Contracts.Chat
         public byte[] Photo { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
+        public string InviteLink { get; set; }
         
         public IEnumerable<MessageContract> Messages { get; set; } = new List<MessageContract>();
     }

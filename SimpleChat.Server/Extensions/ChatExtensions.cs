@@ -29,7 +29,8 @@ namespace SimpleChat.Server.Extensions
                 Name = model.Name,
                 Photo = model.Photo,
                 Messages = model.Messages?.Select(x => x?.ToContract()) ?? new List<MessageContract>(),
-                IsMasterPassword = !string.IsNullOrEmpty(model.PasswordHash)
+                IsMasterPassword = !string.IsNullOrEmpty(model.PasswordHash),
+                InviteLink = model.InviteLink
             };
         }
 
@@ -67,7 +68,8 @@ namespace SimpleChat.Server.Extensions
                 IsPublic = contract.IsPublic,
                 Name = contract.Name,
                 Photo = contract.Photo,
-                Password = contract.Password
+                Password = contract.Password,
+                InviteLink = contract.InviteLink
             };
         }
 

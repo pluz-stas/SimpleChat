@@ -174,4 +174,7 @@
   <data name="InvalidPassword" xml:space="preserve">
     <value>Invalid Password</value>
   </data>
+  <data name="InviteTooltip" xml:space="preserve">
+    <value>You can copy link from addres string</value>
+  </data>
 </root>

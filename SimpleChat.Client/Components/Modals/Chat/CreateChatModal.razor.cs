@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Newtonsoft.Json;
@@ -34,13 +35,16 @@ namespace SimpleChat.Client.Components.Modals.Chat
                 IsPublic = isPublic,
                 Name = chatName,
                 Photo = photo,
+                InviteLink = isPublic ? null : Guid.NewGuid().ToString()
             };
-
+            
             var responseMessage = await Http.PostAsync($"api/chats/", chat);
-            var chatId = JsonConvert.DeserializeObject<ChatContract>(await responseMessage.Content.ReadAsStringAsync()).Id;
-
+            var chatContract = JsonConvert.DeserializeObject<ChatContract>(await responseMessage.Content.ReadAsStringAsync());
             await OnClose.InvokeAsync();
-            NavigationManager.NavigateTo($"chat/{chatId}", true);
+            NavigationManager.NavigateTo(
+                !string.IsNullOrEmpty(chatContract.InviteLink)
+                    ? $"chat/getByLink/{chatContract.InviteLink}"
+                    : $"chat/{chatContract.Id}", true);
         }
 
         private async Task LoadPhoto(InputFileChangeEventArgs e) => photo = await LoadFileService.LoadFile(e);
