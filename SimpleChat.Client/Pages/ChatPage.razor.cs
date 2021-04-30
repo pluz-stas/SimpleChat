@@ -63,7 +63,7 @@ namespace SimpleChat.Client.Pages
                 User = user,
             };
 
-            await Http.PostAsync($"api/messages/{ChatId}", message);
+            await Http.PostAsync($"api/messages/{chat.Id}", message);
 
             messageInput = string.Empty;
         }

@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <MessagesListComponent ChatId=@ChatId></MessagesListComponent>
+        <MessagesListComponent ChatId=@chat.Id></MessagesListComponent>
         @if (isEditChatModalOpen)
         {
             <EditChatModal Chat="@chat.ToEditContract()" OnClose="@(() => isEditChatModalOpen = false)"></EditChatModal>
